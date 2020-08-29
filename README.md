@@ -10,8 +10,8 @@
 #### Clone repo
 `git clone git@github.com:tensegrity666/x-check-app.git`<br>
 <br>
-then checkout to __origin/dev__:<br>
-`git fetch origin`
+_then checkout to_ __origin/dev__:<br>
+`git fetch origin`<br>
 `git checkout -b dev origin/dev`
 
 #### Install
