@@ -17,6 +17,7 @@ All assets of a component (pictures, sounds, fonts) are stored in the folder of 
 * Don't name files ".jsx", use ".js".
 * Don't override linter rules unnecessarily.
 * Don't forget to do `git pull` and `git merge` before pushing from your branch to avoid conflicts.
+* Don't put any files (pictures, GIFs etc.) in the root of project.
 - - -
 ### [Changelog](https://github.com/tensegrity666/x-check-app/blob/dev/CHANGELOG.md)
 - - -
