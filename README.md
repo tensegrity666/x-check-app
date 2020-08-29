@@ -9,9 +9,9 @@
 
 #### Clone repo
 `git clone git@github.com:tensegrity666/x-check-app.git`<br>
-_then checkout to __origin/dev__:
-git fetch origin
-git checkout -b dev origin/dev
+then checkout to __origin/dev__:<br>
+`git fetch origin`
+`git checkout -b dev origin/dev`
 
 #### Install
 `npm i`
