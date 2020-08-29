@@ -33,7 +33,7 @@ _then checkout to_ __origin/dev__:<br>
 `npm i`
 
 #### Start server
-`npm start`
+`npm start`<br>
 _Open_ [http://localhost:3000](http://localhost:3000) _to view it in the browser._
 
 #### Build project
