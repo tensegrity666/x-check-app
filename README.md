@@ -8,8 +8,8 @@ Changes to the __dev__ branch are made only through Pull Requests
 - - -
 
 #### Clone repo
-`git clone git@github.com:tensegrity666/x-check-app.git`
-_then checkout to __dev__ or __feature__ branch_
+`git clone git@github.com:tensegrity666/x-check-app.git`<br>
+_then checkout to __origin/dev__ or __feature__ branch_
 
 #### Install
 `npm i`
