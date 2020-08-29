@@ -18,7 +18,7 @@ All assets of a component (pictures, sounds, fonts) are stored in the folder of 
 * Don't override linter rules unnecessarily.
 * Do not forget to do `git pull` and `git merge` before pushing from your branch to avoid conflicts.
 - - -
-### [Changelog]()
+### [Changelog](https://github.com/tensegrity666/x-check-app/blob/dev/CHANGELOG.md)
 - - -
 
 #### Clone repo
