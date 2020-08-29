@@ -14,9 +14,9 @@ All assets of a component (pictures, sounds, fonts) are stored in the folder of 
 * The code should not contain commented-out fragments, __useless comments__.
 * Functions and variables should be given __clear declarative names__.
 * Сomponents are arrow functions.
-* Do not name files ".jsx", use ".js".
+* Don't name files ".jsx", use ".js".
 * Don't override linter rules unnecessarily.
-* Do not forget to do `git pull` and `git merge` before pushing from your branch to avoid conflicts.
+* Don't forget to do `git pull` and `git merge` before pushing from your branch to avoid conflicts.
 - - -
 ### [Changelog](https://github.com/tensegrity666/x-check-app/blob/dev/CHANGELOG.md)
 - - -
