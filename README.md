@@ -1,5 +1,5 @@
 # [Task Board](https://github.com/tensegrity666/x-check-app/projects/1)
-- - -
+
 ### Naming convention and code organization.
 ---
 * Commits to the __master__ branch are forbidden.
@@ -19,9 +19,9 @@ All assets of a component (pictures, sounds, fonts) are stored in the folder of 
 * Don't override linter rules unnecessarily.
 * Don't forget to do `git pull` and `git merge` before pushing from your branch to avoid conflicts.
 * Don't put any files (pictures, GIFs etc.) in the root of project.
-- - -
+---
 ### [Changelog](https://github.com/tensegrity666/x-check-app/blob/dev/CHANGELOG.md)
-- - -
+---
 
 #### Clone repo
 `git clone git@github.com:tensegrity666/x-check-app.git`<br>
