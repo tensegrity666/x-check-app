@@ -10,6 +10,7 @@
 #### Clone repo
 `git clone git@github.com:tensegrity666/x-check-app.git`<br>
 then checkout to __origin/dev__:<br>
+<br>
 `git fetch origin`
 `git checkout -b dev origin/dev`
 
