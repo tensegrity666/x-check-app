@@ -1,5 +1,19 @@
-# x-check-app
-Final group task of RSSchool React 2020 Q3
+# [Task Board](https://github.com/tensegrity666/x-check-app/projects/1)
+- - -
+* Commits to the __master__ branch are forbidden.
+Changes to the __dev__ branch are made only through Pull Requests
+* The commit message must be consistent [with the RSSchool convention](https://docs.rs.school/#/git-convention), or it will be rejected by the linter.
+- - -
+### [Changelog ](https://github.com/rolling-scopes-school/clonewars-gta/blob/dev/CHANGELOG.md)
+- - -
 
-Group 54
-https://t.me/xcheck54
+
+### Install
+`npm i`
+
+### Start server
+`npm start`
+
+#### Build project
+`npm run build`
+
