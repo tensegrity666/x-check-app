@@ -4,7 +4,7 @@
 * Changes to the __dev__ branch are made only through Pull Requests.
 * The commit message must be consistent [with the RSSchool convention](https://docs.rs.school/#/git-convention), or it will be rejected by the linter.
 - - -
-### Naming convention
+### Naming convention and code organization.
 * Branches are named according to features, in lowercase letters and without spaces.
 * Feature/components folders are named the same as branches. __Kebab-case only__.<br>
 * The entry point of a component is always called an __index.js__.
