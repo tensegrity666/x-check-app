@@ -1,0 +1,5 @@
+node-modules/
+.gitignore
+Dockerfile
+.dockerignore
+README.*

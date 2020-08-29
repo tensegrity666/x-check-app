@@ -13,6 +13,10 @@ _No need to create an empty index.js file to collect imports into it_
 All assets of a component (pictures, sounds, fonts) are stored in the folder of the same component, and not in the top-level folder.
 * The code should not contain commented-out fragments, __useless comments__.
 * Functions and variables should be given __clear declarative names__.
+* Сomponents are arrow functions.
+* Do not name files ".jsx", use ".js".
+* Don't override linter rules unnecessarily.
+* Do not forget to do `git pull` and `git merge` before pushing from your branch to avoid conflicts.
 - - -
 ### [Changelog]()
 - - -
