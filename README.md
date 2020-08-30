@@ -10,7 +10,7 @@
 * Feature/components folders are named the same as branches. __Kebab-case only__.<br>
 * The entry point of a component is always called an __index.js__.
 _No need to create an empty index.js file to collect imports into it_.
-* String and other constants are collected in a __constants.js__ file.<br>
+* Strings and other constants are collected in a __constants.js__ file.<br>
 All assets of a component (pictures, sounds, fonts) are stored in the folder of the same component, and not in the top-level folder.
 * The code should not contain commented-out fragments, __useless comments__.
 * Functions and variables should be given __clear declarative names__.
