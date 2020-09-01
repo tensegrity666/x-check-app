@@ -17,10 +17,10 @@ _components/<br>
  --first-component/<br>
  --second-component/<br>
  ----assets/<br>
- ------index.js<br>
- ------index.test.js<br>
- ------constants.js<br>
- ------index.module.css_<br>
+ ----index.js<br>
+ ----index.test.js<br>
+ ----constants.js<br>
+ ----index.module.css_<br>
 * The code should not contain commented-out fragments, __useless comments__.
 * Functions and variables should be given __clear declarative names__.
 * Сomponents are arrow functions.
