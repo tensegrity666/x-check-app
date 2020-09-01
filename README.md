@@ -4,7 +4,7 @@
 ---
 * ⚠️ Commits to the __master__ branch are forbidden.
 * ⚠️ Changes to the __dev__ branch are made only through Pull Requests.
-* The commit message must be consistent [with the RSSchool convention](https://docs.rs.school/#/git-convention), or it will be rejected by the linter.
+* The commit message must be consistent [with the RSSchool convention](https://docs.rs.school/#/git-convention), or it will be rejected by the linter.<br>
 `$ git commit -m "feat: implement feature x"`
 ---
 * Branches are named according to features, in lowercase letters and without spaces.
