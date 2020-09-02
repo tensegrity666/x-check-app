@@ -13,6 +13,7 @@
 _No need to create an empty index.js file to collect imports into it_.
 * Strings and other constants are collected in a __constants.js__ file.
 * All assets of a component (pictures, sounds, fonts) are stored in the folder of the same component, and not in the top-level folder.
+- - -
 _components/<br>
  --first-component/<br>
  --second-component/<br>
@@ -20,7 +21,8 @@ _components/<br>
  ----index.js<br>
  ----index.test.js<br>
  ----constants.js<br>
- ----index.module.css_<br>
+ ----index.module.css_
+ - - -
 * The code should not contain commented-out fragments, __useless comments__.
 * Functions and variables should be given __clear declarative names__.
 * Сomponents are arrow functions.
