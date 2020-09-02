@@ -26,6 +26,8 @@ _components/<br>
 * The code should not contain commented-out fragments, __useless comments__.
 * Functions and variables should be given __clear declarative names__.
 * Сomponents are arrow functions.
+
+__Please:__
 * Don't name files ".jsx", use ".js".
 * Don't override linter rules unnecessarily.
 * Don't forget to do `git pull` and `git merge` before pushing from your branch to avoid conflicts.
