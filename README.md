@@ -13,6 +13,7 @@ Example: `$ git commit -m "feat: implement feature x"`
 _No need to create an empty index.js file to collect imports into it_.
 * Strings and other constants are collected in a __constants.js__ file.
 * All assets of a component (pictures, sounds, fonts) are stored in the folder of the same component, and not in the top-level folder.<br>
+<br>
 _components/<br>
  --first-component/<br>
  --second-component/<br>
