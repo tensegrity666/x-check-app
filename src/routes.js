@@ -6,6 +6,7 @@ import Requests from './pages/requests';
 import Reviews from './pages/reviews';
 import ReviewerDetails from './pages/reviewer-details';
 import Auth from './pages/auth';
+import Sessions from './pages/sessions';
 
 const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
@@ -25,6 +26,9 @@ const useRoutes = (isAuthenticated) => {
         </Route>
         <Route path="/details/:id">
           <ReviewerDetails />
+        </Route>
+        <Route path="/sessions/:id">
+          <Sessions />
         </Route>
         <Redirect to="/profile" />
       </Switch>

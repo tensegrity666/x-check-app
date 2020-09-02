@@ -5,7 +5,7 @@ import 'antd/dist/antd.css';
 import useRoutes from '../routes';
 
 const App = () => {
-  const routes = useRoutes(true);
+  const routes = useRoutes(false);
 
   return (
     <Router>
