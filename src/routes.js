@@ -1,7 +1,6 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Profile from './pages/profile';
-import Assessments from './pages/assessments';
 import Requests from './pages/requests';
 import Reviews from './pages/reviews';
 import ReviewerDetails from './pages/reviewer-details';
@@ -14,9 +13,6 @@ const useRoutes = (isAuthenticated) => {
       <Switch>
         <Route path="/profile" exact>
           <Profile />
-        </Route>
-        <Route path="/assessments" exact>
-          <Assessments />
         </Route>
         <Route path="/requests" exact>
           <Requests />
