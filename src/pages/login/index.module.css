@@ -1,0 +1,25 @@
+.form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -65%);
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .form {
+    top: 20px;
+    transform: translate(-50%, 0);
+  }
+}
+
+.image {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 50px;
+}
+
+.cardImage {
+  width: 100px;
+  margin: 30px auto 20px;
+}
