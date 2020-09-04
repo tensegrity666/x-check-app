@@ -1,0 +1,33 @@
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.defaultItemStyle {
+  width: 65%;
+  font-size: 1.2rem;
+  font-weight: 400;
+  word-wrap: break-word;
+  cursor: pointer;
+}
+
+.defaultItemStyle:focus {
+  outline-width: thin;
+  outline-style: dotted;
+}
+
+.importantItemStyle {
+  font-size: 1.4rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.completedItemStyle {
+  text-decoration: line-through;
+  cursor: pointer;
+}
+
+.dateElement {
+  font-size: 1rem;
+}
