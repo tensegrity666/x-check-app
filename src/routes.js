@@ -11,21 +11,11 @@ const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
     return (
       <Switch>
-        <Route path="/profile" exact>
-          <Profile />
-        </Route>
-        <Route path="/requests" exact>
-          <Requests />
-        </Route>
-        <Route path="/reviews" exact>
-          <Reviews />
-        </Route>
-        <Route path="/details/:id">
-          <ReviewerDetails />
-        </Route>
-        <Route path="/sessions/:id">
-          <Sessions />
-        </Route>
+        <Route path="/profile" exact component={Profile} />
+        <Route path="/requests" exact component={Requests} />
+        <Route path="/reviews" exact component={Reviews} />
+        <Route path="/details/:id" component={ReviewerDetails} />
+        <Route path="/sessions/:id" component={Sessions} />
         <Redirect to="/profile" />
       </Switch>
     );
@@ -33,9 +23,7 @@ const useRoutes = (isAuthenticated) => {
 
   return (
     <Switch>
-      <Route path="/" exact>
-        <Auth />
-      </Route>
+      <Route path="/" exact component={Auth} />
       <Redirect to="/" />
     </Switch>
   );
