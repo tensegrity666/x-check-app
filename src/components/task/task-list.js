@@ -1,34 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { List, Divider } from 'antd';
 
-import { List, Divider, Select } from 'antd';
+import ControlsGroup from './controls-group';
 
-const { Option } = Select;
+const TaskList = ({ taskIndex }) => {
+  const taskItems = useSelector(
+    ({ taskReducer }) => taskReducer[taskIndex].items
+  );
+  const taskCategories = useSelector(
+    ({ taskReducer }) => taskReducer[taskIndex].categories
+  );
 
-function handleChange(value) {
-  // eslint-disable-next-line no-console
-  console.log(`selected ${value}`);
-}
-
-const TaskList = ({ todos }) => {
   return (
     <>
       <Divider orientation="left">Tasks</Divider>
       <List
         header={<h2>Header</h2>}
         bordered
-        dataSource={todos}
+        dataSource={taskItems}
         renderItem={(item) => (
           <List.Item>
-            <List.Item.Meta title={item.id} description={item.text} />
-            <Select
-              defaultValue="basic"
-              style={{ width: 140 }}
-              onChange={handleChange}>
-              <Option value="basic">Basic scope</Option>
-              <Option value="extra">Extra scope</Option>
-              <Option value="hacker">Hacker scope</Option>
-            </Select>
+            <List.Item.Meta title={item.title} description={item.description} />
+            <ControlsGroup
+              range={item.scoreRange}
+              category={item.category}
+              taskCategories={taskCategories}
+            />
           </List.Item>
         )}
       />
@@ -37,7 +36,7 @@ const TaskList = ({ todos }) => {
 };
 
 TaskList.propTypes = {
-  todos: PropTypes.arrayOf(PropTypes.object).isRequired,
+  taskIndex: PropTypes.number.isRequired,
 };
 
 export default TaskList;
