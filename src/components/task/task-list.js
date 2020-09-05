@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { List, Divider } from 'antd';
+import { List } from 'antd';
 
 import ControlsGroup from './controls-group';
 
@@ -15,7 +15,6 @@ const TaskList = ({ taskIndex }) => {
 
   return (
     <>
-      <Divider orientation="left">Tasks</Divider>
       <List
         header={<h2>Header</h2>}
         bordered
@@ -25,6 +24,7 @@ const TaskList = ({ taskIndex }) => {
             <List.Item.Meta title={item.title} description={item.description} />
             <ControlsGroup
               range={item.scoreRange}
+              score={item.currentScore}
               category={item.category}
               taskCategories={taskCategories}
             />

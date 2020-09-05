@@ -1,12 +1,24 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { PageHeader, Tag, Button, Statistic, Row } from 'antd';
 
-const TaskHeader = () => {
+const TaskHeader = ({ taskIndex }) => {
+  const total = useSelector(
+    ({ taskReducer }) => taskReducer[taskIndex].totalScore
+  );
+  const date = useSelector(
+    ({ taskReducer }) => taskReducer[taskIndex].dateOfCreate
+  );
+  const title = useSelector(
+    ({ taskReducer }) => taskReducer[taskIndex].taskTitle
+  );
+
   return (
     <>
       <PageHeader
         onBack={() => window.history.back()}
-        title="Вернуться к профилю"
+        title="Редактирование задания"
         tags={<Tag color="blue">Изменено</Tag>}
         subTitle="This is a subtitle"
         extra={[
@@ -17,20 +29,23 @@ const TaskHeader = () => {
           </Button>,
         ]}>
         <Row>
-          <Statistic title="Status" value="Pending" />
+          <Statistic title="Название задания" value={title} />
           <Statistic
-            title="Price"
-            prefix="$"
-            value={568.08}
+            title="Total score"
+            value={total}
             style={{
               margin: '0 32px',
             }}
           />
-          <Statistic title="Balance" prefix="$" value={3345.08} />
+          <Statistic title="Date" value={date} />
         </Row>
       </PageHeader>
     </>
   );
+};
+
+TaskHeader.propTypes = {
+  taskIndex: PropTypes.number.isRequired,
 };
 
 export default TaskHeader;

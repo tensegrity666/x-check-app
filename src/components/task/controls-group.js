@@ -10,10 +10,10 @@ function handleChange(value) {
   console.log(`selected ${value}`);
 }
 
-const ControlsGroup = ({ range, category, taskCategories }) => {
+const ControlsGroup = ({ range, score, category, taskCategories }) => {
   const { Option } = Select;
   const { basic, advanced, hacker, fines } = taskCategories;
-  const [inputValue, setInputValue] = useState(0);
+  const [inputValue, setInputValue] = useState(score);
 
   const onChange = (value) => {
     setInputValue(value);
@@ -45,7 +45,9 @@ const ControlsGroup = ({ range, category, taskCategories }) => {
           <Option value={basic.title}>{basic.title}</Option>
           <Option value={advanced.title}>{advanced.title}</Option>
           <Option value={hacker.title}>{hacker.title}</Option>
-          <Option value={fines.title}>{fines.title}</Option>
+          <Option value={fines.title}>
+            <span style={{ color: 'red' }}>{fines.title}</span>
+          </Option>
         </Select>
         <Button type="primary" icon={<EditOutlined />} />
         <Button type="primary" danger icon={<DeleteOutlined />} />
@@ -58,6 +60,7 @@ ControlsGroup.propTypes = {
   taskCategories: PropTypes.object.isRequired,
   range: PropTypes.array.isRequired,
   category: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
 };
 
 export default ControlsGroup;
