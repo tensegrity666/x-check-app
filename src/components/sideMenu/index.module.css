@@ -1,0 +1,11 @@
+.sideMenu {
+  height: 100vh;
+}
+
+.menuList {
+  height: 100%;
+}
+
+.menuLabel {
+  text-transform: capitalize;
+}
