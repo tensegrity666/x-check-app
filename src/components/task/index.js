@@ -10,7 +10,7 @@ import store from '../../redux/store';
 const Task = () => {
   return (
     <Provider store={store}>
-      <TaskHeader />
+      <TaskHeader taskIndex={0} />
       <Searcher />
       <TaskList taskIndex={0} />
       <AddNewItem />
