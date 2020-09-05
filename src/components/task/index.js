@@ -1,29 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Provider } from 'react-redux';
 
 import TaskHeader from './task-header';
 import TaskList from './task-list';
 import AddNewItem from './add-new-item';
 import Searcher from './searcher';
+import store from '../../redux/store';
 
 const Task = () => {
-  const [todos] = useState([
-    { id: 1, text: 'eat' },
-    { id: 2, text: 'sleep' },
-    { id: 3, text: 'drink' },
-    {
-      id: 4,
-      text:
-        'lorem ipsum lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum',
-    },
-  ]);
-
   return (
-    <>
+    <Provider store={store}>
       <TaskHeader />
       <Searcher />
-      <TaskList todos={todos} />
+      <TaskList taskIndex={0} />
       <AddNewItem />
-    </>
+    </Provider>
   );
 };
 
