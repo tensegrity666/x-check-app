@@ -1,12 +1,7 @@
-<<<<<<< HEAD
 .mainContainer {
   display: flex;
 }
 
 .componentWrapper {
   padding: 15px;
-=======
-.app {
-  margin: 0 auto;
->>>>>>> 3e92e99... feat: add components into task component
 }
