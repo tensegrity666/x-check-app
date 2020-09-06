@@ -7,19 +7,15 @@ const actionTypes = {
 const categories = {
   basic: {
     title: 'Basic Scope',
-    scoreRange: [0, 20],
   },
   advanced: {
     title: 'Advanced Scope',
-    scoreRange: [0, 30],
   },
   hacker: {
     title: 'Hacker Scope',
-    scoreRange: [0, 50],
   },
   fines: {
     title: 'Fines',
-    scoreRange: [-10, 0],
   },
 };
 

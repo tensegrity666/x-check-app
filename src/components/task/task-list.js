@@ -1,10 +1,10 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { List } from 'antd';
+import PropTypes from 'prop-types';
+import { List, Button } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 
-const TaskList = () => {
-  const taskItems = useSelector(({ taskReducer }) => taskReducer.items);
-
+const TaskList = ({ taskItems, removeTaskItem }) => {
   return (
     <>
       <List
@@ -17,11 +17,22 @@ const TaskList = () => {
               title={`${item.category} ${item.currentScore}`}
               description={item.description}
             />
+            <Button
+              onClick={() => removeTaskItem(item.id)}
+              icon={<DeleteOutlined />}
+              danger
+              title={item.id}
+            />
           </List.Item>
         )}
       />
     </>
   );
+};
+
+TaskList.propTypes = {
+  removeTaskItem: PropTypes.func.isRequired,
+  taskItems: PropTypes.array.isRequired,
 };
 
 export default TaskList;
