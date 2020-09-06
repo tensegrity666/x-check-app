@@ -1,17 +1,34 @@
 import React from 'react';
-import { Typography } from 'antd';
+import { Typography, List } from 'antd';
+import { Link as RouterLink } from 'react-router-dom';
+
+import tasksList from './mockTasksList.json';
 
 const { Title } = Typography;
 
-const index = () => {
+const Tasks = () => {
   return (
-    <main>
+    <>
       <Typography>
         <Title>Tasks</Title>
       </Typography>
-      <section>Tasks will be listed here</section>
-    </main>
+      <section>
+        <List
+          dataSource={tasksList}
+          renderItem={({ id, title, state }) => (
+            <List.Item>
+              <RouterLink to={`/tasks/${id}`}>
+                {state !== 'PUBLISHED' && (
+                  <Typography.Text mark>{`[${state}] `}</Typography.Text>
+                )}
+                {title}
+              </RouterLink>
+            </List.Item>
+          )}
+        />
+      </section>
+    </>
   );
 };
 
-export default index;
+export default Tasks;

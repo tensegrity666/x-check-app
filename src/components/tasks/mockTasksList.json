@@ -3,6 +3,7 @@
     "id": "simple-task-v1",
     "author": "cardamo",
     "state": "DRAFT",
+    "title": "Songbird",
     "categoriesOrder": ["Basic Scope", "Extra Scope", "Fines"],
     "items": [
       {
@@ -34,7 +35,8 @@
   {
     "id": "simple-task-v2",
     "author": "cardamo",
-    "state": "PUBLISHED",
+    "state": "ARCHIVED",
+    "title": "Schedule",
     "categoriesOrder": ["Basic Scope", "Extra Scope", "Fines"],
     "items": [
       {
@@ -67,6 +69,7 @@
     "id": "simple-task-v3",
     "author": "cardamo",
     "state": "PUBLISHED",
+    "title": "Bot checker",
     "categoriesOrder": ["Basic Scope", "Extra Scope", "Fines"],
     "items": [
       {
@@ -99,6 +102,7 @@
     "id": "simple-task-v4",
     "author": "cardamo",
     "state": "PUBLISHED",
+    "title": "AI tester",
     "categoriesOrder": ["Basic Scope", "Extra Scope", "Fines"],
     "items": [
       {
@@ -131,6 +135,7 @@
     "id": "simple-task-v5",
     "author": "cardamo",
     "state": "PUBLISHED",
+    "title": "Fully automated checks",
     "categoriesOrder": ["Basic Scope", "Extra Scope", "Fines"],
     "items": [
       {
@@ -163,6 +168,7 @@
     "id": "simple-task-v6",
     "author": "cardamo",
     "state": "PUBLISHED",
+    "title": "Something unimaginable",
     "categoriesOrder": ["Basic Scope", "Extra Scope", "Fines"],
     "items": [
       {
