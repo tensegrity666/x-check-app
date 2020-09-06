@@ -1,14 +1,16 @@
 /* eslint-disable no-case-declarations */
-
+import uniqid from 'uniqid';
 import { actionTypes } from '../constants';
 import initialState from '../initial-state';
 
 const taskReducer = (state = initialState, { type, payload }) => {
   const { ADD_TASK_ITEM, REMOVE_TASK_ITEM } = actionTypes;
+  const { totalScore, items } = state;
 
   switch (type) {
     case ADD_TASK_ITEM:
       const newTaskItem = {
+        id: uniqid('task-item-'),
         category: payload.category,
         description: payload.inputValue,
         currentScore: payload.rangeValue,
@@ -16,13 +18,18 @@ const taskReducer = (state = initialState, { type, payload }) => {
 
       return {
         ...state,
-        items: [...state.items, newTaskItem],
+        totalScore: totalScore + newTaskItem.currentScore,
+        items: [...items, newTaskItem],
       };
 
     case REMOVE_TASK_ITEM:
+      const itemID = payload;
+      const currentItem = items.find((item) => item.id === itemID);
+      const itemIndex = items.indexOf(currentItem);
+
       return {
         ...state,
-        items: [...state.items, newTaskItem],
+        items: [...items.slice(0, itemIndex), ...items.slice(itemIndex + 1)],
       };
 
     default:

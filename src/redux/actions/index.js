@@ -9,10 +9,10 @@ const addTaskItem = (payload) => {
   };
 };
 
-const removeTaskItem = (itemID) => {
+const removeTaskItem = (id) => {
   return {
     type: REMOVE_TASK_ITEM,
-    payload: itemID,
+    payload: id,
   };
 };
 
