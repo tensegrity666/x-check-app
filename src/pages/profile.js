@@ -1,11 +1,8 @@
 import React from 'react';
+import SideMenu from '../components/side-menu';
 
 const Profile = () => {
-  return (
-    <>
-      <h1>Profile</h1>
-    </>
-  );
+  return <SideMenu />;
 };
 
 export default Profile;
