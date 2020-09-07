@@ -14,22 +14,20 @@ const AddNewItemContainer = () => {
   const taskCategories = useSelector(
     ({ taskReducer }) => taskReducer.categories
   );
-  const { basic } = taskCategories;
 
   const [inputValue, setInputValue] = useState(null);
   const [rangeValue, setRangeValue] = useState(0);
-  const [category, setCategory] = useState(basic.title);
+  const [category, setCategory] = useState(null);
 
   const onTextChange = (event) => {
     setInputValue(event.target.value.trimLeft());
   };
 
   const onItemSubmit = () => {
-    if (inputValue && inputValue !== ' ') {
+    if (inputValue && inputValue !== ' ' && category) {
       addTaskItem({ inputValue, rangeValue, category });
       setInputValue(null);
       setRangeValue(0);
-      setCategory(basic.title);
     }
   };
 
@@ -50,6 +48,7 @@ const AddNewItemContainer = () => {
       onTextChange={onTextChange}
       inputValue={inputValue}
       rangeValue={rangeValue}
+      category={category}
     />
   );
 };

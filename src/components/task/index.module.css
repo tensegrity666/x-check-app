@@ -31,3 +31,84 @@
 .dateElement {
   font-size: 1rem;
 }
+
+.wrapper {
+  padding: 0 50px;
+}
+
+.content {
+  background-color: #ffffff;
+  margin: 10px 0;
+}
+
+.list {
+  height: 50vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.list::-webkit-scrollbar {
+  width: 3px;
+}
+
+.list::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background-color: #91d5ff;
+  border-radius: 2rem;
+  outline: none;
+  box-shadow: none;
+}
+
+.listItem {
+  max-width: 100%;
+  word-wrap: normal;
+  hyphens: auto;
+  white-space: normal;
+  overflow: hidden;
+}
+
+.addItemWrapper {
+  flex-wrap: nowrap;
+  margin: 0 0 30px;
+}
+
+.controlsWrapper {
+  justify-content: space-between;
+  padding-left: 30px;
+}
+
+.textArea {
+  resize: none;
+}
+
+.finesColor {
+  color: #dc143c;
+}
+
+.advancedColor {
+  color: #0000cd;
+}
+
+.hackerColor {
+  color: #088f2a;
+}
+
+.slider {
+  padding: 20px 0;
+  flex-wrap: nowrap;
+}
+
+.sliderRange {
+  width: 60%;
+}
+
+.select {
+  width: 100%;
+}
+
+.selectWrapper {
+  padding-bottom: 30px;
+}

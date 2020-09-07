@@ -4,15 +4,20 @@ import PropTypes from 'prop-types';
 import { List, Button } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 
+import styles from './index.module.css';
+
 const TaskList = ({ taskItems, removeTaskItem }) => {
+  const { list, listItem } = styles;
+
   return (
     <>
       <List
-        header={<h2>Список заданий:</h2>}
+        className={list}
+        header={<h2>Criteria:</h2>}
         bordered
         dataSource={taskItems}
         renderItem={(item) => (
-          <List.Item>
+          <List.Item className={listItem}>
             <List.Item.Meta
               title={`${item.category} ${item.currentScore}`}
               description={item.description}
@@ -21,7 +26,6 @@ const TaskList = ({ taskItems, removeTaskItem }) => {
               onClick={() => removeTaskItem(item.id)}
               icon={<DeleteOutlined />}
               danger
-              title={item.id}
             />
           </List.Item>
         )}

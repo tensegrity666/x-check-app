@@ -3,6 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Input, Button, Row, Col, InputNumber, Slider, Select } from 'antd';
 
+import styles from './index.module.css';
+
 const AddNewItem = ({
   onCategoryChange,
   taskCategories,
@@ -14,45 +16,64 @@ const AddNewItem = ({
 }) => {
   const { Option } = Select;
   const { TextArea } = Input;
+  const {
+    addItemWrapper,
+    controlsWrapper,
+    textArea,
+    finesColor,
+    advancedColor,
+    hackerColor,
+    slider,
+    sliderRange,
+    select,
+    selectWrapper,
+  } = styles;
   const { basic, advanced, hacker, fines } = taskCategories;
 
   return (
-    <Row gutter={[10, 10]}>
-      <Col span={16}>
-        <TextArea rows={8} onChange={onTextChange} value={inputValue} />
-        <Button onClick={onItemSubmit} type="primary" block>
-          add item to task
-        </Button>
+    <Row className={addItemWrapper}>
+      <Col span={18}>
+        <TextArea
+          className={textArea}
+          rows={8}
+          onChange={onTextChange}
+          value={inputValue}
+        />
       </Col>
-      <Col span={8}>
-        <Row justify="center" gutter={[0, 10]}>
+      <Col span={6} className={controlsWrapper}>
+        <Row justify="space-between" className={slider}>
           <Slider
             min={-20}
             max={50}
             onChange={onScoreRangeChange}
-            style={{ width: 140 }}
+            className={sliderRange}
             value={rangeValue}
           />
           <InputNumber
             min={-20}
             max={50}
-            style={{ margin: '0 10px', width: 50 }}
             value={rangeValue}
             onChange={onScoreRangeChange}
           />
         </Row>
-        <Row justify="center" gutter={[10, 10]}>
-          <Select
-            defaultValue={basic.title}
-            style={{ width: 160 }}
-            onChange={onCategoryChange}>
+        <Row className={selectWrapper}>
+          <Select className={select} onChange={onCategoryChange}>
             <Option value={basic.title}>{basic.title}</Option>
-            <Option value={advanced.title}>{advanced.title}</Option>
-            <Option value={hacker.title}>{hacker.title}</Option>
+            <Option value={advanced.title}>
+              <span className={advancedColor}>{advanced.title}</span>
+            </Option>
+            <Option value={hacker.title}>
+              <span className={hackerColor}>{hacker.title}</span>
+            </Option>
             <Option value={fines.title}>
-              <span style={{ color: 'red' }}>{fines.title}</span>
+              <span className={finesColor}>{fines.title}</span>
             </Option>
           </Select>
+        </Row>
+        <Row>
+          <Button onClick={onItemSubmit} type="primary" block>
+            Add item
+          </Button>
         </Row>
       </Col>
     </Row>

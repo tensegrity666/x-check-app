@@ -6,14 +6,17 @@ import AddNewItemContainer from './add-new-item-container';
 import Searcher from './searcher';
 import TaskListContainer from './task-list-container';
 
+import styles from './index.module.css';
+
 const Task = () => {
   const { Content } = Layout;
+  const { wrapper, content } = styles;
 
   return (
-    <Layout style={{ padding: '0 50px' }}>
+    <Layout className={wrapper}>
       <TaskHeader />
       <Searcher />
-      <Content style={{ backgroundColor: 'white' }}>
+      <Content className={content}>
         <TaskListContainer />
       </Content>
       <AddNewItemContainer />
