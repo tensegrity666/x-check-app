@@ -1,14 +1,11 @@
 import { createStore, combineReducers } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import taskReducer from './reducers/task-reducer';
 
 const rootReducer = combineReducers({
   taskReducer,
 });
 
-/* eslint-disable no-underscore-dangle */
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
-
-const store = createStore(rootReducer, composeEnhancers());
-/* eslint-enable */
+const store = createStore(rootReducer, composeWithDevTools());
 
 export default store;

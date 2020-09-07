@@ -1,16 +1,18 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { PageHeader, Tag, Button, Statistic, Row } from 'antd';
 
 const TaskHeader = () => {
   const total = useSelector(({ taskReducer }) => taskReducer.totalScore);
   const date = useSelector(({ taskReducer }) => taskReducer.dateOfCreate);
   const title = useSelector(({ taskReducer }) => taskReducer.taskTitle);
+  const history = useHistory();
 
   return (
     <>
       <PageHeader
-        onBack={() => window.history.back()}
+        onBack={() => history.goBack()}
         title="Редактирование задания"
         tags={<Tag color="blue">Изменено</Tag>}
         subTitle="This is a subtitle"
