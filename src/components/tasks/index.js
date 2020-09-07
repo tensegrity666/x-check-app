@@ -16,13 +16,13 @@ const Tasks = () => {
       <section>
         <List
           dataSource={tasksList}
-          renderItem={({ id, title, state }) => (
+          renderItem={({ id, taskTitle, state }) => (
             <List.Item>
               <RouterLink to={`/tasks/${id}`} className={styles.tasksLink}>
                 {state !== 'PUBLISHED' && (
                   <Typography.Text mark>{`[${state}] `}</Typography.Text>
                 )}
-                {title}
+                {taskTitle}
               </RouterLink>
             </List.Item>
           )}
