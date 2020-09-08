@@ -6,7 +6,7 @@ const { draft } = taskStates;
 const initialState = {
   id: uniqid('task-'),
   author: 'cardamo',
-  taskTitle: 'Very difficult task',
+  taskTitle: '',
   state: draft,
   categories,
   dateOfCreate: new Date().toLocaleDateString(),

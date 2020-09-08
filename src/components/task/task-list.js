@@ -7,7 +7,7 @@ import { DeleteOutlined } from '@ant-design/icons';
 import styles from './index.module.css';
 
 // eslint-disable-next-line no-unused-vars
-const TaskList = ({ taskItems, removeTaskItem, filter }) => {
+const TaskList = ({ taskItems, removeTaskItem }) => {
   const { list, listItem } = styles;
 
   return (
@@ -38,7 +38,6 @@ const TaskList = ({ taskItems, removeTaskItem, filter }) => {
 TaskList.propTypes = {
   removeTaskItem: PropTypes.func.isRequired,
   taskItems: PropTypes.array.isRequired,
-  filter: PropTypes.string.isRequired,
 };
 
 export default TaskList;

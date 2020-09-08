@@ -4,7 +4,7 @@ import { actionTypes } from '../constants';
 import initialState from '../initial-state';
 
 const taskReducer = (state = initialState, { type, payload }) => {
-  const { ADD_TASK_ITEM, REMOVE_TASK_ITEM } = actionTypes;
+  const { ADD_TASK_ITEM, REMOVE_TASK_ITEM, EDIT_TASK_TITLE } = actionTypes;
   const { totalScore, items } = state;
 
   switch (type) {
@@ -19,7 +19,7 @@ const taskReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         totalScore: totalScore + newTaskItem.currentScore,
-        items: [...items, newTaskItem],
+        items: [newTaskItem, ...items],
       };
 
     case REMOVE_TASK_ITEM:
@@ -28,6 +28,12 @@ const taskReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         items: [...items].filter((item) => item.id !== itemID),
+      };
+
+    case EDIT_TASK_TITLE:
+      return {
+        ...state,
+        taskTitle: payload,
       };
 
     default:

@@ -5,6 +5,8 @@ const {
   REMOVE_TASK_ITEM,
   UPDATE_TASK_ITEM_SCORE,
   CHANGE_FILTER,
+  SEARCH_ITEM,
+  EDIT_TASK_TITLE,
 } = actionTypes;
 
 const addTaskItem = (payload) => {
@@ -28,11 +30,32 @@ const updateTaskItemScore = (score) => {
   };
 };
 
-const changeFilter = (activeFilter) => {
+const editTaskTitle = (title) => {
   return {
-    type: CHANGE_FILTER,
-    activeFilter,
+    type: EDIT_TASK_TITLE,
+    payload: title,
   };
 };
 
-export { addTaskItem, removeTaskItem, updateTaskItemScore, changeFilter };
+const changeFilter = (activeFilter) => {
+  return {
+    type: CHANGE_FILTER,
+    payload: activeFilter,
+  };
+};
+
+const searchItem = (value) => {
+  return {
+    type: SEARCH_ITEM,
+    payload: value,
+  };
+};
+
+export {
+  addTaskItem,
+  removeTaskItem,
+  updateTaskItemScore,
+  changeFilter,
+  searchItem,
+  editTaskTitle,
+};
