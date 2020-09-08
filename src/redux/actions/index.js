@@ -1,6 +1,11 @@
 import { actionTypes } from '../constants';
 
-const { ADD_TASK_ITEM, REMOVE_TASK_ITEM, UPDATE_TASK_ITEM_SCORE } = actionTypes;
+const {
+  ADD_TASK_ITEM,
+  REMOVE_TASK_ITEM,
+  UPDATE_TASK_ITEM_SCORE,
+  CHANGE_FILTER,
+} = actionTypes;
 
 const addTaskItem = (payload) => {
   return {
@@ -23,4 +28,11 @@ const updateTaskItemScore = (score) => {
   };
 };
 
-export { addTaskItem, removeTaskItem, updateTaskItemScore };
+const changeFilter = (activeFilter) => {
+  return {
+    type: CHANGE_FILTER,
+    activeFilter,
+  };
+};
+
+export { addTaskItem, removeTaskItem, updateTaskItemScore, changeFilter };

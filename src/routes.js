@@ -7,6 +7,7 @@ import ReviewerDetails from './pages/reviewer-details';
 import Auth from './pages/auth';
 import Sessions from './pages/sessions';
 import TaskPage from './pages/task';
+import TasksPage from './pages/tasks';
 
 const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
@@ -14,6 +15,7 @@ const useRoutes = (isAuthenticated) => {
       <Switch>
         <Route path="/profile" exact component={Profile} />
         <Route path="/task" exact component={TaskPage} />
+        <Route path="/tasks" exact component={TasksPage} />
         <Route path="/requests" exact component={Requests} />
         <Route path="/reviews" exact component={Reviews} />
         <Route path="/details/:id" component={ReviewerDetails} />

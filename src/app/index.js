@@ -10,13 +10,9 @@ const App = () => {
   const routes = useRoutes(isAuthenticated);
 
   return (
-    <Router>
-      <Provider store={store}>{routes}</Provider>
-      <main className={styles.mainContainer}>
-        {isAuthenticated ? <SideMenu /> : null}
-        <section className={styles.componentWrapper}>{routes}</section>
-      </main>
-    </Router>
+    <Provider store={store}>
+      <Router>{routes}</Router>
+    </Provider>
   );
 };
 
