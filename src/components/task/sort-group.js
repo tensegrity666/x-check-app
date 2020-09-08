@@ -1,19 +1,17 @@
 import React from 'react';
 import { Button } from 'antd';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+
+import styles from './index.module.css';
 
 const SortGroup = () => {
+  const { sort } = styles;
+
   return (
-    <Button.Group>
-      <Button type="default" icon={<EditOutlined />}>
-        basic scope
-      </Button>
-      <Button danger icon={<EditOutlined />}>
-        extra scope
-      </Button>
-      <Button danger icon={<DeleteOutlined />}>
-        hacker scope
-      </Button>
+    <Button.Group className={sort}>
+      <Button>Basic</Button>
+      <Button>Advanced</Button>
+      <Button>Hacker</Button>
+      <Button>Fines</Button>
     </Button.Group>
   );
 };

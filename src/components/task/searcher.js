@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Input, Row, Col } from 'antd';
 
 import SortGroup from './sort-group';
@@ -6,18 +6,25 @@ import SortGroup from './sort-group';
 const Searcher = () => {
   const { Search } = Input;
 
+  const [searchValue, setSearchValue] = useState(null);
+
+  const onSearchChange = (event) => {
+    setSearchValue(event.target.value);
+  };
+
   return (
-    <Row gutter={16}>
-      <Col className="gutter-row" span={16}>
+    <Row justify="space-between">
+      <Col className="gutter-row" span={18}>
         <Search
-          placeholder="input search text"
-          // eslint-disable-next-line no-console
-          onSearch={(value) => console.log(value)}
+          placeholder="Search..."
+          onChange={onSearchChange}
+          // onSearch={onSearchChange}
+          value={searchValue}
           size="large"
           enterButton
         />
       </Col>
-      <Col className="gutter-row" span={8}>
+      <Col span={6}>
         <SortGroup />
       </Col>
     </Row>
