@@ -6,6 +6,7 @@ import Reviews from './pages/reviews';
 import ReviewerDetails from './pages/reviewer-details';
 import Auth from './pages/auth';
 import Sessions from './pages/sessions';
+import TasksPage from './pages/tasks';
 
 const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
@@ -14,6 +15,7 @@ const useRoutes = (isAuthenticated) => {
         <Route path="/profile" exact component={Profile} />
         <Route path="/requests" exact component={Requests} />
         <Route path="/reviews" exact component={Reviews} />
+        <Route path="/tasks" exact component={TasksPage} />
         <Route path="/details/:id" component={ReviewerDetails} />
         <Route path="/sessions/:id" component={Sessions} />
         <Redirect to="/profile" />
