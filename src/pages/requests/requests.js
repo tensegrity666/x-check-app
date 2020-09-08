@@ -2,9 +2,9 @@ import React from 'react';
 
 const Requests = () => {
   return (
-    <>
-      <h1>Requests to review</h1>
-    </>
+    <div className="review-requests">
+      <h1>Review Requests</h1>
+    </div>
   );
 };
 
