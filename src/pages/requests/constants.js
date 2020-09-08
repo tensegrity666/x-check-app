@@ -177,4 +177,10 @@ const tableColumns = [
   },
 ];
 
-export { defaultRowsByPage, defaultCustomers, tableColumns };
+const pagination = {
+  showSizeChanger: true,
+  defaultPageSize: defaultRowsByPage,
+  defaultCurrent: 1,
+};
+
+export { defaultRowsByPage, defaultCustomers, tableColumns, pagination };
