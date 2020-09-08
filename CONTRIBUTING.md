@@ -1,7 +1,3 @@
-# [>>>Task Board<<<](https://github.com/tensegrity666/x-check-app/projects/1)
-
-## https://x-check-app.netlify.app/profile
-
 ### Naming convention and code organization.
 ---
 * ⚠️ Commits to the __master__ branch are forbidden.
@@ -35,24 +31,3 @@ __Please:__
 * Don't override linter rules unnecessarily.
 * Don't forget to do `git pull` and `git merge` before pushing from your branch to avoid conflicts.
 * Don't put any files (pictures, GIFs etc.) in the root of project.
----
-### [Changelog](https://github.com/tensegrity666/x-check-app/blob/dev/CHANGELOG.md)
----
-
-#### Clone repo
-`$ git clone git@github.com:tensegrity666/x-check-app.git`<br>
-<br>
-_then checkout to_ __origin/dev__:<br>
-`$ git fetch origin`<br>
-`$ git checkout -b dev origin/dev`
-
-#### Install
-`$ npm i`
-
-#### Start server
-`$ npm start`<br>
-_Open_ [http://localhost:3000](http://localhost:3000) _to view it in the browser._
-
-#### Build project
-`$ npm run build`
-
