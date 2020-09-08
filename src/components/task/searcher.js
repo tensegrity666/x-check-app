@@ -25,7 +25,9 @@ const Searcher = () => {
         />
       </Col>
       <Col span={6}>
-        <SortGroup />
+        <Row justify="end">
+          <SortGroup />
+        </Row>
       </Col>
     </Row>
   );
