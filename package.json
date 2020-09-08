@@ -25,7 +25,8 @@
     "eject": "react-scripts eject",
     "prettier": "prettier src/ --write",
     "lint": "npm run prettier && eslint src/**/*.js --fix && stylelint src/**/*.css --syntax css --fix",
-    "release": "standard-version"
+    "release": "standard-version",
+    "deploy": "npm run build && netlify deploy --prod"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -55,6 +56,7 @@
     "prettier": "^2.1.1",
     "standard-version": "^9.0.0",
     "stylelint": "^13.7.0",
+
     "stylelint-config-standard": "^20.0.0"
   }
 }

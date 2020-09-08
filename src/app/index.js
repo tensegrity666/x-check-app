@@ -12,6 +12,10 @@ const App = () => {
   return (
     <Router>
       <Provider store={store}>{routes}</Provider>
+      <main className={styles.mainContainer}>
+        {isAuthenticated ? <SideMenu /> : null}
+        <section className={styles.componentWrapper}>{routes}</section>
+      </main>
     </Router>
   );
 };
