@@ -24,12 +24,10 @@ const taskReducer = (state = initialState, { type, payload }) => {
 
     case REMOVE_TASK_ITEM:
       const itemID = payload;
-      const currentItem = items.find((item) => item.id === itemID);
-      const itemIndex = items.indexOf(currentItem);
 
       return {
         ...state,
-        items: [...items.slice(0, itemIndex), ...items.slice(itemIndex + 1)],
+        items: [...items].filter((item) => item.id !== itemID),
       };
 
     default:
