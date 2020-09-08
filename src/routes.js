@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Profile from './pages/profile';
 import Requests from './pages/requests';
 import Reviews from './pages/reviews';
-import ReviewerDetails from './pages/reviewer-details';
+import Details from './pages/details';
 import Auth from './pages/auth';
 import Sessions from './pages/sessions';
 
@@ -14,7 +14,7 @@ const useRoutes = (isAuthenticated) => {
         <Route path="/profile" exact component={Profile} />
         <Route path="/requests" exact component={Requests} />
         <Route path="/reviews" exact component={Reviews} />
-        <Route path="/details/:id" component={ReviewerDetails} />
+        <Route path="/details/:id" component={Details} />
         <Route path="/sessions/:id" component={Sessions} />
         <Redirect to="/profile" />
       </Switch>

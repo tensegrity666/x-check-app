@@ -2,13 +2,14 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { UserOutlined } from '@ant-design/icons';
 import { Card, Col, Row, Divider, Avatar } from 'antd';
+
 const { Meta } = Card;
 
 const ReviewerDetails = () => {
   const { id } = useParams();
   return (
     <>
-      <h1>Reviewer#{id} details</h1>
+      <h2>Reviewer#{id} details</h2>
       <Divider />
       <Row>
         <Col>
