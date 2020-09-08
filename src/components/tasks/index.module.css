@@ -1,3 +1,12 @@
-.tasksLink {
+.tasksMeta {
   color: inherit;
+}
+
+.tasksMeta:hover {
+  cursor: pointer;
+  color: #1890ff;
+}
+
+.tasksMeta:hover h4 {
+  color: #1890ff;
 }
