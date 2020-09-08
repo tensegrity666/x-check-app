@@ -115,6 +115,7 @@ export default class RequestsTable extends Component {
         dataSource={defaultCustomers}
         columns={columnsWithSearch}
         pagination={pagination}
+        scroll={{ x: 1200, y: 'calc(100vh - 210px)' }}
       />
     );
   }

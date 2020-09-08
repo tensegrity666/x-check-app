@@ -1,5 +1,6 @@
 import React from 'react';
 import RequestsTable from './components/requests-table';
+import './requests.css';
 
 const Requests = () => {
   return (
