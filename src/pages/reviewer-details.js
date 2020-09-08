@@ -2,8 +2,8 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { UserOutlined } from '@ant-design/icons';
 import { Card, Col, Row, Divider, Avatar } from 'antd';
-
 const { Meta } = Card;
+
 const ReviewerDetails = () => {
   const { id } = useParams();
   return (
