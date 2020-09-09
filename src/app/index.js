@@ -6,7 +6,7 @@ import 'antd/dist/antd.css';
 import store from '../redux/store';
 
 const App = () => {
-  const isAuthenticated = true;
+  const isAuthenticated = false;
   const routes = useRoutes(isAuthenticated);
 
   return (

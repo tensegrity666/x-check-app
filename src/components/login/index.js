@@ -1,14 +1,14 @@
 import React from 'react';
 import { Card, Button } from 'antd';
 import { GithubOutlined } from '@ant-design/icons';
+import githubAuth from '../../services/firebase';
 
 import RSLogo from './assets/logo-rs-school.svg';
 import GitHubIcon from './assets/ic-github-base64.json';
 import styles from './index.module.css';
 
-const { Meta } = Card;
-
 const Login = () => {
+  const { Meta } = Card;
   return (
     <main>
       <div className={styles.form}>
@@ -25,6 +25,7 @@ const Login = () => {
           }
           actions={[
             <Button
+              onClick={githubAuth}
               key="github"
               type="primary"
               size="large"
