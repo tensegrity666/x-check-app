@@ -1,4 +1,3 @@
-const defaultRowsByPage = 10;
 const defaultCustomers = [
   {
     id: 1,
@@ -122,65 +121,4 @@ const defaultCustomers = [
   },
 ];
 
-const tableColumns = [
-  {
-    title: 'ID',
-    dataIndex: 'id',
-    key: 'id',
-    isSearchable: false,
-  },
-  {
-    title: 'crossCheckID',
-    dataIndex: 'crossCheckID',
-    key: 'crossCheckID',
-    isSearchable: false,
-  },
-  {
-    title: 'Author',
-    dataIndex: 'author',
-    key: 'author',
-    isSearchable: true,
-  },
-  {
-    title: 'Task',
-    dataIndex: 'task',
-    key: 'task',
-    isSearchable: true,
-  },
-  {
-    title: 'Status',
-    dataIndex: 'state',
-    key: 'state',
-    isSearchable: false,
-    filters: [
-      {
-        text: 'DRAFT',
-        value: 'DRAFT',
-      },
-      {
-        text: 'PUBLISHED',
-        value: 'PUBLISHED',
-      },
-      {
-        text: 'COMPLETED',
-        value: 'COMPLETED',
-      },
-    ],
-    onFilter: (value, record) => record.state.indexOf(value) === 0,
-  },
-  {
-    title: 'SelfGrade',
-    dataIndex: 'selfGrade',
-    key: 'selfGrade',
-    isSearchable: false,
-    sorter: (a, b) => a.selfGrade - b.selfGrade,
-  },
-];
-
-const pagination = {
-  showSizeChanger: true,
-  defaultPageSize: defaultRowsByPage,
-  defaultCurrent: 1,
-};
-
-export { defaultRowsByPage, defaultCustomers, tableColumns, pagination };
+export default defaultCustomers;

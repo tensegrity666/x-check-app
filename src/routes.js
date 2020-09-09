@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Profile from './pages/profile';
-import Requests from './pages/requests/requests';
+import Requests from './pages/requests';
 import Reviews from './pages/reviews';
 import ReviewerDetails from './pages/reviewer-details';
 import Auth from './pages/auth';

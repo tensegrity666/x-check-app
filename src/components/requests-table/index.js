@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Table, Input, Button, Space } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
-import { defaultCustomers, tableColumns, pagination } from '../constants';
+import { tableColumns, pagination } from './constants';
+import defaultCustomers from './mockData';
+import styles from './index.module.css';
 
 export default class RequestsTable extends Component {
   constructor() {
@@ -111,12 +113,15 @@ export default class RequestsTable extends Component {
     });
 
     return (
-      <Table
-        dataSource={defaultCustomers}
-        columns={columnsWithSearch}
-        pagination={pagination}
-        scroll={{ x: 1200, y: 'calc(100vh - 210px)' }}
-      />
+      <div className={styles.reviewRequests}>
+        <h1>Review Requests</h1>
+        <Table
+          dataSource={defaultCustomers}
+          columns={columnsWithSearch}
+          pagination={pagination}
+          scroll={{ x: 1200, y: 'calc(100vh - 210px)' }}
+        />
+      </div>
     );
   }
 }

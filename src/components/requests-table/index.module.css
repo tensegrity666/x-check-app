@@ -1,13 +1,13 @@
-.review-requests {
+.reviewRequests {
   width: calc(100vw - 230px);
   height: calc(100vh - 30px);
 }
 
-*::-webkit-scrollbar-thumb {
+.reviewRequests *::-webkit-scrollbar-thumb {
   background-color: #1890ff;
 }
 
-*::-webkit-scrollbar {
+.reviewRequests *::-webkit-scrollbar {
   width: 5px;
   height: 5px;
 }
