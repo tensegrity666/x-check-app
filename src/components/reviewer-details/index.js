@@ -9,7 +9,7 @@ const ReviewerDetails = () => {
   const { id } = useParams();
   return (
     <>
-      <h1>Reviewer#{id} details</h1>
+      <h2>Reviewer#{id} details</h2>
       <Divider />
       <Row>
         <Col>
