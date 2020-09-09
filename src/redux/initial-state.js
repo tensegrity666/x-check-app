@@ -9,7 +9,7 @@ const initialState = {
   taskTitle: '',
   state: draft,
   categories,
-  dateOfCreate: new Date().toLocaleDateString(),
+  dateOfCreate: null,
   totalScore: 0,
   items: [],
 };
