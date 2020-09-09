@@ -4,11 +4,6 @@ import App from './app';
 import * as serviceWorker from './serviceWorker';
 import './index.css';
 
-render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+render(<App />, document.getElementById('root'));
 
 serviceWorker.unregister();
