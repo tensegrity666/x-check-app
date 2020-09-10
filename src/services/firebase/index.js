@@ -15,19 +15,15 @@ firebase.default.initializeApp(firebaseConfig);
 const provider = new firebase.auth.GithubAuthProvider();
 
 const githubAuth = () => {
-  firebase
+  return firebase
     .auth()
     .signInWithPopup(provider)
-    .then((result) => {
-      const { user } = result;
-      // eslint-disable-next-line no-console
-      console.log(user);
-    })
+    .then((result) => result.user)
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       // eslint-disable-next-line no-console
-      console.log(errorCode, errorMessage);
+      throw new Error(errorCode, errorMessage);
     });
 };
 

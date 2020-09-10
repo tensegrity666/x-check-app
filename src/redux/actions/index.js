@@ -7,6 +7,7 @@ const {
   CHANGE_FILTER,
   SEARCH_ITEM,
   EDIT_TASK_TITLE,
+  LOGIN,
 } = actionTypes;
 
 const addTaskItem = (payload) => {
@@ -51,6 +52,13 @@ const searchItem = (value) => {
   };
 };
 
+const getUserInfo = (payload) => {
+  return {
+    type: LOGIN,
+    payload,
+  };
+};
+
 export {
   addTaskItem,
   removeTaskItem,
@@ -58,4 +66,5 @@ export {
   changeFilter,
   searchItem,
   editTaskTitle,
+  getUserInfo,
 };

@@ -5,6 +5,8 @@ const actionTypes = {
   CHANGE_FILTER: 'CHANGE_FILTER',
   SEARCH_ITEM: 'SEARCH_ITEM',
   EDIT_TASK_TITLE: 'EDIT_TASK_TITLE',
+  LOGIN: 'LOGIN',
+  LOGOUT: 'LOGOUT',
 };
 
 const categories = {
@@ -28,4 +30,10 @@ const taskStates = {
   archived: 'ARCHIVED',
 };
 
-export { actionTypes, categories, taskStates };
+const userRoles = {
+  author: 'author',
+  student: 'student',
+  supervisor: 'supervisor',
+};
+
+export { actionTypes, categories, taskStates, userRoles };
