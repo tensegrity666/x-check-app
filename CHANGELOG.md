@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/tensegrity666/x-check-app/compare/v0.1.1...v0.1.2) (2020-09-10)
+
+
+### Features
+
+* implement GH-login ([f5f89e2](https://github.com/tensegrity666/x-check-app/commit/f5f89e21d9d8cbd67002276b36ab1a22ac02f91b))
+
+
+### Bug Fixes
+
+* problem in task name updating ([43a5565](https://github.com/tensegrity666/x-check-app/commit/43a5565237e437b818014a9cfe9724693861d11c))
+* typo in gh-action file ([c3315f3](https://github.com/tensegrity666/x-check-app/commit/c3315f336f8f26cf58a93f61d752358d7b1e0756))
+
 ### [0.1.1](https://github.com/tensegrity666/x-check-app/compare/v0.1.0...v0.1.1) (2020-09-08)
 
 
