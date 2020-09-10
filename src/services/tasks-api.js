@@ -2,6 +2,29 @@
   Класс для работы с сущностью Tasks 
   Наследует класс AccessApi.
   Требуется импорт actionTaskList из constants.js
+  Внимание, класс генерирует стандартный Error в случае возврата ошибок
+  Необходимо предусмотреть перехват и обработку таких ошибок.
+  *****
+  Доступные методы:
+  getTasksAll() - выводит все задачи, возвращает полные данные в виде массива объектов
+  getTask(id) -  выводит задачу по id, возвращает полные данные в виде массива c одним объектом
+  getTaskByAuthor(nameAuthor) - выводит все задачи созданные автором требуется передача в аргументе поля author,
+    возвращает полные данные в виде массива объектов
+  createTaskHeader({ githubId, data }) - создание карточки задачи, можно создавать как заголовок, 
+    тогда необходимо в data передавать пустой массив items: []
+    или можно передавать полные данный задачи с заполненным массивом items
+    аргументы метода передаются объектом
+  editTaskHeader({ githubId, taskId, data }) - редактирование карточки задачи, редактируются только те поля которые переданны в data, 
+    аргументы метода передаются объектом
+  delTask({ githubId, taskId }) - удаление задачи, удаляется полностью, аргументы метода передаются объектом
+  toggleTaskState({
+    githubId,     // пользователь 
+    taskId,       // id задачи
+    requiredState // enum DRAFT_TO_PUBLISHED, PUBLISHED_TO_DRAFT, PUBLISHED_TO_ARCHIVED, ARCHIVED_TO_PUBLISHED 
+  }) - переключение статуса задачи DRAFT, PUBLISHED, ARCHIVED,
+    Аргумент requiredState формализован и можем принимать только перечисленные значения. 
+
+  Последние 4 метода возвращают объект идентичный переданному в случае успеха, или сообщение об ошибке 
 */
 
 import AccessTasksApi from './access-tasks-api';
@@ -63,7 +86,7 @@ export default class TasksApi extends AccessTasksApi {
     return result;
   }
 
-  // Cannot edit state property, state property is read-only
+  // Cannot edit "state", "author" property, "state", "author" property is read-only
   async editTaskHeader({ githubId, taskId, data }) {
     this.checkExistenceTask(taskId);
 
@@ -83,8 +106,12 @@ export default class TasksApi extends AccessTasksApi {
     return result;
   }
 
-  // Нужна еше проверка на статус записи, невозможно перепрыгнуть через уровень
-  // Или реализовать это на клиенте, показывать возможный переход на статус.
+  /* 
+    Нужна еше проверка на статус записи, невозможно перепрыгнуть через уровень
+    Или реализовать это на клиенте, показывать возможный переход на статус.
+    Аргумент requiredState формализован и можем принимать только перечисленные значения,
+
+  */
   async toggleTaskState({
     githubId,
     taskId,
