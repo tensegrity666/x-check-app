@@ -1,9 +1,20 @@
 /* eslint-disable no-case-declarations */
 import uniqid from 'uniqid';
-import { actionTypes } from '../constants';
-import initialState from '../initial-state';
+import { actionTypes, categories, taskStates } from '../constants';
 
-const taskReducer = (state = initialState, { type, payload }) => {
+const { draft } = taskStates;
+
+const initialTask = {
+  author: '',
+  taskTitle: '',
+  state: draft,
+  categories,
+  dateOfCreate: null,
+  totalScore: 0,
+  items: [],
+};
+
+const taskReducer = (state = initialTask, { type, payload }) => {
   const { ADD_TASK_ITEM, REMOVE_TASK_ITEM, EDIT_TASK_TITLE } = actionTypes;
   const { totalScore, items } = state;
 
