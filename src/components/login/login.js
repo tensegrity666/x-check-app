@@ -63,7 +63,11 @@ Login.propTypes = {
   handleLogin: PropTypes.func.isRequired,
   handleRoleAdd: PropTypes.func.isRequired,
   roles: PropTypes.arrayOf(PropTypes.string).isRequired,
-  userRole: PropTypes.string.isRequired,
+  userRole: PropTypes.string,
+};
+
+Login.defaultProps = {
+  userRole: '',
 };
 
 export default Login;
