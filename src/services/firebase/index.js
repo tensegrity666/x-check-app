@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { firebase } from '@firebase/app';
 import '@firebase/auth';
 
@@ -26,4 +27,16 @@ const githubAuth = () => {
     });
 };
 
-export default githubAuth;
+const signOut = () => {
+  return firebase
+    .auth()
+    .signOut()
+    .then(() => console.log('You signed out'))
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      throw new Error(errorCode, errorMessage);
+    });
+};
+
+export { signOut, githubAuth };

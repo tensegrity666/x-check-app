@@ -9,6 +9,7 @@ const actionTypes = {
   LOGOUT: 'LOGOUT',
   ADD_ROLE: 'ADD_ROLE',
   LOAD_FROM_LOCAL_STORAGE: 'LOAD_FROM_LOCAL_STORAGE',
+  SIGN_OUT: 'SIGN_OUT',
 };
 
 const categories = {

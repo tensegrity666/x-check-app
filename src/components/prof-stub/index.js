@@ -1,6 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
+import Signout from '../signout';
+
 const ProfStub = () => {
   const {
     uid,
@@ -12,14 +14,18 @@ const ProfStub = () => {
   } = useSelector(({ loginReducer }) => loginReducer);
 
   return (
-    <ul>
-      <li>{uid}</li>
-      <li>{githubId}</li>
-      <li>{currentRole}</li>
-      <li>{displayName}</li>
-      <li>{email}</li>
-      <img src={photoURL} alt={displayName} />
-    </ul>
+    <>
+      <ul>
+        <li>{uid}</li>
+        <li>{githubId}</li>
+        <li>{currentRole}</li>
+        <li>{displayName}</li>
+        <li>{email}</li>
+        <img src={photoURL} alt={displayName} />
+      </ul>
+
+      <Signout />
+    </>
   );
 };
 
