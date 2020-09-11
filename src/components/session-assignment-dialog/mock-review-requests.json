@@ -1,0 +1,82 @@
+[
+  {
+    "id": "rev-req-1",
+    "crossCheckSessionId": "rss2020Q3react-xcheck",
+    "author": "cardamo",
+    "task": "simple-task-v1",
+    "state": "PUBLISHED",
+    "selfGrade": 190
+  },
+  {
+    "id": "rev-req-1",
+    "crossCheckSessionId": "rss2020Q3react-xcheck",
+    "author": "YerzhanUtelbayev",
+    "task": "simple-task-v1",
+    "state": "PUBLISHED",
+    "selfGrade": 190
+  },
+  {
+    "id": "rev-req-1",
+    "crossCheckSessionId": "rss2020Q3react-xcheck",
+    "author": "tensegrity666",
+    "task": "simple-task-v1",
+    "state": "PUBLISHED",
+    "selfGrade": 190
+  },
+  {
+    "id": "rev-req-1",
+    "crossCheckSessionId": "rss2020Q3react-xcheck",
+    "author": "zenitfan19",
+    "task": "simple-task-v1",
+    "state": "PUBLISHED",
+    "selfGrade": 190
+  },
+  {
+    "id": "rev-req-1",
+    "crossCheckSessionId": "rss2020Q3react-xcheck",
+    "author": "Ivkin-Alexey",
+    "task": "simple-task-v1",
+    "state": "PUBLISHED",
+    "selfGrade": 190
+  },
+  {
+    "id": "rev-req-1",
+    "crossCheckSessionId": "rss2020Q3react-xcheck",
+    "author": "Kirillsp1982",
+    "task": "simple-task-v1",
+    "state": "PUBLISHED",
+    "selfGrade": 190
+  },
+  {
+    "id": "rev-req-1",
+    "crossCheckSessionId": "rss2020Q3react-xcheck",
+    "author": "DEnFUrt",
+    "task": "simple-task-v1",
+    "state": "PUBLISHED",
+    "selfGrade": 190
+  },
+  {
+    "id": "rev-req-1",
+    "crossCheckSessionId": "rss2020Q3react-xcheck",
+    "author": "ericelliott",
+    "task": "simple-task-v1",
+    "state": "PUBLISHED",
+    "selfGrade": 190
+  },
+  {
+    "id": "rev-req-1",
+    "crossCheckSessionId": "rss2020Q3react-xcheck",
+    "author": "maxogden",
+    "task": "simple-task-v1",
+    "state": "PUBLISHED",
+    "selfGrade": 190
+  },
+  {
+    "id": "rev-req-1",
+    "crossCheckSessionId": "rss2020Q3react-xcheck",
+    "author": "survivejs",
+    "task": "simple-task-v1",
+    "state": "PUBLISHED",
+    "selfGrade": 190
+  }
+]
