@@ -30,11 +30,15 @@ export default class UserApi extends BaseApi {
     return result;
   }
 
-  async createUser(githubId, roles = []) {
+  async createUser(uid, displayName, screenName, email, roles = []) {
     const lastNumberId = this.createId();
+
     const newUser = {
       id: lastNumberId,
-      githubId,
+      githubId: screenName,
+      uid,
+      displayName,
+      email,
       roles,
     };
 

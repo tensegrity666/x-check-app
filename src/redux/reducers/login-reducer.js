@@ -1,39 +1,51 @@
 import { actionTypes } from '../constants';
 
 const initialUser = {
-  githubId: null,
   isAuthenticated: false,
-  roles: [],
+  uid: null,
+  githubId: null,
+  roles: ['author', 'student', 'supervisor'],
   currentRole: null,
   isRoleSelected: false,
   email: null,
   displayName: null,
   photoURL: null,
-  uid: null,
-  screenName: null,
 };
 
 const loginReducer = (state = initialUser, { type, payload }) => {
-  const { LOGIN, LOGOUT } = actionTypes;
+  const { LOGIN, LOGOUT, ADD_ROLE } = actionTypes;
+  const { roles } = state;
 
   switch (type) {
     case LOGIN:
       return {
         ...state,
-        githubId: payload.githubId,
         isAuthenticated: true,
-        roles: [],
-        currentRole: payload.currentRole,
+        uid: payload.uid,
+        githubId: payload.email.substr(0, payload.email.indexOf('@')),
         email: payload.email,
         displayName: payload.displayName,
         photoURL: payload.photoURL,
-        uid: payload.uid,
-        screenName: payload.screenName,
+      };
+
+    case ADD_ROLE:
+      return {
+        ...state,
+        currentRole: roles[payload],
+        isRoleSelected: true,
       };
 
     case LOGOUT:
       return {
         ...state,
+        isAuthenticated: false,
+        uid: null,
+        githubId: null,
+        currentRole: null,
+        isRoleSelected: false,
+        email: null,
+        displayName: null,
+        photoURL: null,
       };
 
     default:

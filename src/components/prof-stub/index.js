@@ -3,28 +3,22 @@ import { useSelector } from 'react-redux';
 
 const ProfStub = () => {
   const {
-    githubId,
-    isAuthenticated,
-    currentRole,
-    isRoleSelected,
-    email,
-    displayName,
-    photoURL,
     uid,
-    screenName,
+    githubId,
+    currentRole,
+    displayName,
+    email,
+    photoURL,
   } = useSelector(({ loginReducer }) => loginReducer);
 
   return (
     <ul>
       <li>{uid}</li>
       <li>{githubId}</li>
-      <li>{isAuthenticated}</li>
       <li>{currentRole}</li>
-      <li>{isRoleSelected}</li>
-      <li>{email}</li>
       <li>{displayName}</li>
+      <li>{email}</li>
       <img src={photoURL} alt={displayName} />
-      <li>{screenName}</li>
     </ul>
   );
 };
