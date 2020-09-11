@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
 
-import { tableColumns, populateWithKeys } from './table-helpers';
+import {
+  tableColumns,
+  populateRowsWithKeys,
+  dynamicSort,
+} from './table-helpers';
 import getAssignments from './assignment-helper';
 import reviewRequestsList from './mock-review-requests.json';
 
@@ -10,6 +14,7 @@ const SessionAssignmentDialog = () => {
 
   useEffect(() => {
     const result = getAssignments(reviewRequestsList, 4);
+    result.sort(dynamicSort('githubId'));
     setAssignments(result);
   }, []);
 
@@ -17,7 +22,7 @@ const SessionAssignmentDialog = () => {
     <section>
       <Table
         columns={tableColumns}
-        dataSource={populateWithKeys(assignments)}
+        dataSource={populateRowsWithKeys(assignments)}
       />
     </section>
   );
