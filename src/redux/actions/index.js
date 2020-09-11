@@ -8,6 +8,7 @@ const {
   SEARCH_ITEM,
   EDIT_TASK_TITLE,
   LOGIN,
+  ADD_ROLE,
 } = actionTypes;
 
 const addTaskItem = (payload) => {
@@ -59,6 +60,13 @@ const getUserInfo = (payload) => {
   };
 };
 
+const addUserRole = (payload) => {
+  return {
+    type: ADD_ROLE,
+    payload,
+  };
+};
+
 export {
   addTaskItem,
   removeTaskItem,
@@ -67,4 +75,5 @@ export {
   searchItem,
   editTaskTitle,
   getUserInfo,
+  addUserRole,
 };

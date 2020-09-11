@@ -22,7 +22,6 @@ const githubAuth = () => {
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      // eslint-disable-next-line no-console
       throw new Error(errorCode, errorMessage);
     });
 };

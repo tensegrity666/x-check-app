@@ -7,6 +7,7 @@ const actionTypes = {
   EDIT_TASK_TITLE: 'EDIT_TASK_TITLE',
   LOGIN: 'LOGIN',
   LOGOUT: 'LOGOUT',
+  ADD_ROLE: 'ADD_ROLE',
 };
 
 const categories = {
@@ -30,10 +31,4 @@ const taskStates = {
   archived: 'ARCHIVED',
 };
 
-const userRoles = {
-  author: 'author',
-  student: 'student',
-  supervisor: 'supervisor',
-};
-
-export { actionTypes, categories, taskStates, userRoles };
+export { actionTypes, categories, taskStates };
