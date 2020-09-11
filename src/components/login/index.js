@@ -16,15 +16,9 @@ const LoginContainer = () => {
   const { dispatch } = store;
   const { getUserInfo, addUserRole } = bindActionCreators(actions, dispatch);
 
-  const {
-    uid,
-    displayName,
-    screenName,
-    email,
-    currentRole,
-    roles,
-    isRoleSelected,
-  } = useSelector(({ loginReducer }) => loginReducer);
+  const { isRoleSelected, roles } = useSelector(
+    ({ loginReducer }) => loginReducer
+  );
 
   const [userRole, setUserRole] = useState(null);
   const handleRoleAdd = (value) => {
@@ -41,10 +35,12 @@ const LoginContainer = () => {
 
       getUserInfo(userInfo);
 
-      // eslint-disable-next-line no-console
-      console.log(uid, displayName, screenName, email, currentRole);
+      const newState = store.getState().loginReducer;
+      const { uid, displayName, githubId, email, currentRole } = newState;
 
-      api.createUser(uid, displayName, screenName, email, currentRole);
+      api.createUser(uid, displayName, githubId, email, currentRole);
+
+      localStorage.setItem('loggedInUser', JSON.stringify(newState));
     } catch (error) {
       throw new Error(error);
     }

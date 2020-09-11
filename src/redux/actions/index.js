@@ -9,6 +9,7 @@ const {
   EDIT_TASK_TITLE,
   LOGIN,
   ADD_ROLE,
+  LOAD_FROM_LOCAL_STORAGE,
 } = actionTypes;
 
 const addTaskItem = (payload) => {
@@ -67,6 +68,13 @@ const addUserRole = (payload) => {
   };
 };
 
+const loadFromLocalStorage = (payload) => {
+  return {
+    type: LOAD_FROM_LOCAL_STORAGE,
+    payload,
+  };
+};
+
 export {
   addTaskItem,
   removeTaskItem,
@@ -76,4 +84,5 @@ export {
   editTaskTitle,
   getUserInfo,
   addUserRole,
+  loadFromLocalStorage,
 };
