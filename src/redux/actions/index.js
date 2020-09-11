@@ -10,6 +10,7 @@ const {
   LOGIN,
   ADD_ROLE,
   LOAD_FROM_LOCAL_STORAGE,
+  SIGN_OUT,
 } = actionTypes;
 
 const addTaskItem = (payload) => {
@@ -75,6 +76,12 @@ const loadFromLocalStorage = (payload) => {
   };
 };
 
+const signOutAndClearLocalStorage = () => {
+  return {
+    type: SIGN_OUT,
+  };
+};
+
 export {
   addTaskItem,
   removeTaskItem,
@@ -85,4 +92,5 @@ export {
   getUserInfo,
   addUserRole,
   loadFromLocalStorage,
+  signOutAndClearLocalStorage,
 };

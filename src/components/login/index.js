@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { useSelector } from 'react-redux';
 import Login from './login';
 
-import githubAuth from '../../services/firebase';
+import { githubAuth } from '../../services/firebase';
 
 import store from '../../redux/store';
 import * as actions from '../../redux/actions';

@@ -10,7 +10,7 @@ import styles from './index.module.css';
 const Login = ({ handleLogin, handleRoleAdd, roles, userRole }) => {
   const { Meta } = Card;
   const { Option } = Select;
-  const { form, image, cardImage } = styles;
+  const { form, image, cardImage, roleSelect, cardWrapper } = styles;
 
   return (
     <main>
@@ -18,7 +18,7 @@ const Login = ({ handleLogin, handleRoleAdd, roles, userRole }) => {
         <img className={image} src={RSLogo} alt="RS School Logo" />
 
         <Card
-          style={{ width: 320 }}
+          className={cardWrapper}
           cover={
             <img
               className={cardImage}
@@ -37,7 +37,7 @@ const Login = ({ handleLogin, handleRoleAdd, roles, userRole }) => {
                 Sign up with GitHub
               </Button>
               <Select
-                style={{ width: '198px', marginTop: '12px' }}
+                className={roleSelect}
                 placeholder="Choose your role"
                 type="primary"
                 size="large"
