@@ -11,20 +11,31 @@ import store from '../../redux/store';
 import * as actions from '../../redux/actions';
 import styles from './index.module.css';
 
+import TaskApi from '../../services/rest-api/tasks-api';
+
 const TaskHeader = () => {
+  const api = new TaskApi();
+
   const { statsHeading } = styles;
   const [nameEditorValue, setNameEditorValue] = useState(null);
+  const history = useHistory();
 
-  const { total, dateOfCreate, taskTitle, author, state } = useSelector(
+  const { totalScore, dateOfCreate, taskTitle, author, state } = useSelector(
     ({ taskReducer }) => taskReducer
   );
-  const history = useHistory();
 
   const { dispatch } = store;
   const { editTaskTitle } = bindActionCreators(actions, dispatch);
 
   const onInputChange = (event) => {
     setNameEditorValue(event.target.value);
+  };
+
+  const onSaveTask = () => {
+    const data = store.getState().taskReducer;
+    const { githubId } = store.getState().loginReducer;
+
+    api.createTaskHeader({ githubId, data });
   };
 
   useEffect(() => {
@@ -43,7 +54,7 @@ const TaskHeader = () => {
             Delete
           </Button>,
           <Button key="2">Cancel</Button>,
-          <Button key="1" type="primary">
+          <Button onClick={onSaveTask} key="1" type="primary">
             Save
           </Button>,
         ]}>
@@ -75,7 +86,7 @@ const TaskHeader = () => {
           <Statistic
             className={statsHeading}
             title="Total score"
-            value={total}
+            value={totalScore}
           />
           <Statistic
             className={statsHeading}
