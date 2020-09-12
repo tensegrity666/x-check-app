@@ -33,9 +33,9 @@ Methods for working with the user entity, tasks, subtasks have been implemented.
 
 Примечание: ItemsTasksApi можно не использовать, для работы с задачами достаточно TasksApi, но тогда при редактировании конкретного item в массиве items нужно передавать весь массив целиком.
 
-Все методы GET возвращают массив объектов.
-Методы create, edit - возвращают объект аналогичный переданному в случае успеха, или текст с сообщением об ошибке.
-Методы DELETE возвращают стандартный объект response
+Все методы GET возвращают массив объектов. В случае отсутствия данных возвращается пустой массив. Необходимо проверять длинну массива. 
+Методы create, edit (POST, PATCH) - возвращают объект аналогичный переданному в случае успеха, или текст с сообщением об ошибке.
+Методы DELETE возвращают стандартный объект response, response.status = ok - признак успешной операции.
 
 Некоторые методы в случае ошибки генерируют объект Error необходимо использовать перехват ошибок для избежания краха приложения, текст ошибки в error.message
 
@@ -110,11 +110,13 @@ const onGetUser = (githubId) => {
 ```
 ```javascript
 // returns 
-  {
-    githubId: "author 1",
-    id: 1599462175345.309,
-    roles: ["author", "supervisor"]
-  }
+  [
+    {
+      githubId: "author 1",
+      id: 1599462175345.309,
+      roles: ["author", "supervisor"]
+    }
+  ]
 ```
 
 ### Delete a specific user:
@@ -146,7 +148,6 @@ const onGetTasksAll = () => {
 //returns
 [
   {
-    {
     id: "simple-task-v...",
     author: "cardamo",
     state: "DRAFT", //enum DRAFT, PUBLISHED, ARCHIVED
@@ -179,7 +180,6 @@ const onGetTasksAll = () => {
       }
     ]
   },
-  },
   {
   //...
   }
@@ -194,39 +194,41 @@ const onGetTask = (id) => {
 ```
 ```javascript
 //returns
-{
-   id: "simple-task-v...",
-   author: "cardamo",
-   state: "DRAFT", //enum DRAFT, PUBLISHED, ARCHIVED
-   categoriesOrder: [
-     "Basic Scope",
-     "Extra Scope",
-     "Fines"
-   ],
-   items: [
-     {
-       id: "basic_p...",
-       minScore: 0,
-       maxScore: 20,
-       category: "Basic Scope",
-       description: "You need to make things right, not wrong"
-     },
-     {
-       id: "extra_p...",
-       minScore: 0,
-       maxScore: 30,
-       category: "Extra Scope",
-       description: "Be creative and make up some more awesome things"
-     },
-     {
-       id: "fines_p1",
-      "minScore: -10,
-       maxScore: 0,
-       category: "Fines",
-       description: "App causes BSoD!"
-     }
-   ]
- }
+[
+  {
+    id: "simple-task-v...",
+    author: "cardamo",
+    state: "DRAFT", //enum DRAFT, PUBLISHED, ARCHIVED
+    categoriesOrder: [
+      "Basic Scope",
+      "Extra Scope",
+      "Fines"
+    ],
+    items: [
+      {
+        id: "basic_p...",
+        minScore: 0,
+        maxScore: 20,
+        category: "Basic Scope",
+        description: "You need to make things right, not wrong"
+      },
+      {
+        id: "extra_p...",
+        minScore: 0,
+        maxScore: 30,
+        category: "Extra Scope",
+        description: "Be creative and make up some more awesome things"
+      },
+      {
+        id: "fines_p1",
+        "minScore: -10,
+        maxScore: 0,
+        category: "Fines",
+        description: "App causes BSoD!"
+      }
+    ]
+  }
+]
 ```
 
 **Getting a list of tasks created by the author**
@@ -323,15 +325,15 @@ const onCreateTaskItem = (githubId) => {
 ```javascript
 //returns 
 {
-   "id": "simple-task-v1599463912121.8909",
-   "author": "cardamo",
-   "state": "DRAFT",
-   "categoriesOrder": [
+   id: "simple-task-v1599463912121.8909",
+   author: "cardamo",
+   state: "DRAFT",
+   categoriesOrder: [
      "Basic Scope",
      "Extra Scope",
      "Fines"
    ],
-   "items": [
+   items: [
      {
        id: "basic_p1599464109071.7922",
        minScore: 0,
