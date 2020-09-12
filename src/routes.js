@@ -18,6 +18,7 @@ const useRoutes = (isAuthenticated) => {
         <Route path="/tasks" exact component={TasksPage} />
         <Route path="/requests" exact component={Requests} />
         <Route path="/reviews" exact component={Reviews} />
+        <Route path="/details" exact component={Details} />
         <Route path="/details/:id" component={Details} />
         <Route path="/sessions/:id" component={Sessions} />
         <Redirect to="/profile" />
