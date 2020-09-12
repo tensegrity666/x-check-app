@@ -1,4 +1,6 @@
 build/
+storybook-static/
+stories/
 
 *.css
 *.html

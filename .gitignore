@@ -1,5 +1,4 @@
-# need to uncomment it in next PR
-#.env
+.env
 
 # dependencies
 /node_modules
@@ -11,6 +10,7 @@
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
