@@ -18,7 +18,7 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
     - name: npm install, lint and build
-      run: npm ci && npm run deploy-lint && npm run build
+      run: npm ci && npm run deploy-lint && npm run test && npm run build
     - name: Deploy to Netlify
       uses: nwtgck/actions-netlify@v1.1
       with:
