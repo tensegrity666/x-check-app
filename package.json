@@ -28,6 +28,7 @@
     "eject": "react-scripts eject",
     "prettier": "prettier src/ --write",
     "lint": "npm run prettier && eslint src/**/*.js --fix && stylelint src/**/*.css --syntax css --fix",
+    "deploy-lint" : "eslint src/**/*.js && stylelint src/**/*.css --syntax css",
     "release": "standard-version",
     "deploy": "npm run build && netlify deploy --prod"
   },

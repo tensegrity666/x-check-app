@@ -1,31 +1,34 @@
-name: CI
+name: Build and Deploy to Netlify
 on:
   push:
-    branches: [ dev, master ]
   pull_request:
-    branches: [ dev, master ]
-
+    types: [opened, synchronize]
 env:
+  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+  NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
   NODE_VERSION: '12.x'
-
 jobs:
-  build-and-deploy:
-    name: Build and Deploy
+  build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
+      - name: Checkout repository
       uses: actions/checkout@v2
-    - name: Use Node.js ${{ env.NODE_VERSION }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-    - name: npm install and build
-      run: npm install && npm run build
-    - name: Deploy to Netlify
-      uses: South-Paw/action-netlify-deploy@v1.0.4
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        netlify-auth-token: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        netlify-site-id: ${{ secrets.NETLIFY_SITE_ID }}
-        build-dir: './build/'
-        comment-on-commit: true
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: npm install, lint and build
+        run: npm ci |
+        npm run deploy-lint |
+        npm run build
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.1
+        with:
+          publish-dir: './build'
+          production-branch: dev
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: 'Deploy from GitHub Actions'
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        timeout-minutes: 10
