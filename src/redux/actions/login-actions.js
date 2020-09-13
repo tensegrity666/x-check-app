@@ -2,36 +2,29 @@ import { actionTypes } from '../constants';
 
 const { LOGIN, ADD_ROLE, LOAD_FROM_LOCAL_STORAGE, SIGN_OUT } = actionTypes;
 
-const getUserInfo = (payload) => {
+export const getUserInfo = (payload) => {
   return {
     type: LOGIN,
     payload,
   };
 };
 
-const addUserRole = (payload) => {
+export const addUserRole = (payload) => {
   return {
     type: ADD_ROLE,
     payload,
   };
 };
 
-const loadFromLocalStorage = (payload) => {
+export const loadFromLocalStorage = (payload) => {
   return {
     type: LOAD_FROM_LOCAL_STORAGE,
     payload,
   };
 };
 
-const signOutAndClearLocalStorage = () => {
+export const signOutAndClearLocalStorage = () => {
   return {
     type: SIGN_OUT,
   };
-};
-
-export {
-  getUserInfo,
-  addUserRole,
-  loadFromLocalStorage,
-  signOutAndClearLocalStorage,
 };

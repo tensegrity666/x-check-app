@@ -5,56 +5,47 @@ const {
   REMOVE_TASK_ITEM,
   UPDATE_TASK_ITEM_SCORE,
   EDIT_TASK_TITLE,
-  SET_TASK_AUTHOR,
   SAVE_TASK_ON_SERVER,
+  CREATE_TASK,
 } = actionTypes;
 
-const addTaskItem = (payload) => {
+export const addTaskItem = (payload) => {
   return {
     type: ADD_TASK_ITEM,
     payload,
   };
 };
 
-const removeTaskItem = (id) => {
+export const removeTaskItem = (id) => {
   return {
     type: REMOVE_TASK_ITEM,
     payload: id,
   };
 };
 
-const updateTaskItemScore = (score) => {
+export const updateTaskItemScore = (score) => {
   return {
     type: UPDATE_TASK_ITEM_SCORE,
     payload: score,
   };
 };
 
-const editTaskTitle = (title) => {
+export const editTaskTitle = (title) => {
   return {
     type: EDIT_TASK_TITLE,
     payload: title,
   };
 };
 
-const setTaskAuthor = (name) => {
-  return {
-    type: SET_TASK_AUTHOR,
-    payload: name,
-  };
-};
-
-const saveTaskOnServer = () => {
+export const saveTaskOnServer = () => {
   return {
     type: SAVE_TASK_ON_SERVER,
   };
 };
 
-export {
-  addTaskItem,
-  removeTaskItem,
-  updateTaskItemScore,
-  editTaskTitle,
-  setTaskAuthor,
-  saveTaskOnServer,
+export const createTask = (author) => {
+  return {
+    type: CREATE_TASK,
+    payload: author,
+  };
 };

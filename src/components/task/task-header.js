@@ -32,8 +32,11 @@ const TaskHeader = () => {
   };
 
   const onSaveTask = () => {
-    const data = store.getState().taskReducer;
+    const data = store.getState().taskReducer.items;
     const { githubId } = store.getState().loginReducer;
+
+    // eslint-disable-next-line no-console
+    console.log(data);
 
     api.createTaskHeader({ githubId, data });
   };

@@ -3,8 +3,8 @@ import {
   removeTaskItem,
   updateTaskItemScore,
   editTaskTitle,
-  setTaskAuthor,
   saveTaskOnServer,
+  createTask,
 } from './task-actions';
 
 import { changeFilter, searchItem } from './filter-actions';
@@ -27,6 +27,6 @@ export {
   removeTaskItem,
   updateTaskItemScore,
   editTaskTitle,
-  setTaskAuthor,
   saveTaskOnServer,
+  createTask,
 };

@@ -9,7 +9,7 @@ const initialTask = {
   taskTitle: '',
   state: draft,
   categories,
-  dateOfCreate: new Date().toLocaleDateString(),
+  dateOfCreate: null,
   totalScore: 0,
   items: [],
   isSaved: false,
@@ -20,12 +20,20 @@ const taskReducer = (state = initialTask, { type, payload }) => {
     ADD_TASK_ITEM,
     REMOVE_TASK_ITEM,
     EDIT_TASK_TITLE,
-    SET_TASK_AUTHOR,
     SAVE_TASK_ON_SERVER,
+    CREATE_TASK,
   } = actionTypes;
+
   const { totalScore, items } = state;
 
   switch (type) {
+    case CREATE_TASK:
+      return {
+        ...state,
+        dateOfCreate: new Date().toLocaleDateString(),
+        author: payload,
+      };
+
     case ADD_TASK_ITEM:
       const newTaskItem = {
         id: uniqid('task-item-'),
@@ -52,12 +60,6 @@ const taskReducer = (state = initialTask, { type, payload }) => {
       return {
         ...state,
         taskTitle: payload,
-      };
-
-    case SET_TASK_AUTHOR:
-      return {
-        ...state,
-        author: payload,
       };
 
     case SAVE_TASK_ON_SERVER:
