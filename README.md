@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/ac7a395e-776d-49b2-9ff2-df9ea80ac17f/deploy-status)](https://app.netlify.com/sites/x-check-app/deploys)
+
 # [>>>Task Board<<<](https://github.com/tensegrity666/x-check-app/projects/1)
 ### [Naming convention and code organization](CONTRIBUTING.md)
 
