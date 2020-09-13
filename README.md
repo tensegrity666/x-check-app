@@ -37,7 +37,13 @@ Methods for working with the user entity, tasks, subtasks have been implemented.
 Методы create, edit (POST, PATCH) - возвращают объект аналогичный переданному в случае успеха, или текст с сообщением об ошибке.
 Методы DELETE возвращают стандартный объект response, response.status = ok - признак успешной операции.
 
-Некоторые методы в случае ошибки генерируют объект Error необходимо использовать перехват ошибок для избежания краха приложения, текст ошибки в error.message
+Во всех случаях возврата ошибки (ошибки доступа к записи, отсутствие прав на операцию и тп.) возвращается объект следующего формата
+```javascript
+{
+  error: true,
+  message: 'text ...'
+}
+```
 
 Note: ItemsTasksApi can be omitted, TasksApi is enough to work with tasks, but then when editing a dream specific item in the items array, you need to transfer the entire array as a whole.
 
@@ -45,7 +51,13 @@ All GET methods return an array of objects.
 Methods create, edit - return an object similar to the passed one in case of success, or a text with an error message.
 DELETE methods return standard response object
 
-Some methods generate an Error object in case of an error, you must use error interception to avoid crashing the application, the error text is in error.message
+In all cases of returning an error (write access errors, lack of permission for an operation, etc.), an object of the following format is returned
+```javascript
+{
+  error: true,
+  message: 'text ...'
+}
+```
 
 To use, import the module into a component
 ```javascript
