@@ -8,7 +8,9 @@
     githubId,   // имя пользователя на гитхабе
     roles = []  // массив ролей, возможные значения ["student", "author", "supervizor"]
     ) - возвращает созданный объект 
-  deleteUser(githubId) - удаление пользователя, возвращает стандартный response можно вытянуть response.status = OK
+  deleteUser(githubId) - удаление пользователя, возвращает стандартный response можно вытянуть response.status = OK,
+  или сообщение об ошибке.
+  Формат сообщения - объект вида {error: true, message: 'text ...'}
 */
 
 import BaseApi from './base-api';
@@ -53,9 +55,10 @@ export default class UserApi extends BaseApi {
     );
 
     if (searchUser.length === 0) {
-      throw new Error(
-        `The user ${githubId} to be deleted was not found in the database`
-      );
+      return {
+        error: true,
+        message: `The user ${githubId} to be deleted was not found in the database`,
+      };
     }
 
     const user = this.arrToObj(searchUser);
