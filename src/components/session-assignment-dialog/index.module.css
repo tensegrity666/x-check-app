@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+}
+
+.content {
+  min-width: 50%;
+  text-align: center;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
