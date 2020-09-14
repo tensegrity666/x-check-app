@@ -76,8 +76,11 @@ User creation example:
 const onCreateUser = () => {
     const githubId = 'author';
     const roles = ['author', 'supervizor'];
+    //...args1;
+    //...args2;
+    //...
 
-   userApi.createUser(githubId, roles).then((res) => 
+   userApi.createUser(githubId, roles, /* args1, args2, ... */).then((res) => 
       console.log(res);
 );
 ```
@@ -86,6 +89,7 @@ const onCreateUser = () => {
   {
     githubId: "author 1",
     id: 1599462175345.309,
+    //...args
     roles: ["author", "supervisor"]
   }
 ```
@@ -257,14 +261,16 @@ const onGetTaskByAuthor = (nameAuthor) => {
 (Note: the roles of the user is checked, so you must pass the user ID as an argument)
 ```javascript
 const onCreateTaskHeader = (githubId) => {
-  const newData = {
-    id: 'simple-task-v', //task id prefix
-    author: 'cardamo',
-    state: 'DRAFT',
-    categoriesOrder: ['Basic Scope', 'Extra Scope', 'Fines'],
+  const data = {
+    id: 'simple-task-v', //task id prefix, required field
+    author: 'cardamo', //required field
+    taskTitle: 'Very difficult task', //required field
+    deadline: '01.12.2020', //required field
+    totalScore: 0, //required field
+    categoriesOrder: ['Basic Scope', 'Extra Scope', 'Fines'], //required field
     items: [], //required field, empty array!
   };
-  taskApi.createTaskHeader(githubId, newData).then((res) => console.log(res));
+  taskApi.createTaskHeader({githubId, data}).then((res) => console.log(res));
 };
 ```
 ```javascript
@@ -273,6 +279,9 @@ const onCreateTaskHeader = (githubId) => {
   id: "simple-task-v1599463912121.8909",
   author: "cardamo",
   state: "DRAFT",
+  taskTitle: 'Very difficult task', 
+  deadline: '01.12.2020', 
+  totalScore: 0, 
   categoriesOrder: [
     "Basic Scope",
     "Extra Scope",
@@ -287,11 +296,11 @@ Editing the task header, if successful, returns an object similar to the passed 
 const onEditTaskHeader = (githubId) => {
     const data = {
       taskTitle: 'EDIT__Very difficult task',
-      state: 'DRAFT',
       deadline: '01.12.2021',
       totalScore: 100,
       // items: [] //It is strictly forbidden to pass empty items in this method,
       // There is an onEditTaskItem method for editing items.
+      // More details in the module help task-api.js
     };
     taskApi
       .editTaskHeader({ githubId, taskId, data })
@@ -360,7 +369,7 @@ const onCreateTaskItem = (githubId) => {
 **Editing a subtask**
 (Note: the roles of the user is checked, so you must pass the user ID as an argument)
 ```javascript
-const onEditTaskItem = (githubId, taskItemId ) => {
+const onEditTaskItem = (githubId, taskItemId) => {
     const data = {
       id: taskItemId, //id subtask
       minScore: 0,
