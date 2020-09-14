@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button, Space, Table } from 'antd';
+import { Button, InputNumber, Space, Table } from 'antd';
 
 import styles from './index.module.css';
 import {
@@ -11,6 +11,7 @@ import {
 } from './table-helpers';
 import getAssignments from './assignment-helper';
 import reviewRequestsMock from './mock-review-requests.json';
+import ASSIGNEES from './constants';
 
 import store from '../../redux/store';
 import * as actions from '../../redux/actions';
@@ -18,6 +19,9 @@ import * as actions from '../../redux/actions';
 const SessionAssignmentDialog = () => {
   const [attendees, setAttendees] = useState([]);
   const [isAssignmentRequested, setAssignmentRequest] = useState(false);
+  const [assigneesNumber, setAssigneesNumber] = useState(
+    ASSIGNEES.DEFAULT_NUMBER
+  );
 
   const reviewRequests = useSelector(
     ({ reviewRequestsReducer }) => reviewRequestsReducer.reviewRequests
@@ -35,19 +39,31 @@ const SessionAssignmentDialog = () => {
     setAssignmentRequest(true);
   };
 
+  const handleChange = (value) => {
+    setAssigneesNumber(value);
+  };
+
   useEffect(() => {
     if (isAssignmentRequested && reviewRequests) {
-      const result = getAssignments(reviewRequestsMock, 4);
+      const result = getAssignments(reviewRequestsMock, assigneesNumber);
       result.sort(dynamicSort('githubId'));
       setAttendees(result);
     }
-  }, [isAssignmentRequested, reviewRequests]);
+  }, [isAssignmentRequested, reviewRequests, assigneesNumber]);
 
   return (
     <section className={container}>
       <div className={content}>
         <h3>Распределение проверяющих сессии</h3>
         <Space align="center" className={controls}>
+          <span>Количество проверяемых</span>
+          <InputNumber
+            min={ASSIGNEES.MIN_NUMBER}
+            max={ASSIGNEES.MAX_NUMBER}
+            value={assigneesNumber}
+            onChange={handleChange}
+          />
+
           <Button type="primary" shape="round" onClick={assignAttendees}>
             Распределить проверяющих
           </Button>
