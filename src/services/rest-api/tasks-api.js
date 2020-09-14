@@ -9,11 +9,11 @@
   getTask(id) -  выводит задачу по id, возвращает полные данные в виде массива c одним объектом
   getTaskByAuthor(nameAuthor) - выводит все задачи созданные автором, требуется передача в аргументе поля author,
     возвращает полные данные в виде массива объектов
-  createTaskHeader({ githubId, data }) - создание карточки задачи, можно создавать как заголовок, 
-    тогда необходимо в data передавать пустой массив items: []
-    или можно передавать полные данный задачи с заполненным массивом items
+  createTaskHeader({ githubId, data }) - создание карточки задачи, можно создавать как заголовок задачи, 
+    тогда необходимо в объект data поля заголовка задачи и передавать пустой массив items: []
+    или можно передавать полные данные задачи в объект data с заполненным массивом items
     аргументы метода передаются объектом!
-  editTaskHeader({ githubId, taskId, data }) - редактирование карточки задачи, редактируются только те поля которые переданны в data, 
+  editTaskHeader({ githubId, taskId, data }) - редактирование карточки задачи, редактируются только те поля которые переданны в объект data, 
     аргументы метода передаются объектом!
   delTask({ githubId, taskId }) - удаление задачи, удаляется полностью, аргументы метода передаются объектом!
   toggleTaskState({
@@ -78,6 +78,8 @@ export default class TasksApi extends AccessTasksApi {
     const newTaskHeader = {
       ...data,
       id: `${prefId}${lastTaskId}`,
+      state: 'DRAFT',
+      dateOfCreate: new Date().toLocaleDateString(),
     };
 
     const result = await this.sendResource(this.URL_BASE, newTaskHeader);
