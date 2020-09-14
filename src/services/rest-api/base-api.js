@@ -1,8 +1,8 @@
 /* 
   Базовый класс Rest API проекта x-check-app
   остальные классы Rest API наследуют методы базового класса.
-  Внимание, класс генерирует стандартный Error в случае возврата ошибок
-  Необходимо предусмотреть перехват и обработку таких ошибок.
+  Возвращает ответ сервера или сообщение об ошибке.
+  Формат сообщения - объект вида {error: true, message: 'text ...'}
 */
 
 export default class BaseApi {
@@ -24,9 +24,10 @@ export default class BaseApi {
     const response = await fetch(`${this.API_BASE}${url}`);
 
     if (!response.ok) {
-      throw new Error(
-        `Could not fetch ${this.API_BASE}${url}, status: ${response.status}`
-      );
+      return {
+        error: true,
+        message: `Could not fetch ${this.API_BASE}${url}, status: ${response.status}`,
+      };
     }
 
     const result = await response.json();
@@ -44,9 +45,10 @@ export default class BaseApi {
     });
 
     if (!response.ok) {
-      throw new Error(
-        `Could not create resource ${this.API_BASE}${url}, status: ${response.status}`
-      );
+      return {
+        error: true,
+        message: `Could not create resource ${this.API_BASE}${url}, status: ${response.status}`,
+      };
     }
 
     const result = await response.json();
@@ -60,9 +62,10 @@ export default class BaseApi {
     });
 
     if (!response.ok) {
-      throw new Error(
-        `Could not delete resource ${this.API_BASE}${url}, status: ${response.status}`
-      );
+      return {
+        error: true,
+        message: `Could not delete resource ${this.API_BASE}${url}, status: ${response.status}`,
+      };
     }
 
     return response;
@@ -78,9 +81,10 @@ export default class BaseApi {
     });
 
     if (!response.ok) {
-      throw new Error(
-        `Could not patched resource ${this.API_BASE}${url}, status: ${response.status}`
-      );
+      return {
+        error: true,
+        message: `Could not patched resource ${this.API_BASE}${url}, status: ${response.status}`,
+      };
     }
 
     const result = await response.json();
@@ -98,9 +102,10 @@ export default class BaseApi {
     });
 
     if (!response.ok) {
-      throw new Error(
-        `Could not edit resource ${this.API_BASE}${url}, status: ${response.status}`
-      );
+      return {
+        error: true,
+        message: `Could not edit resource ${this.API_BASE}${url}, status: ${response.status}`,
+      };
     }
 
     const result = await response.json();

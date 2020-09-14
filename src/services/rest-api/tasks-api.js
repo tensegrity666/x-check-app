@@ -2,21 +2,20 @@
   Класс для работы с сущностью Tasks 
   Наследует класс AccessApi.
   Требуется импорт actionTaskList из constants.js
-  Внимание, класс генерирует стандартный Error в случае возврата ошибок
-  Необходимо предусмотреть перехват и обработку таких ошибок.
+  
   *****
   Доступные методы:
   getTasksAll() - выводит все задачи, возвращает полные данные в виде массива объектов
   getTask(id) -  выводит задачу по id, возвращает полные данные в виде массива c одним объектом
-  getTaskByAuthor(nameAuthor) - выводит все задачи созданные автором требуется передача в аргументе поля author,
+  getTaskByAuthor(nameAuthor) - выводит все задачи созданные автором, требуется передача в аргументе поля author,
     возвращает полные данные в виде массива объектов
   createTaskHeader({ githubId, data }) - создание карточки задачи, можно создавать как заголовок, 
     тогда необходимо в data передавать пустой массив items: []
     или можно передавать полные данный задачи с заполненным массивом items
-    аргументы метода передаются объектом
+    аргументы метода передаются объектом!
   editTaskHeader({ githubId, taskId, data }) - редактирование карточки задачи, редактируются только те поля которые переданны в data, 
-    аргументы метода передаются объектом
-  delTask({ githubId, taskId }) - удаление задачи, удаляется полностью, аргументы метода передаются объектом
+    аргументы метода передаются объектом!
+  delTask({ githubId, taskId }) - удаление задачи, удаляется полностью, аргументы метода передаются объектом!
   toggleTaskState({
     githubId,     // пользователь 
     taskId,       // id задачи
@@ -24,7 +23,8 @@
   }) - переключение статуса задачи DRAFT, PUBLISHED, ARCHIVED,
     Аргумент requiredState формализован и можем принимать только перечисленные значения. 
 
-  Последние 4 метода возвращают объект идентичный переданному в случае успеха, или сообщение об ошибке 
+  Последние 4 метода возвращают объект идентичный переданному в случае успеха, или сообщение об ошибке.
+  Формат сообщения - объект вида {error: true, message: 'text ...'}
 */
 
 import AccessTasksApi from './access-tasks-api';
@@ -54,13 +54,9 @@ export default class TasksApi extends AccessTasksApi {
   }
 
   async checkExistenceTask(taskId) {
-    const response = await this.getTask(taskId);
+    const isTask = await this.getTask(taskId);
 
-    if (response.length === 0) {
-      throw new Error(`No task found with id ${taskId}`);
-    }
-
-    return undefined;
+    return isTask.length > 0;
   }
 
   async createTaskHeader({ githubId, data }) {
@@ -71,7 +67,10 @@ export default class TasksApi extends AccessTasksApi {
     });
 
     if (!accessCheck) {
-      return `User ${githubId} does not have sufficient rights to create a task`;
+      return {
+        error: true,
+        message: `User ${githubId} does not have sufficient rights to create a task`,
+      };
     }
 
     const lastTaskId = this.createId();
@@ -88,7 +87,14 @@ export default class TasksApi extends AccessTasksApi {
 
   // Cannot edit "state", "author" property, "state", "author" property is read-only
   async editTaskHeader({ githubId, taskId, data }) {
-    this.checkExistenceTask(taskId);
+    const taskCheck = await this.checkExistenceTask(taskId);
+
+    if (!taskCheck) {
+      return {
+        error: true,
+        message: `No editing possible. No task found with id ${taskId}`,
+      };
+    }
 
     const action = actionTaskList.EDIT_TASK;
     const accessCheck = await this.userAccessTasksCheck({
@@ -98,7 +104,10 @@ export default class TasksApi extends AccessTasksApi {
     });
 
     if (!accessCheck) {
-      return `User ${githubId} does not have sufficient rights to edit a task`;
+      return {
+        error: true,
+        message: `User ${githubId} does not have sufficient rights to edit a task`,
+      };
     }
 
     const result = await this.patchResourse(`${this.URL_BASE}/${taskId}`, data);
@@ -117,7 +126,14 @@ export default class TasksApi extends AccessTasksApi {
     taskId,
     requiredState /* enum DRAFT_TO_PUBLISHED, PUBLISHED_TO_DRAFT, PUBLISHED_TO_ARCHIVED, ARCHIVED_TO_PUBLISHED */,
   }) {
-    this.checkExistenceTask(taskId);
+    const taskCheck = await this.checkExistenceTask(taskId);
+
+    if (!taskCheck) {
+      return {
+        error: true,
+        message: `No editing possible. No task found with id ${taskId}`,
+      };
+    }
 
     const action = requiredState;
     let state = null;
@@ -146,7 +162,10 @@ export default class TasksApi extends AccessTasksApi {
     });
 
     if (!accessCheck) {
-      return `User ${githubId} does not have sufficient rights to toggled status a task`;
+      return {
+        error: true,
+        message: `User ${githubId} does not have sufficient rights to toggled status a task`,
+      };
     }
 
     const result = await this.patchResourse(`${this.URL_BASE}/${taskId}`, {
@@ -157,7 +176,14 @@ export default class TasksApi extends AccessTasksApi {
   }
 
   async delTask({ githubId, taskId }) {
-    this.checkExistenceTask(taskId);
+    const taskCheck = await this.checkExistenceTask(taskId);
+
+    if (!taskCheck) {
+      return {
+        error: true,
+        message: `Unable to delete. No task found with id ${taskId}`,
+      };
+    }
 
     const action = actionTaskList.DELETE_TASK;
     const accessCheck = await this.userAccessTasksCheck({
@@ -167,7 +193,10 @@ export default class TasksApi extends AccessTasksApi {
     });
 
     if (!accessCheck) {
-      return `User ${githubId} does not have sufficient rights to delete a task`;
+      return {
+        error: true,
+        message: `User ${githubId} does not have sufficient rights to delete a task`,
+      };
     }
 
     const result = await this.delResourse(`${this.URL_BASE}/${taskId}`);
