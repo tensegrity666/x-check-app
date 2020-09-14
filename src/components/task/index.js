@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Layout } from 'antd';
 import { bindActionCreators } from 'redux';
 
-import TaskHeader from './task-header';
+import TaskHeaderContainer from './task-header-container';
 import AddNewItemContainer from './add-new-item-container';
 import Searcher from './searcher';
 import TaskListContainer from './task-list-container';
@@ -17,16 +17,23 @@ const Task = () => {
   const { wrapper, content } = styles;
 
   const { dispatch } = store;
-  const { createTask } = bindActionCreators(actions, dispatch);
+  const { createTask, loadTaskFromLocalStorage } = bindActionCreators(
+    actions,
+    dispatch
+  );
   const { githubId } = store.getState().loginReducer;
 
   useEffect(() => {
+    if (localStorage.getItem('savedTaskInProcess')) {
+      const savedTask = JSON.parse(localStorage.getItem('savedTaskInProcess'));
+      loadTaskFromLocalStorage(savedTask);
+    }
     createTask(githubId);
   });
 
   return (
     <Layout className={wrapper}>
-      <TaskHeader />
+      <TaskHeaderContainer />
       <Searcher />
       <Content className={content}>
         <TaskListContainer />

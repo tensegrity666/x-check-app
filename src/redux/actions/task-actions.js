@@ -7,6 +7,8 @@ const {
   EDIT_TASK_TITLE,
   SAVE_TASK_ON_SERVER,
   CREATE_TASK,
+  EDIT_DEADLINE,
+  LOAD_TASK_FROM_LOCAL_STORAGE,
 } = actionTypes;
 
 export const addTaskItem = (payload) => {
@@ -37,6 +39,13 @@ export const editTaskTitle = (title) => {
   };
 };
 
+export const editDeadline = (date) => {
+  return {
+    type: EDIT_DEADLINE,
+    payload: date,
+  };
+};
+
 export const saveTaskOnServer = () => {
   return {
     type: SAVE_TASK_ON_SERVER,
@@ -47,5 +56,12 @@ export const createTask = (author) => {
   return {
     type: CREATE_TASK,
     payload: author,
+  };
+};
+
+export const loadTaskFromLocalStorage = (payload) => {
+  return {
+    type: LOAD_TASK_FROM_LOCAL_STORAGE,
+    payload,
   };
 };

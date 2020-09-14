@@ -16,7 +16,7 @@ export default class BaseApi {
   };
 
   createId = () => {
-    return Math.trunc(Date.now() + Math.random(0.5));
+    return Date.now() + Math.random(0.5);
   };
 
   // Base method API

@@ -27,7 +27,6 @@ const AddNewItemContainer = () => {
     if (inputValue && inputValue !== ' ' && category) {
       addTaskItem({ inputValue, rangeValue, category });
       setInputValue(null);
-      setRangeValue(0);
     }
   };
 

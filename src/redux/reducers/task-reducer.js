@@ -22,6 +22,8 @@ const taskReducer = (state = initialTask, { type, payload }) => {
     EDIT_TASK_TITLE,
     SAVE_TASK_ON_SERVER,
     CREATE_TASK,
+    EDIT_DEADLINE,
+    LOAD_TASK_FROM_LOCAL_STORAGE,
   } = actionTypes;
 
   const { totalScore, items } = state;
@@ -60,6 +62,18 @@ const taskReducer = (state = initialTask, { type, payload }) => {
       return {
         ...state,
         taskTitle: payload,
+      };
+
+    case EDIT_DEADLINE:
+      return {
+        ...state,
+        deadline: payload,
+      };
+
+    case LOAD_TASK_FROM_LOCAL_STORAGE:
+      return {
+        ...state,
+        ...payload,
       };
 
     case SAVE_TASK_ON_SERVER:

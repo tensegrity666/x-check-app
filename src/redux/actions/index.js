@@ -5,6 +5,8 @@ import {
   editTaskTitle,
   saveTaskOnServer,
   createTask,
+  editDeadline,
+  loadTaskFromLocalStorage,
 } from './task-actions';
 
 import { changeFilter, searchItem } from './filter-actions';
@@ -29,4 +31,6 @@ export {
   editTaskTitle,
   saveTaskOnServer,
   createTask,
+  editDeadline,
+  loadTaskFromLocalStorage,
 };

@@ -1,49 +1,41 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { useHistory } from 'react-router-dom';
-import { PageHeader, Tag, Button, Statistic, Row, Popover, Input } from 'antd';
+import React from 'react';
+import PropTypes from 'prop-types';
+import {
+  PageHeader,
+  Tag,
+  Button,
+  Statistic,
+  Row,
+  Popover,
+  Input,
+  DatePicker,
+  Col,
+} from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 
-import store from '../../redux/store';
-import * as actions from '../../redux/actions';
 import styles from './index.module.css';
 
-import TaskApi from '../../services/rest-api/tasks-api';
-
-const TaskHeader = () => {
-  const api = new TaskApi();
-
-  const { statsHeading } = styles;
-  const [nameEditorValue, setNameEditorValue] = useState(null);
-  const history = useHistory();
-
-  const { totalScore, dateOfCreate, taskTitle, author, state } = useSelector(
-    ({ taskReducer }) => taskReducer
-  );
-
-  const { dispatch } = store;
-  const { editTaskTitle } = bindActionCreators(actions, dispatch);
-
-  const onInputChange = (event) => {
-    setNameEditorValue(event.target.value);
-  };
-
-  const onSaveTask = () => {
-    const data = store.getState().taskReducer.items;
-    const { githubId } = store.getState().loginReducer;
-
-    // eslint-disable-next-line no-console
-    console.log(data);
-
-    api.createTaskHeader({ githubId, data });
-  };
-
-  useEffect(() => {
-    editTaskTitle(nameEditorValue);
-  }, [nameEditorValue]);
+const TaskHeader = ({
+  history,
+  onInputChange,
+  onSaveTask,
+  nameEditorValue,
+  taskState,
+  onDateChange,
+  dateOfDeadline,
+}) => {
+  const { statsHeading, datePicker } = styles;
+  const {
+    totalScore,
+    dateOfCreate,
+    taskTitle,
+    author,
+    state,
+    deadline,
+  } = taskState;
 
   return (
     <>
@@ -53,12 +45,11 @@ const TaskHeader = () => {
         tags={<Tag color="blue">{state}</Tag>}
         subTitle="status"
         extra={[
-          <Button danger key="3">
-            Delete
+          <Button size="large" key="2" type="default">
+            Complete & Exit
           </Button>,
-          <Button key="2">Cancel</Button>,
-          <Button onClick={onSaveTask} key="1" type="primary">
-            Save
+          <Button size="large" onClick={onSaveTask} key="1" type="primary">
+            Save & Upload
           </Button>,
         ]}>
         <Row>
@@ -96,10 +87,40 @@ const TaskHeader = () => {
             title="Сreation date"
             value={dateOfCreate || ' '}
           />
+          <Col>
+            <div className="ant-statistic-title">Deadline</div>
+            <Row>
+              <span className="ant-statistic-content">
+                {deadline || 'Choose day of Deadline'}
+              </span>
+              <DatePicker
+                format="DD.MM.YYYY"
+                value={dateOfDeadline}
+                onChange={onDateChange}
+                size="medium"
+                className={`${datePicker} ant-statistic-content-suffix`}
+              />
+            </Row>
+          </Col>
         </Row>
       </PageHeader>
     </>
   );
+};
+
+TaskHeader.propTypes = {
+  history: PropTypes.object.isRequired,
+  onInputChange: PropTypes.func.isRequired,
+  onDateChange: PropTypes.func.isRequired,
+  onSaveTask: PropTypes.func.isRequired,
+  taskState: PropTypes.object.isRequired,
+  nameEditorValue: PropTypes.string,
+  dateOfDeadline: PropTypes.object,
+};
+
+TaskHeader.defaultProps = {
+  nameEditorValue: '',
+  dateOfDeadline: {},
 };
 
 export default TaskHeader;
