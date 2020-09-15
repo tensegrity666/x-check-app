@@ -46,16 +46,16 @@ export const editDeadline = (date) => {
   };
 };
 
-export const saveTaskOnServer = () => {
+export const toggleSaved = () => {
   return {
     type: SAVE_TASK_ON_SERVER,
   };
 };
 
-export const createTask = (author) => {
+export const createTask = (payload) => {
   return {
     type: CREATE_TASK,
-    payload: author,
+    payload,
   };
 };
 

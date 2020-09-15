@@ -48,7 +48,7 @@ export default class AccessTasksApi extends BaseApi {
     const userRoles =
       taskAuthor === githubId
         ? user.roles
-        : user.roles.filter((role) => role !== 'author');
+        : user.roles.filter((role) => role === 'author');
 
     const actionsData = await this.getResource(
       `${this.URL_ACCESS_TASK_LIST}${taskState}`

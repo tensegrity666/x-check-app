@@ -16,9 +16,9 @@ const LoginContainer = () => {
   const { dispatch } = store;
   const { getUserInfo, addUserRole } = bindActionCreators(actions, dispatch);
 
-  const { isRoleSelected, roles } = useSelector(
-    ({ loginReducer }) => loginReducer
-  );
+  const { isRoleSelected } = useSelector(({ loginReducer }) => loginReducer);
+
+  const currentRoles = useSelector(({ loginReducer }) => loginReducer.roles);
 
   const [userRole, setUserRole] = useState(null);
   const handleRoleAdd = (value) => {
@@ -36,11 +36,11 @@ const LoginContainer = () => {
       getUserInfo(userInfo);
 
       const newState = store.getState().loginReducer;
-      const { uid, displayName, githubId, email, currentRole } = newState;
+      const { uid, displayName, email, roles, screenName } = newState;
 
-      api.createUser(uid, displayName, githubId, email, currentRole);
+      api.createUser(uid, displayName, screenName, email, roles);
 
-      localStorage.setItem('loggedInUser', JSON.stringify(newState));
+      // localStorage.setItem('loggedInUser', JSON.stringify(newState));
     } catch (error) {
       throw new Error(error);
     }
@@ -49,7 +49,7 @@ const LoginContainer = () => {
   return (
     <Login
       handleLogin={handleLogin}
-      roles={roles}
+      roles={currentRoles}
       handleRoleAdd={handleRoleAdd}
       userRole={userRole}
     />

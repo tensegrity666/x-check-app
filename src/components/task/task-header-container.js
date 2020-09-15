@@ -23,7 +23,10 @@ const TaskHeaderContainer = () => {
   const taskState = useSelector(({ taskReducer }) => taskReducer);
 
   const { dispatch } = store;
-  const { editTaskTitle, editDeadline } = bindActionCreators(actions, dispatch);
+  const { editTaskTitle, editDeadline, toggleSaved } = bindActionCreators(
+    actions,
+    dispatch
+  );
 
   const onInputChange = (event) => {
     setNameEditorValue(event.target.value);
@@ -35,12 +38,16 @@ const TaskHeaderContainer = () => {
 
   const onSaveTask = () => {
     const data = store.getState().taskReducer;
+    const taskId = data.id;
     const { githubId } = store.getState().loginReducer;
 
+    toggleSaved();
     // eslint-disable-next-line no-console
-    api.createTaskHeader({ githubId, data }).then((res) => console.log(res));
+    api
+      .editTaskHeader({ githubId, taskId, data })
+      .then((res) => console.log(res));
 
-    localStorage.setItem('savedTaskInProcess', JSON.stringify(data));
+    // localStorage.setItem('savedTaskInProcess', JSON.stringify(data));
   };
 
   useEffect(() => {

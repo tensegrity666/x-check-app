@@ -14,7 +14,7 @@ const AddNewItem = ({
   rangeValue,
   inputValue,
 }) => {
-  const MIN_VALUE = -20;
+  const MIN_VALUE = -50;
   const MAX_VALUE = 100;
 
   const { Option } = Select;

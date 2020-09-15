@@ -5,6 +5,7 @@ import { actionTypes, categories, taskStates } from '../constants';
 const { draft } = taskStates;
 
 const initialTask = {
+  id: null,
   author: '',
   taskTitle: '',
   state: draft,
@@ -33,7 +34,8 @@ const taskReducer = (state = initialTask, { type, payload }) => {
       return {
         ...state,
         dateOfCreate: new Date().toLocaleDateString(),
-        author: payload,
+        author: payload.githubId,
+        id: payload.taskId,
       };
 
     case ADD_TASK_ITEM:
