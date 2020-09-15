@@ -29,6 +29,21 @@ export default class ItemsTasksApi extends TasksApi {
     return response;
   }
 
+  async getItemsTask(taskId) {
+    const searchTask = await this.getTargetTask(taskId);
+
+    if (searchTask.length === 0) {
+      return {
+        error: true,
+        message: `Can't show list of subtasks. No task found with id ${taskId}`,
+      };
+    }
+
+    const task = this.arrToObj(searchTask);
+
+    return task.items;
+  }
+
   async createTaskItem({ githubId, taskId, data }) {
     const searchTask = await this.getTargetTask(taskId);
 
