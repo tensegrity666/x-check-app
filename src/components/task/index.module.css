@@ -112,3 +112,9 @@
 .selectWrapper {
   padding-bottom: 30px;
 }
+
+/* stylelint-disable */
+.statsHeading {
+  margin: 0 32px !important;
+}
+/* stylelint-enable */

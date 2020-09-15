@@ -1,45 +1,59 @@
-import React from 'react';
-import { Card, Button } from 'antd';
-import { GithubOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { bindActionCreators } from 'redux';
+import { useSelector } from 'react-redux';
+import Login from './login';
 
-import RSLogo from './assets/logo-rs-school.svg';
-import GitHubIcon from './assets/ic-github-base64.json';
-import styles from './index.module.css';
+import { githubAuth } from '../../services/firebase';
 
-const { Meta } = Card;
+import store from '../../redux/store';
+import * as actions from '../../redux/actions';
 
-const Login = () => {
+import UserApi from '../../services/rest-api/user-api';
+
+const LoginContainer = () => {
+  const api = new UserApi();
+
+  const { dispatch } = store;
+  const { getUserInfo, addUserRole } = bindActionCreators(actions, dispatch);
+
+  const { isRoleSelected, roles } = useSelector(
+    ({ loginReducer }) => loginReducer
+  );
+
+  const [userRole, setUserRole] = useState(null);
+  const handleRoleAdd = (value) => {
+    setUserRole(value);
+    addUserRole(value);
+  };
+
+  const handleLogin = async () => {
+    try {
+      if (!isRoleSelected) {
+        return;
+      }
+      const userInfo = await githubAuth();
+
+      getUserInfo(userInfo);
+
+      const newState = store.getState().loginReducer;
+      const { uid, displayName, githubId, email, currentRole } = newState;
+
+      api.createUser(uid, displayName, githubId, email, currentRole);
+
+      localStorage.setItem('loggedInUser', JSON.stringify(newState));
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
   return (
-    <main>
-      <div className={styles.form}>
-        <img className={styles.image} src={RSLogo} alt="RS School Logo" />
-
-        <Card
-          style={{ width: 320 }}
-          cover={
-            <img
-              className={styles.cardImage}
-              src={GitHubIcon}
-              alt="GitHub OctoCat Icon"
-            />
-          }
-          actions={[
-            <Button
-              key="github"
-              type="primary"
-              size="large"
-              icon={<GithubOutlined />}>
-              Sign up with GitHub
-            </Button>,
-          ]}>
-          <Meta
-            title="Please login via GitHub"
-            description="In order to access the RS School App, you need to login with your GitHub account"
-          />
-        </Card>
-      </div>
-    </main>
+    <Login
+      handleLogin={handleLogin}
+      roles={roles}
+      handleRoleAdd={handleRoleAdd}
+      userRole={userRole}
+    />
   );
 };
 
-export default Login;
+export default LoginContainer;

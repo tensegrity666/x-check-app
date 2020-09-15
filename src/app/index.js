@@ -1,19 +1,30 @@
-import React from 'react';
-import { Provider } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import useRoutes from '../routes';
-import 'antd/dist/antd.css';
+
 import store from '../redux/store';
+import * as actions from '../redux/actions';
+
+import 'antd/dist/antd.css';
 
 const App = () => {
-  const isAuthenticated = true;
+  const { dispatch } = store;
+  const { loadFromLocalStorage } = bindActionCreators(actions, dispatch);
+
+  useEffect(() => {
+    const savedState = JSON.parse(localStorage.getItem('loggedInUser'));
+    loadFromLocalStorage(savedState);
+  });
+
+  const isAuthenticated = useSelector(
+    ({ loginReducer }) => loginReducer.isAuthenticated
+  );
+
   const routes = useRoutes(isAuthenticated);
 
-  return (
-    <Provider store={store}>
-      <Router>{routes}</Router>
-    </Provider>
-  );
+  return <Router>{routes}</Router>;
 };
 
 export default App;

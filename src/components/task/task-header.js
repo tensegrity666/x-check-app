@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { useHistory } from 'react-router-dom';
@@ -7,15 +9,15 @@ import { EditOutlined } from '@ant-design/icons';
 
 import store from '../../redux/store';
 import * as actions from '../../redux/actions';
+import styles from './index.module.css';
 
 const TaskHeader = () => {
+  const { statsHeading } = styles;
   const [nameEditorValue, setNameEditorValue] = useState(null);
 
-  const total = useSelector(({ taskReducer }) => taskReducer.totalScore);
-  const date = useSelector(({ taskReducer }) => taskReducer.dateOfCreate);
-  const title = useSelector(({ taskReducer }) => taskReducer.taskTitle);
-  const author = useSelector(({ taskReducer }) => taskReducer.author);
-  const status = useSelector(({ taskReducer }) => taskReducer.state);
+  const { total, dateOfCreate, taskTitle, author, state } = useSelector(
+    ({ taskReducer }) => taskReducer
+  );
   const history = useHistory();
 
   const { dispatch } = store;
@@ -23,15 +25,18 @@ const TaskHeader = () => {
 
   const onInputChange = (event) => {
     setNameEditorValue(event.target.value);
-    editTaskTitle(nameEditorValue);
   };
+
+  useEffect(() => {
+    editTaskTitle(nameEditorValue);
+  }, [nameEditorValue]);
 
   return (
     <>
       <PageHeader
         onBack={() => history.goBack()}
         title="Task Editor"
-        tags={<Tag color="blue">{status}</Tag>}
+        tags={<Tag color="blue">{state}</Tag>}
         subTitle="status"
         extra={[
           <Button danger key="3">
@@ -45,7 +50,7 @@ const TaskHeader = () => {
         <Row>
           <Statistic
             title="Name of task"
-            value={title || 'Unnamed task'}
+            value={taskTitle || 'Unnamed task'}
             suffix={
               <Popover
                 content={
@@ -63,20 +68,20 @@ const TaskHeader = () => {
             }
           />
           <Statistic
+            className={statsHeading}
             title="Author"
             value={author || 'Anonymous'}
-            style={{
-              margin: '0 32px',
-            }}
           />
           <Statistic
+            className={statsHeading}
             title="Total score"
             value={total}
-            style={{
-              margin: '0 32px',
-            }}
           />
-          <Statistic title="Сreation date" value={date} />
+          <Statistic
+            className={statsHeading}
+            title="Сreation date"
+            value={dateOfCreate || ' '}
+          />
         </Row>
       </PageHeader>
     </>

@@ -1,4 +1,7 @@
 node-modules/
+storybook-static/
+stories/
+
 .gitignore
 Dockerfile
 .dockerignore

@@ -1,3 +1,5 @@
+.env
+
 # dependencies
 /node_modules
 /.pnp
@@ -8,6 +10,7 @@
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store

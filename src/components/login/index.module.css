@@ -1,16 +1,10 @@
 .form {
   position: absolute;
+  margin-top: 100px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -65%);
   text-align: center;
-}
-
-@media (max-width: 767px) {
-  .form {
-    top: 20px;
-    transform: translate(-50%, 0);
-  }
 }
 
 .image {
@@ -22,4 +16,22 @@
 .cardImage {
   width: 100px;
   margin: 30px auto 20px;
+}
+
+/* stylelint-disable */
+.roleSelect {
+  width: 198px;
+  margin-top: 12px !important;
+}
+/* stylelint-enable */
+
+.cardWrapper {
+  width: 320px;
+}
+
+@media (max-width: 767px) {
+  .form {
+    top: 20px;
+    transform: translate(-50%, 0);
+  }
 }

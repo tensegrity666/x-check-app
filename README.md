@@ -1,40 +1,9 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/ac7a395e-776d-49b2-9ff2-df9ea80ac17f/deploy-status)](https://app.netlify.com/sites/x-check-app/deploys)
+
 # [>>>Task Board<<<](https://github.com/tensegrity666/x-check-app/projects/1)
+### [Naming convention and code organization](CONTRIBUTING.md)
 
-## https://x-check-app.netlify.app/profile
-
-### Naming convention and code organization.
----
-* ⚠️ Commits to the __master__ branch are forbidden.
-* ⚠️ Changes to the __dev__ branch are made only through Pull Requests.
-* The commit message must be consistent [with the RSSchool convention](https://docs.rs.school/#/git-convention), or it will be rejected by the linter.<br>
-Example: `$ git commit -m "feat: implement feature x"`
----
-* Branches are named according to features, in lowercase letters and without spaces.
-* Feature/components folders are named in __kebab-case only__.<br>
-* The entry point of a component is always called an __index.js__.
-_No need to create an empty index.js file to collect imports into it_.
-* Strings and other constants are collected in a __constants.js__ file.
-* All assets of a component (pictures, sounds, fonts) are stored in the folder of the same component, and not in the top-level folder.
-- - -
-__Typical directory and file structure:__<br>
-_components/<br>
- --first-component/<br>
- --second-component/<br>
- ----assets/<br>
- ----index.js<br>
- ----index.test.js<br>
- ----constants.js<br>
- ----index.module.css_
- - - -
-* The code should not contain commented-out fragments, __useless comments__.
-* Functions and variables should be given __clear declarative names__.
-* Сomponents are arrow functions.
-
-__Please:__
-* Don't name files ".jsx", use ".js".
-* Don't override linter rules unnecessarily.
-* Don't forget to do `git pull` and `git merge` before pushing from your branch to avoid conflicts.
-* Don't put any files (pictures, GIFs etc.) in the root of project.
+### https://x-check-app.netlify.app/
 ---
 ### [Changelog](https://github.com/tensegrity666/x-check-app/blob/dev/CHANGELOG.md)
 ---
@@ -55,4 +24,381 @@ _Open_ [http://localhost:3000](http://localhost:3000) _to view it in the browser
 
 #### Build project
 `$ npm run build`
+
+- - -
+## Working with REST API by [DEnFUrt](https://github.com/DEnFUrt)
+
+The basic rest api methods are implemented: GET, POST, PUT, PATCH, DELETE.
+Methods for working with the user entity, tasks, subtasks have been implemented.
+
+Примечание: ItemsTasksApi можно не использовать, для работы с задачами достаточно TasksApi, но тогда при редактировании конкретного item в массиве items нужно передавать весь массив целиком.
+
+Все методы GET возвращают массив объектов. В случае отсутствия данных возвращается пустой массив. Необходимо проверять длинну массива. 
+Методы create, edit (POST, PATCH) - возвращают объект аналогичный переданному в случае успеха, или текст с сообщением об ошибке.
+Методы DELETE возвращают стандартный объект response, response.status = ok - признак успешной операции.
+
+Во всех случаях возврата ошибки (ошибки доступа к записи, отсутствие прав на операцию и тп.) возвращается объект следующего формата
+```javascript
+{
+  error: true,
+  message: 'text ...'
+}
+```
+
+Note: ItemsTasksApi can be omitted, TasksApi is enough to work with tasks, but then when editing a dream specific item in the items array, you need to transfer the entire array as a whole.
+
+All GET methods return an array of objects.
+Methods create, edit - return an object similar to the passed one in case of success, or a text with an error message.
+DELETE methods return standard response object
+
+In all cases of returning an error (write access errors, lack of permission for an operation, etc.), an object of the following format is returned
+```javascript
+{
+  error: true,
+  message: 'text ...'
+}
+```
+
+To use, import the module into a component
+```javascript
+import { 
+  UserApi, // For the entity user
+  TasksApi, // For the entity tasks
+  ItemsTasksApi // For the entity itemsTasks
+} from '../../services';
+
+const userApi = new UserApi();
+const taskApi = new TasksApi();
+const itemsTasksApi = new ItemsTasksApi();
+```
+User creation example:
+```javascript
+const onCreateUser = () => {
+    const githubId = 'author';
+    const roles = ['author', 'supervizor'];
+    //...args1;
+    //...args2;
+    //...
+
+   userApi.createUser(githubId, roles, /* args1, args2, ... */).then((res) => 
+      console.log(res);
+);
+```
+```javascript
+// returns 
+  {
+    githubId: "author 1",
+    id: 1599462175345.309,
+    //...args
+    roles: ["author", "supervisor"]
+  }
+```
+    
+### Get a list of all users:
+```javascript
+const onGetUsersAll = () => {
+    userApi.getUsersAll().then((res) => console.log(res));
+};
+```
+```javascript
+// returns 
+  [
+    {
+      githubId: "author 1",
+      id: 1599462175345.309,
+      roles: ["author", "supervisor"]
+    },
+    {
+      githubId: "author 2",
+      id: 1599462175345.559,
+      roles: ["author"]
+    },
+  ]
+```
+
+### Get a specific user:
+```javascript
+const onGetUser = (githubId) => {
+    userApi.getUser(githubId).then((res) => 
+      console.log(res);
+    );
+  };
+```
+```javascript
+// returns 
+  [
+    {
+      githubId: "author 1",
+      id: 1599462175345.309,
+      roles: ["author", "supervisor"]
+    }
+  ]
+```
+
+### Delete a specific user:
+(Note: before deleting, a check is made for the existence of the user)
+```javascript
+  const onDeletUser = (githubId) => {
+    userApi.deleteUser(githubId).then((res) => {
+      if (res.ok) {
+        alert(
+          `Delete user: ${githubId}`
+        );       
+      } else {
+        alert(res);
+      }
+    });
+  };
+```
+
+### Methods of working with tasks
+**Getting a list of tasks:**
+```javascript
+const onGetTasksAll = () => {
+    taskApi.getTasksAll().then((res) => {
+      console.table(res);
+    });
+  };
+```
+```javascript
+//returns
+[
+  {
+    id: "simple-task-v...",
+    author: "cardamo",
+    state: "DRAFT", //enum DRAFT, PUBLISHED, ARCHIVED
+    categoriesOrder: [
+      "Basic Scope",
+      "Extra Scope",
+      "Fines"
+    ],
+    items: [
+      {
+        id: "basic_p...",
+        minScore: 0,
+        maxScore: 20,
+        category: "Basic Scope",
+        description: "You need to make things right, not wrong"
+      },
+      {
+        id: "extra_p...",
+        minScore: 0,
+        maxScore: 30,
+        category: "Extra Scope",
+        description: "Be creative and make up some more awesome things"
+      },
+      {
+        id: "fines_p1",
+       "minScore: -10,
+        maxScore: 0,
+        category: "Fines",
+        description: "App causes BSoD!"
+      }
+    ]
+  },
+  {
+  //...
+  }
+]
+```
+
+**Getting a specific task:**
+```javascript
+const onGetTask = (id) => {
+     taskApi.getTask(id).then((res) => console.log(res));
+ };
+```
+```javascript
+//returns
+[
+  {
+    id: "simple-task-v...",
+    author: "cardamo",
+    state: "DRAFT", //enum DRAFT, PUBLISHED, ARCHIVED
+    categoriesOrder: [
+      "Basic Scope",
+      "Extra Scope",
+      "Fines"
+    ],
+    items: [
+      {
+        id: "basic_p...",
+        minScore: 0,
+        maxScore: 20,
+        category: "Basic Scope",
+        description: "You need to make things right, not wrong"
+      },
+      {
+        id: "extra_p...",
+        minScore: 0,
+        maxScore: 30,
+        category: "Extra Scope",
+        description: "Be creative and make up some more awesome things"
+      },
+      {
+        id: "fines_p1",
+        "minScore: -10,
+        maxScore: 0,
+        category: "Fines",
+        description: "App causes BSoD!"
+      }
+    ]
+  }
+]
+```
+
+**Getting a list of tasks created by the author**
+```javascript
+const onGetTaskByAuthor = (nameAuthor) => {
+    taskApi.getTaskByAuthor(nameAuthor).then((res) => {
+      console.log(res);
+    });
+  };
+//the result is similar to the method onGetTask
+```
+
+**Creating a task card:**
+(Note: the roles of the user is checked, so you must pass the user ID as an argument)
+```javascript
+const onCreateTaskHeader = (githubId) => {
+  const data = {
+    id: 'simple-task-v', //task id prefix, required field
+    author: 'cardamo', //required field
+    taskTitle: 'Very difficult task', //required field
+    deadline: '01.12.2020', //required field
+    totalScore: 0, //required field
+    categoriesOrder: ['Basic Scope', 'Extra Scope', 'Fines'], //required field
+    items: [], //required field, empty array!
+  };
+  taskApi.createTaskHeader({githubId, data}).then((res) => console.log(res));
+};
+```
+```javascript
+//returns
+{
+  id: "simple-task-v1599463912121.8909",
+  author: "cardamo",
+  state: "DRAFT",
+  taskTitle: 'Very difficult task', 
+  deadline: '01.12.2020', 
+  totalScore: 0, 
+  categoriesOrder: [
+    "Basic Scope",
+    "Extra Scope",
+    "Fines"
+  ],
+  items: []
+}
+```
+
+Editing the task header, if successful, returns an object similar to the passed one
+```javascript
+const onEditTaskHeader = (githubId) => {
+    const data = {
+      taskTitle: 'EDIT__Very difficult task',
+      deadline: '01.12.2021',
+      totalScore: 100,
+      // items: [] //It is strictly forbidden to pass empty items in this method,
+      // There is an onEditTaskItem method for editing items.
+      // More details in the module help task-api.js
+    };
+    taskApi
+      .editTaskHeader({ githubId, taskId, data })
+      .then((res) => console.log(res));
+  };
+```
+
+**Toggle task status DRAFT, PUBLISHED, ARCHIVED,**
+The requiredState argument is formalized and can only take the listed values:
+[DRAFT_TO_PUBLISHED, PUBLISHED_TO_DRAFT, PUBLISHED_TO_ARCHIVED, ARCHIVED_TO_PUBLISHED ]
+```javascript
+const onToggleTaskState = (githubId) => {
+  taskApi
+    .toggleTaskState({ githubId, taskId, requiredState })
+    .then((res) => console.log(res));
+};
+```
+
+**Delete task**
+```javascript
+  const onDelTask = (githubId) => {
+   taskApi
+      .delTask({ githubId, taskId })
+      .then((res) => console.log(res));
+  };
+```
+
+**Create a subtask in a task card:**
+(Note: the roles of the user is checked, so you must pass the user ID as an argument)
+```javascript
+const onCreateTaskItem = (githubId) => {
+   const data = {
+     id: 'basic_p', //task id prefix
+     minScore: 0,
+     maxScore: 20,
+     category: 'Basic Scope',
+     description: 'You need to make things right, not wrong',
+   };
+    itemsTasksApi.createTaskItem({ githubId, taskId, data }) //you need to pass arguments as an object: user id, task id, subtask as an object
+     .then((res) => console.log(res));
+ };
+```
+```javascript
+//returns 
+{
+   id: "simple-task-v1599463912121.8909",
+   author: "cardamo",
+   state: "DRAFT",
+   categoriesOrder: [
+     "Basic Scope",
+     "Extra Scope",
+     "Fines"
+   ],
+   items: [
+     {
+       id: "basic_p1599464109071.7922",
+       minScore: 0,
+       maxScore: 20,
+       category: "Basic Scope",
+       description: "You need to make things right, not wrong"
+     }
+   ]
+ }
+```
+
+**Editing a subtask**
+(Note: the roles of the user is checked, so you must pass the user ID as an argument)
+```javascript
+const onEditTaskItem = (githubId, taskItemId) => {
+    const data = {
+      id: taskItemId, //id subtask
+      minScore: 0,
+      maxScore: 200,
+      category: 'EDIT_Basic Scope',
+      description: 'You need to make things right, not wrong',
+    };
+     itemsTasksApi.editTaskItem({ githubId, taskId, data })
+      .then((res) => console.log(res));
+  };
+//returns a task object with overwritten items
+```
+
+**Deleting a subtask**
+(Note: the roles of the user is checked, so you must pass the user ID as an argument)
+```javascript
+const onDelTaskItem = (githubId, taskItemId) => {
+ itemsTasksApi.delTaskItem({ githubId, taskId, taskItemId })
+    .then((res) => console.log(res));
+//returns a task object with overwritten items
+```
+There are 3 user roles (the rest is under discussion ...)
+student - view tasks, create review requests, cross check;
+author - task management;
+supervisor - change task statuses;
+
+User roles are checked for any actions with tasks and subtasks.
+A user with the author role can create, edit, delete tasks and subtasks created only by himself, as well as change the status of a task from draft to published
+The supervisor can change the status of the task from draft to published, to archive and vice versa
+
+For a more detailed description of the api, see the modules themselves
 

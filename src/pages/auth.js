@@ -1,9 +1,8 @@
 import React from 'react';
-
-import Login from '../components/login';
+import LoginContainer from '../components/login';
 
 const Auth = () => {
-  return <Login />;
+  return <LoginContainer />;
 };
 
 export default Auth;

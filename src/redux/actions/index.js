@@ -7,6 +7,10 @@ const {
   CHANGE_FILTER,
   SEARCH_ITEM,
   EDIT_TASK_TITLE,
+  LOGIN,
+  ADD_ROLE,
+  LOAD_FROM_LOCAL_STORAGE,
+  SIGN_OUT,
 } = actionTypes;
 
 const addTaskItem = (payload) => {
@@ -51,6 +55,33 @@ const searchItem = (value) => {
   };
 };
 
+const getUserInfo = (payload) => {
+  return {
+    type: LOGIN,
+    payload,
+  };
+};
+
+const addUserRole = (payload) => {
+  return {
+    type: ADD_ROLE,
+    payload,
+  };
+};
+
+const loadFromLocalStorage = (payload) => {
+  return {
+    type: LOAD_FROM_LOCAL_STORAGE,
+    payload,
+  };
+};
+
+const signOutAndClearLocalStorage = () => {
+  return {
+    type: SIGN_OUT,
+  };
+};
+
 export {
   addTaskItem,
   removeTaskItem,
@@ -58,4 +89,8 @@ export {
   changeFilter,
   searchItem,
   editTaskTitle,
+  getUserInfo,
+  addUserRole,
+  loadFromLocalStorage,
+  signOutAndClearLocalStorage,
 };
