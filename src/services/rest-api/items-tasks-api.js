@@ -16,7 +16,7 @@
 */
 
 import TasksApi from './tasks-api';
-import actionTaskList from './constants';
+import { actionTaskList } from './constants';
 
 export default class ItemsTasksApi extends TasksApi {
   URL_BASE = '/tasks/';
