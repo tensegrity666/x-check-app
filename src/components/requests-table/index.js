@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Table } from 'antd';
 import { tableColumns, pagination } from './constants';
 import defaultCustomers from './mockData';
-import getColumnSearchProps from './utils';
+import getColumnsWithSearch from './utils';
 import styles from './index.module.css';
 
 const RequestsTable = () => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
+  const { reviewRequests } = styles;
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -20,26 +21,16 @@ const RequestsTable = () => {
     setSearchText('');
   };
 
-  const columnsWithSearch = tableColumns.map((el) => {
-    const searchOptions = el.isSearchable
-      ? {
-          ...getColumnSearchProps(
-            el.dataIndex,
-            handleSearch,
-            handleReset,
-            searchText,
-            searchedColumn
-          ),
-        }
-      : null;
-    return {
-      ...el,
-      ...searchOptions,
-    };
-  });
+  const columnsWithSearch = getColumnsWithSearch(
+    tableColumns,
+    handleSearch,
+    handleReset,
+    searchText,
+    searchedColumn
+  );
 
   return (
-    <div className={styles.reviewRequests}>
+    <div className={reviewRequests}>
       <h1>Review Requests</h1>
       <Table
         dataSource={defaultCustomers}

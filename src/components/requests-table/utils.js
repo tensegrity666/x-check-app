@@ -53,7 +53,7 @@ const getColumnSearchProps = (
       );
     },
     filterIcon: (filtered) => (
-      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+      <SearchOutlined style={{ color: filtered && '#1890ff' }} />
     ),
     onFilter: (value, record) =>
       record[dataIndex]
@@ -81,4 +81,30 @@ const getColumnSearchProps = (
   };
 };
 
-export default getColumnSearchProps;
+const getColumnsWithSearch = (
+  tableColumns,
+  handleSearch,
+  handleReset,
+  searchText,
+  searchedColumn
+) => {
+  return tableColumns.map((el) => {
+    const searchOptions = el.isSearchable
+      ? {
+          ...getColumnSearchProps(
+            el.dataIndex,
+            handleSearch,
+            handleReset,
+            searchText,
+            searchedColumn
+          ),
+        }
+      : null;
+    return {
+      ...el,
+      ...searchOptions,
+    };
+  });
+};
+
+export default getColumnsWithSearch;
