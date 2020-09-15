@@ -42,12 +42,9 @@ const TaskHeaderContainer = () => {
     const { githubId } = store.getState().loginReducer;
 
     toggleSaved();
-    // eslint-disable-next-line no-console
-    api
-      .editTaskHeader({ githubId, taskId, data })
-      .then((res) => console.log(res));
+    api.editTaskHeader({ githubId, taskId, data });
 
-    // localStorage.setItem('savedTaskInProcess', JSON.stringify(data));
+    localStorage.setItem('savedTaskInProcess', JSON.stringify(data));
   };
 
   useEffect(() => {
