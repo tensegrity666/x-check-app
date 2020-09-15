@@ -7,8 +7,8 @@ const getColumnSearchProps = (
   dataIndex,
   handleSearch,
   handleReset,
-  searchedColumn,
-  searchText
+  searchText,
+  searchedColumn
 ) => {
   let searchInput = null;
   return {
