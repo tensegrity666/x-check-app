@@ -1,13 +1,17 @@
 .reviewRequests {
-  width: calc(100vw - 230px);
-  height: calc(100vh - 30px);
+  width: 100%;
+  height: auto;
+  padding: 20px 20px 10px 20px;
 }
 
 .reviewRequests *::-webkit-scrollbar-thumb {
-  background-color: #1890ff;
+  background-color: #91d5ff;
 }
 
 .reviewRequests *::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 3px;
+  height: 3px;
+  border-radius: 2rem;
+  outline: none;
+  box-shadow: none;
 }
