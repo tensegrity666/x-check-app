@@ -1,11 +1,8 @@
 import React from 'react';
+import RequestsTable from '../components/requests-table';
 
 const Requests = () => {
-  return (
-    <>
-      <h1>Requests to review</h1>
-    </>
-  );
+  return <RequestsTable />;
 };
 
 export default Requests;
