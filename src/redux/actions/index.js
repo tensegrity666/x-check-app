@@ -7,6 +7,7 @@ import {
   createTask,
   editDeadline,
   loadTaskFromLocalStorage,
+  addAuthor,
 } from './task-actions';
 
 import { changeFilter, searchItem } from './filter-actions';
@@ -33,4 +34,5 @@ export {
   createTask,
   editDeadline,
   loadTaskFromLocalStorage,
+  addAuthor,
 };

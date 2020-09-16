@@ -21,13 +21,11 @@ const Task = () => {
   const api = new TaskApi();
 
   const { dispatch } = store;
-  const { createTask, loadTaskFromLocalStorage } = bindActionCreators(
-    actions,
-    dispatch
-  );
-
-  const { githubId } = store.getState().loginReducer;
-  const data = store.getState().taskReducer;
+  const {
+    createTask,
+    loadTaskFromLocalStorage,
+    addAuthor,
+  } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
     if (localStorage.getItem('savedTaskInProcess')) {
@@ -36,10 +34,14 @@ const Task = () => {
       return;
     }
 
+    const { githubId } = store.getState().loginReducer;
+    addAuthor(githubId);
+    const data = store.getState().taskReducer;
+
     let taskId = '';
     api.createTaskHeader({ githubId, data }).then((res) => {
       taskId = res.id;
-      createTask({ githubId, taskId });
+      createTask(taskId);
       localStorage.setItem('savedTaskInProcess', JSON.stringify(data));
     });
   });

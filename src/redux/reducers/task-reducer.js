@@ -25,6 +25,7 @@ const taskReducer = (state = initialTask, { type, payload }) => {
     CREATE_TASK,
     EDIT_DEADLINE,
     LOAD_TASK_FROM_LOCAL_STORAGE,
+    ADD_AUTHOR,
   } = actionTypes;
 
   const { totalScore, items } = state;
@@ -34,8 +35,13 @@ const taskReducer = (state = initialTask, { type, payload }) => {
       return {
         ...state,
         dateOfCreate: new Date().toLocaleDateString(),
-        author: payload.githubId,
-        id: payload.taskId,
+        id: payload,
+      };
+
+    case ADD_AUTHOR:
+      return {
+        ...state,
+        author: payload,
       };
 
     case ADD_TASK_ITEM:

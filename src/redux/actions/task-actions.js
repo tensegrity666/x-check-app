@@ -9,6 +9,7 @@ const {
   CREATE_TASK,
   EDIT_DEADLINE,
   LOAD_TASK_FROM_LOCAL_STORAGE,
+  ADD_AUTHOR,
 } = actionTypes;
 
 export const addTaskItem = (payload) => {
@@ -52,10 +53,17 @@ export const toggleSaved = () => {
   };
 };
 
-export const createTask = (payload) => {
+export const createTask = (taskId) => {
   return {
     type: CREATE_TASK,
-    payload,
+    payload: taskId,
+  };
+};
+
+export const addAuthor = (author) => {
+  return {
+    type: ADD_AUTHOR,
+    payload: author,
   };
 };
 
