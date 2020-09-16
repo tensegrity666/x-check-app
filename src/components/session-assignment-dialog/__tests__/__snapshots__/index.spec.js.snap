@@ -1,0 +1,1103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionAssignmentDialog component Should match the snapshot 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [MockFunction],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <SessionAssignmentDialog>
+    <section
+      className="container"
+    >
+      <div
+        className="content"
+      >
+        <h3>
+          Распределение проверяющих сессии
+        </h3>
+        <Space
+          align="center"
+          className="controls"
+        >
+          <div
+            className="ant-space ant-space-horizontal ant-space-align-center controls"
+          >
+            <Item
+              className="ant-space-item"
+              direction="horizontal"
+              index={0}
+              key="ant-space-item-0"
+              marginDirection="marginRight"
+              size="small"
+            >
+              <div
+                className="ant-space-item"
+                style={
+                  Object {
+                    "marginRight": 8,
+                  }
+                }
+              >
+                <span>
+                  Количество проверяемых
+                </span>
+              </div>
+            </Item>
+            <Item
+              className="ant-space-item"
+              direction="horizontal"
+              index={1}
+              key="ant-space-item-1"
+              marginDirection="marginRight"
+              size="small"
+            >
+              <div
+                className="ant-space-item"
+                style={
+                  Object {
+                    "marginRight": 8,
+                  }
+                }
+              >
+                <ForwardRef
+                  max={10}
+                  min={1}
+                  onChange={[Function]}
+                  step={1}
+                  value={4}
+                >
+                  <InputNumber
+                    autoComplete="off"
+                    className=""
+                    downHandler={
+                      <ForwardRef(DownOutlined)
+                        className="ant-input-number-handler-down-inner"
+                      />
+                    }
+                    focusOnUpDown={true}
+                    max={10}
+                    min={1}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onPressEnter={[Function]}
+                    parser={[Function]}
+                    prefixCls="ant-input-number"
+                    required={false}
+                    step={1}
+                    style={Object {}}
+                    upHandler={
+                      <ForwardRef(UpOutlined)
+                        className="ant-input-number-handler-up-inner"
+                      />
+                    }
+                    useTouch={false}
+                    value={4}
+                  >
+                    <div
+                      className="ant-input-number"
+                      onBlur={[Function]}
+                      onFocus={[Function]}
+                      style={Object {}}
+                    >
+                      <div
+                        className="ant-input-number-handler-wrap"
+                      >
+                        <span
+                          aria-label="Increase Value"
+                          className="ant-input-number-handler ant-input-number-handler-up"
+                          onMouseDown={[Function]}
+                          onMouseLeave={[Function]}
+                          onMouseUp={[Function]}
+                          role="button"
+                          unselectable="on"
+                        >
+                          <ForwardRef(UpOutlined)
+                            className="ant-input-number-handler-up-inner"
+                          >
+                            <AntdIcon
+                              className="ant-input-number-handler-up-inner"
+                              icon={
+                                Object {
+                                  "icon": Object {
+                                    "attrs": Object {
+                                      "focusable": "false",
+                                      "viewBox": "64 64 896 896",
+                                    },
+                                    "children": Array [
+                                      Object {
+                                        "attrs": Object {
+                                          "d": "M890.5 755.3L537.9 269.2c-12.8-17.6-39-17.6-51.7 0L133.5 755.3A8 8 0 00140 768h75c5.1 0 9.9-2.5 12.9-6.6L512 369.8l284.1 391.6c3 4.1 7.8 6.6 12.9 6.6h75c6.5 0 10.3-7.4 6.5-12.7z",
+                                        },
+                                        "tag": "path",
+                                      },
+                                    ],
+                                    "tag": "svg",
+                                  },
+                                  "name": "up",
+                                  "theme": "outlined",
+                                }
+                              }
+                            >
+                              <span
+                                aria-label="up"
+                                className="anticon anticon-up ant-input-number-handler-up-inner"
+                                role="img"
+                              >
+                                <IconReact
+                                  className=""
+                                  icon={
+                                    Object {
+                                      "icon": Object {
+                                        "attrs": Object {
+                                          "focusable": "false",
+                                          "viewBox": "64 64 896 896",
+                                        },
+                                        "children": Array [
+                                          Object {
+                                            "attrs": Object {
+                                              "d": "M890.5 755.3L537.9 269.2c-12.8-17.6-39-17.6-51.7 0L133.5 755.3A8 8 0 00140 768h75c5.1 0 9.9-2.5 12.9-6.6L512 369.8l284.1 391.6c3 4.1 7.8 6.6 12.9 6.6h75c6.5 0 10.3-7.4 6.5-12.7z",
+                                            },
+                                            "tag": "path",
+                                          },
+                                        ],
+                                        "tag": "svg",
+                                      },
+                                      "name": "up",
+                                      "theme": "outlined",
+                                    }
+                                  }
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    className=""
+                                    data-icon="up"
+                                    fill="currentColor"
+                                    focusable="false"
+                                    height="1em"
+                                    key="svg-up"
+                                    viewBox="64 64 896 896"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M890.5 755.3L537.9 269.2c-12.8-17.6-39-17.6-51.7 0L133.5 755.3A8 8 0 00140 768h75c5.1 0 9.9-2.5 12.9-6.6L512 369.8l284.1 391.6c3 4.1 7.8 6.6 12.9 6.6h75c6.5 0 10.3-7.4 6.5-12.7z"
+                                      key="svg-up-svg-0"
+                                    />
+                                  </svg>
+                                </IconReact>
+                              </span>
+                            </AntdIcon>
+                          </ForwardRef(UpOutlined)>
+                        </span>
+                        <span
+                          aria-label="Decrease Value"
+                          className="ant-input-number-handler ant-input-number-handler-down"
+                          onMouseDown={[Function]}
+                          onMouseLeave={[Function]}
+                          onMouseUp={[Function]}
+                          role="button"
+                          unselectable="on"
+                        >
+                          <ForwardRef(DownOutlined)
+                            className="ant-input-number-handler-down-inner"
+                          >
+                            <AntdIcon
+                              className="ant-input-number-handler-down-inner"
+                              icon={
+                                Object {
+                                  "icon": Object {
+                                    "attrs": Object {
+                                      "focusable": "false",
+                                      "viewBox": "64 64 896 896",
+                                    },
+                                    "children": Array [
+                                      Object {
+                                        "attrs": Object {
+                                          "d": "M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z",
+                                        },
+                                        "tag": "path",
+                                      },
+                                    ],
+                                    "tag": "svg",
+                                  },
+                                  "name": "down",
+                                  "theme": "outlined",
+                                }
+                              }
+                            >
+                              <span
+                                aria-label="down"
+                                className="anticon anticon-down ant-input-number-handler-down-inner"
+                                role="img"
+                              >
+                                <IconReact
+                                  className=""
+                                  icon={
+                                    Object {
+                                      "icon": Object {
+                                        "attrs": Object {
+                                          "focusable": "false",
+                                          "viewBox": "64 64 896 896",
+                                        },
+                                        "children": Array [
+                                          Object {
+                                            "attrs": Object {
+                                              "d": "M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z",
+                                            },
+                                            "tag": "path",
+                                          },
+                                        ],
+                                        "tag": "svg",
+                                      },
+                                      "name": "down",
+                                      "theme": "outlined",
+                                    }
+                                  }
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    className=""
+                                    data-icon="down"
+                                    fill="currentColor"
+                                    focusable="false"
+                                    height="1em"
+                                    key="svg-down"
+                                    viewBox="64 64 896 896"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                                      key="svg-down-svg-0"
+                                    />
+                                  </svg>
+                                </IconReact>
+                              </span>
+                            </AntdIcon>
+                          </ForwardRef(DownOutlined)>
+                        </span>
+                      </div>
+                      <div
+                        className="ant-input-number-input-wrap"
+                      >
+                        <input
+                          aria-valuemax={10}
+                          aria-valuemin={1}
+                          aria-valuenow={4}
+                          autoComplete="off"
+                          className="ant-input-number-input"
+                          max={10}
+                          min={1}
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyUp={[Function]}
+                          onMouseUp={[Function]}
+                          required={false}
+                          role="spinbutton"
+                          step={1}
+                          value="4"
+                        />
+                      </div>
+                    </div>
+                  </InputNumber>
+                </ForwardRef>
+              </div>
+            </Item>
+            <Item
+              className="ant-space-item"
+              direction="horizontal"
+              index={2}
+              key="ant-space-item-2"
+              marginDirection="marginRight"
+              size="small"
+            >
+              <div
+                className="ant-space-item"
+                style={
+                  Object {
+                    "marginRight": 8,
+                  }
+                }
+              >
+                <Button
+                  block={false}
+                  ghost={false}
+                  htmlType="button"
+                  loading={false}
+                  onClick={[Function]}
+                  shape="round"
+                  type="primary"
+                >
+                  <Wave>
+                    <button
+                      className="ant-btn ant-btn-primary ant-btn-round"
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <LoadingIcon
+                        existIcon={false}
+                        loading={false}
+                        prefixCls="ant-btn"
+                      >
+                        <ForwardRef
+                          motionName="ant-btn-loading-icon-motion"
+                          onAppearActive={[Function]}
+                          onAppearStart={[Function]}
+                          onEnterActive={[Function]}
+                          onEnterStart={[Function]}
+                          onLeaveActive={[Function]}
+                          onLeaveStart={[Function]}
+                          removeOnLeave={true}
+                          visible={false}
+                        >
+                          <CSSMotion
+                            internalRef={null}
+                            motionAppear={true}
+                            motionEnter={true}
+                            motionLeave={true}
+                            motionName="ant-btn-loading-icon-motion"
+                            onAppearActive={[Function]}
+                            onAppearStart={[Function]}
+                            onEnterActive={[Function]}
+                            onEnterStart={[Function]}
+                            onLeaveActive={[Function]}
+                            onLeaveStart={[Function]}
+                            removeOnLeave={true}
+                            visible={false}
+                          />
+                        </ForwardRef>
+                      </LoadingIcon>
+                      <span
+                        key=".0"
+                      >
+                        Распределить проверяющих
+                      </span>
+                    </button>
+                  </Wave>
+                </Button>
+              </div>
+            </Item>
+            <Item
+              className="ant-space-item"
+              direction="horizontal"
+              index={3}
+              key="ant-space-item-3"
+              marginDirection="marginRight"
+              size="small"
+            >
+              <div
+                className="ant-space-item"
+                style={Object {}}
+              >
+                <Button
+                  block={false}
+                  disabled={true}
+                  ghost={false}
+                  htmlType="button"
+                  loading={false}
+                  shape="round"
+                  type="primary"
+                >
+                  <Wave>
+                    <button
+                      className="ant-btn ant-btn-primary ant-btn-round"
+                      disabled={true}
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <LoadingIcon
+                        existIcon={false}
+                        loading={false}
+                        prefixCls="ant-btn"
+                      >
+                        <ForwardRef
+                          motionName="ant-btn-loading-icon-motion"
+                          onAppearActive={[Function]}
+                          onAppearStart={[Function]}
+                          onEnterActive={[Function]}
+                          onEnterStart={[Function]}
+                          onLeaveActive={[Function]}
+                          onLeaveStart={[Function]}
+                          removeOnLeave={true}
+                          visible={false}
+                        >
+                          <CSSMotion
+                            internalRef={null}
+                            motionAppear={true}
+                            motionEnter={true}
+                            motionLeave={true}
+                            motionName="ant-btn-loading-icon-motion"
+                            onAppearActive={[Function]}
+                            onAppearStart={[Function]}
+                            onEnterActive={[Function]}
+                            onEnterStart={[Function]}
+                            onLeaveActive={[Function]}
+                            onLeaveStart={[Function]}
+                            removeOnLeave={true}
+                            visible={false}
+                          />
+                        </ForwardRef>
+                      </LoadingIcon>
+                      <span
+                        key=".0"
+                      >
+                        Сохранить изменения
+                      </span>
+                    </button>
+                  </Wave>
+                </Button>
+              </div>
+            </Item>
+          </div>
+        </Space>
+        <Table
+          columns={
+            Array [
+              Object {
+                "dataIndex": "githubId",
+                "title": "Reviewer",
+              },
+              Object {
+                "dataIndex": "reviewerOf",
+                "render": [Function],
+                "title": "Students",
+              },
+            ]
+          }
+          dataSource={Array []}
+          rowKey="key"
+        >
+          <div
+            className="ant-table-wrapper"
+          >
+            <Spin
+              size="default"
+              spinning={false}
+              wrapperClassName=""
+            >
+              <div
+                className="ant-spin-nested-loading"
+              >
+                <div
+                  className="ant-spin-container"
+                  key="container"
+                >
+                  <Table
+                    className="ant-table-empty"
+                    columns={
+                      Array [
+                        Object {
+                          "dataIndex": "githubId",
+                          "title": "Reviewer",
+                        },
+                        Object {
+                          "dataIndex": "reviewerOf",
+                          "render": [Function],
+                          "title": "Students",
+                        },
+                      ]
+                    }
+                    data={Array []}
+                    dataSource={Array []}
+                    emptyText={
+                      <Context.Consumer>
+                        [Function]
+                      </Context.Consumer>
+                    }
+                    expandable={
+                      Object {
+                        "__PARENT_RENDER_ICON__": undefined,
+                        "childrenColumnName": undefined,
+                        "expandIcon": [Function],
+                        "expandIconColumnIndex": undefined,
+                        "indentSize": 15,
+                      }
+                    }
+                    internalHooks="rc-table-internal-hook"
+                    internalRefs={
+                      Object {
+                        "body": Object {
+                          "current": <div
+                            class="ant-table-content"
+                          >
+                            <table
+                              style="table-layout: auto;"
+                            >
+                              <colgroup />
+                              <thead
+                                class="ant-table-thead"
+                              >
+                                <tr>
+                                  <th
+                                    class="ant-table-cell"
+                                  >
+                                    Reviewer
+                                  </th>
+                                  <th
+                                    class="ant-table-cell"
+                                  >
+                                    Students
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody
+                                class="ant-table-tbody"
+                              >
+                                <tr
+                                  class="ant-table-placeholder"
+                                >
+                                  <td
+                                    class="ant-table-cell"
+                                    colspan="2"
+                                  >
+                                    <div
+                                      class="ant-empty ant-empty-normal"
+                                    >
+                                      <div
+                                        class="ant-empty-image"
+                                      >
+                                        <svg
+                                          class="ant-empty-img-simple"
+                                          height="41"
+                                          viewBox="0 0 64 41"
+                                          width="64"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <g
+                                            fill="none"
+                                            fill-rule="evenodd"
+                                            transform="translate(0 1)"
+                                          >
+                                            <ellipse
+                                              class="ant-empty-img-simple-ellipse"
+                                              cx="32"
+                                              cy="33"
+                                              rx="32"
+                                              ry="7"
+                                            />
+                                            <g
+                                              class="ant-empty-img-simple-g"
+                                              fill-rule="nonzero"
+                                            >
+                                              <path
+                                                d="M55 12.76L44.854 1.258C44.367.474 43.656 0 42.907 0H21.093c-.749 0-1.46.474-1.947 1.257L9 12.761V22h46v-9.24z"
+                                              />
+                                              <path
+                                                class="ant-empty-img-simple-path"
+                                                d="M41.613 15.931c0-1.605.994-2.93 2.227-2.931H55v18.137C55 33.26 53.68 35 52.05 35h-40.1C10.32 35 9 33.259 9 31.137V13h11.16c1.233 0 2.227 1.323 2.227 2.928v.022c0 1.605 1.005 2.901 2.237 2.901h14.752c1.232 0 2.237-1.308 2.237-2.913v-.007z"
+                                              />
+                                            </g>
+                                          </g>
+                                        </svg>
+                                      </div>
+                                      <p
+                                        class="ant-empty-description"
+                                      >
+                                        No Data
+                                      </p>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>,
+                        },
+                      }
+                    }
+                    prefixCls="ant-table"
+                    rowClassName={[Function]}
+                    rowKey={[Function]}
+                    transformColumns={[Function]}
+                  >
+                    <div
+                      className="ant-table ant-table-empty"
+                    >
+                      <Component
+                        pingLeft={false}
+                        pingRight={false}
+                        props={
+                          Object {
+                            "className": "ant-table-empty",
+                            "columns": Array [
+                              Object {
+                                "dataIndex": "githubId",
+                                "title": "Reviewer",
+                              },
+                              Object {
+                                "dataIndex": "reviewerOf",
+                                "render": [Function],
+                                "title": "Students",
+                              },
+                            ],
+                            "data": Array [],
+                            "dataSource": Array [],
+                            "direction": undefined,
+                            "emptyText": <Context.Consumer>
+                              [Function]
+                            </Context.Consumer>,
+                            "expandable": Object {
+                              "__PARENT_RENDER_ICON__": undefined,
+                              "childrenColumnName": undefined,
+                              "expandIcon": [Function],
+                              "expandIconColumnIndex": undefined,
+                              "indentSize": 15,
+                            },
+                            "internalHooks": "rc-table-internal-hook",
+                            "internalRefs": Object {
+                              "body": Object {
+                                "current": <div
+                                  class="ant-table-content"
+                                >
+                                  <table
+                                    style="table-layout: auto;"
+                                  >
+                                    <colgroup />
+                                    <thead
+                                      class="ant-table-thead"
+                                    >
+                                      <tr>
+                                        <th
+                                          class="ant-table-cell"
+                                        >
+                                          Reviewer
+                                        </th>
+                                        <th
+                                          class="ant-table-cell"
+                                        >
+                                          Students
+                                        </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody
+                                      class="ant-table-tbody"
+                                    >
+                                      <tr
+                                        class="ant-table-placeholder"
+                                      >
+                                        <td
+                                          class="ant-table-cell"
+                                          colspan="2"
+                                        >
+                                          <div
+                                            class="ant-empty ant-empty-normal"
+                                          >
+                                            <div
+                                              class="ant-empty-image"
+                                            >
+                                              <svg
+                                                class="ant-empty-img-simple"
+                                                height="41"
+                                                viewBox="0 0 64 41"
+                                                width="64"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                              >
+                                                <g
+                                                  fill="none"
+                                                  fill-rule="evenodd"
+                                                  transform="translate(0 1)"
+                                                >
+                                                  <ellipse
+                                                    class="ant-empty-img-simple-ellipse"
+                                                    cx="32"
+                                                    cy="33"
+                                                    rx="32"
+                                                    ry="7"
+                                                  />
+                                                  <g
+                                                    class="ant-empty-img-simple-g"
+                                                    fill-rule="nonzero"
+                                                  >
+                                                    <path
+                                                      d="M55 12.76L44.854 1.258C44.367.474 43.656 0 42.907 0H21.093c-.749 0-1.46.474-1.947 1.257L9 12.761V22h46v-9.24z"
+                                                    />
+                                                    <path
+                                                      class="ant-empty-img-simple-path"
+                                                      d="M41.613 15.931c0-1.605.994-2.93 2.227-2.931H55v18.137C55 33.26 53.68 35 52.05 35h-40.1C10.32 35 9 33.259 9 31.137V13h11.16c1.233 0 2.227 1.323 2.227 2.928v.022c0 1.605 1.005 2.901 2.237 2.901h14.752c1.232 0 2.237-1.308 2.237-2.913v-.007z"
+                                                    />
+                                                  </g>
+                                                </g>
+                                              </svg>
+                                            </div>
+                                            <p
+                                              class="ant-empty-description"
+                                            >
+                                              No Data
+                                            </p>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>,
+                              },
+                            },
+                            "mergedExpandedKeys": Set {},
+                            "prefixCls": "ant-table",
+                            "rowClassName": [Function],
+                            "rowKey": [Function],
+                            "stickyOffsets": Object {
+                              "left": Array [
+                                0,
+                                0,
+                              ],
+                              "right": Array [
+                                0,
+                                0,
+                              ],
+                            },
+                            "transformColumns": [Function],
+                          }
+                        }
+                      >
+                        <div
+                          className="ant-table-container"
+                        >
+                          <div
+                            className="ant-table-content"
+                            onScroll={[Function]}
+                            style={Object {}}
+                          >
+                            <table
+                              style={
+                                Object {
+                                  "tableLayout": "auto",
+                                }
+                              }
+                            >
+                              <ColGroup
+                                colWidths={
+                                  Array [
+                                    undefined,
+                                    undefined,
+                                  ]
+                                }
+                                columns={
+                                  Array [
+                                    Object {
+                                      "dataIndex": "githubId",
+                                      "fixed": undefined,
+                                      "title": "Reviewer",
+                                    },
+                                    Object {
+                                      "dataIndex": "reviewerOf",
+                                      "fixed": undefined,
+                                      "render": [Function],
+                                      "title": "Students",
+                                    },
+                                  ]
+                                }
+                              >
+                                <colgroup />
+                              </ColGroup>
+                              <Header
+                                colWidths={
+                                  Array [
+                                    undefined,
+                                    undefined,
+                                  ]
+                                }
+                                columCount={2}
+                                columns={
+                                  Array [
+                                    Object {
+                                      "dataIndex": "githubId",
+                                      "title": "Reviewer",
+                                    },
+                                    Object {
+                                      "dataIndex": "reviewerOf",
+                                      "render": [Function],
+                                      "title": "Students",
+                                    },
+                                  ]
+                                }
+                                flattenColumns={
+                                  Array [
+                                    Object {
+                                      "dataIndex": "githubId",
+                                      "fixed": undefined,
+                                      "title": "Reviewer",
+                                    },
+                                    Object {
+                                      "dataIndex": "reviewerOf",
+                                      "fixed": undefined,
+                                      "render": [Function],
+                                      "title": "Students",
+                                    },
+                                  ]
+                                }
+                                stickyOffsets={
+                                  Object {
+                                    "left": Array [
+                                      0,
+                                      0,
+                                    ],
+                                    "right": Array [
+                                      0,
+                                      0,
+                                    ],
+                                  }
+                                }
+                              >
+                                <thead
+                                  className="ant-table-thead"
+                                >
+                                  <HeaderRow
+                                    cellComponent="th"
+                                    cells={
+                                      Array [
+                                        Object {
+                                          "children": "Reviewer",
+                                          "className": "",
+                                          "colEnd": 0,
+                                          "colSpan": 1,
+                                          "colStart": 0,
+                                          "column": Object {
+                                            "dataIndex": "githubId",
+                                            "title": "Reviewer",
+                                          },
+                                          "key": undefined,
+                                          "rowSpan": 1,
+                                        },
+                                        Object {
+                                          "children": "Students",
+                                          "className": "",
+                                          "colEnd": 1,
+                                          "colSpan": 1,
+                                          "colStart": 1,
+                                          "column": Object {
+                                            "dataIndex": "reviewerOf",
+                                            "render": [Function],
+                                            "title": "Students",
+                                          },
+                                          "key": undefined,
+                                          "rowSpan": 1,
+                                        },
+                                      ]
+                                    }
+                                    flattenColumns={
+                                      Array [
+                                        Object {
+                                          "dataIndex": "githubId",
+                                          "fixed": undefined,
+                                          "title": "Reviewer",
+                                        },
+                                        Object {
+                                          "dataIndex": "reviewerOf",
+                                          "fixed": undefined,
+                                          "render": [Function],
+                                          "title": "Students",
+                                        },
+                                      ]
+                                    }
+                                    index={0}
+                                    key="0"
+                                    rowComponent="tr"
+                                    stickyOffsets={
+                                      Object {
+                                        "left": Array [
+                                          0,
+                                          0,
+                                        ],
+                                        "right": Array [
+                                          0,
+                                          0,
+                                        ],
+                                      }
+                                    }
+                                  >
+                                    <tr>
+                                      <Cell
+                                        className=""
+                                        colEnd={0}
+                                        colSpan={1}
+                                        colStart={0}
+                                        column={
+                                          Object {
+                                            "dataIndex": "githubId",
+                                            "title": "Reviewer",
+                                          }
+                                        }
+                                        component="th"
+                                        firstFixLeft={false}
+                                        firstFixRight={false}
+                                        key="githubId"
+                                        lastFixLeft={false}
+                                        lastFixRight={false}
+                                        prefixCls="ant-table"
+                                        rowSpan={1}
+                                        rowType="header"
+                                      >
+                                        <th
+                                          className="ant-table-cell"
+                                          colSpan={null}
+                                          rowSpan={null}
+                                          style={Object {}}
+                                        >
+                                          Reviewer
+                                        </th>
+                                      </Cell>
+                                      <Cell
+                                        className=""
+                                        colEnd={1}
+                                        colSpan={1}
+                                        colStart={1}
+                                        column={
+                                          Object {
+                                            "dataIndex": "reviewerOf",
+                                            "render": [Function],
+                                            "title": "Students",
+                                          }
+                                        }
+                                        component="th"
+                                        firstFixLeft={false}
+                                        firstFixRight={false}
+                                        key="reviewerOf"
+                                        lastFixLeft={false}
+                                        lastFixRight={false}
+                                        prefixCls="ant-table"
+                                        rowSpan={1}
+                                        rowType="header"
+                                      >
+                                        <th
+                                          className="ant-table-cell"
+                                          colSpan={null}
+                                          rowSpan={null}
+                                          style={Object {}}
+                                        >
+                                          Students
+                                        </th>
+                                      </Cell>
+                                    </tr>
+                                  </HeaderRow>
+                                </thead>
+                              </Header>
+                              <Body
+                                childrenColumnName="children"
+                                data={Array []}
+                                emptyNode={
+                                  <Context.Consumer>
+                                    [Function]
+                                  </Context.Consumer>
+                                }
+                                expandedKeys={Set {}}
+                                getRowKey={[Function]}
+                                measureColumnWidth={false}
+                              >
+                                <tbody
+                                  className="ant-table-tbody"
+                                >
+                                  <ExpandedRow
+                                    cellComponent="td"
+                                    className="ant-table-placeholder"
+                                    colSpan={2}
+                                    component="tr"
+                                    componentWidth={0}
+                                    expanded={true}
+                                    prefixCls="ant-table"
+                                  >
+                                    <tr
+                                      className="ant-table-placeholder"
+                                      style={
+                                        Object {
+                                          "display": null,
+                                        }
+                                      }
+                                    >
+                                      <Cell
+                                        colSpan={2}
+                                        component="td"
+                                        prefixCls="ant-table"
+                                      >
+                                        <td
+                                          className="ant-table-cell"
+                                          colSpan={2}
+                                          rowSpan={null}
+                                          style={Object {}}
+                                        >
+                                          <Empty
+                                            image={<Simple />}
+                                          >
+                                            <LocaleReceiver
+                                              componentName="Empty"
+                                            >
+                                              <div
+                                                className="ant-empty ant-empty-normal"
+                                              >
+                                                <div
+                                                  className="ant-empty-image"
+                                                >
+                                                  <Simple>
+                                                    <svg
+                                                      className="ant-empty-img-simple"
+                                                      height="41"
+                                                      viewBox="0 0 64 41"
+                                                      width="64"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                      <g
+                                                        fill="none"
+                                                        fillRule="evenodd"
+                                                        transform="translate(0 1)"
+                                                      >
+                                                        <ellipse
+                                                          className="ant-empty-img-simple-ellipse"
+                                                          cx="32"
+                                                          cy="33"
+                                                          rx="32"
+                                                          ry="7"
+                                                        />
+                                                        <g
+                                                          className="ant-empty-img-simple-g"
+                                                          fillRule="nonzero"
+                                                        >
+                                                          <path
+                                                            d="M55 12.76L44.854 1.258C44.367.474 43.656 0 42.907 0H21.093c-.749 0-1.46.474-1.947 1.257L9 12.761V22h46v-9.24z"
+                                                          />
+                                                          <path
+                                                            className="ant-empty-img-simple-path"
+                                                            d="M41.613 15.931c0-1.605.994-2.93 2.227-2.931H55v18.137C55 33.26 53.68 35 52.05 35h-40.1C10.32 35 9 33.259 9 31.137V13h11.16c1.233 0 2.227 1.323 2.227 2.928v.022c0 1.605 1.005 2.901 2.237 2.901h14.752c1.232 0 2.237-1.308 2.237-2.913v-.007z"
+                                                          />
+                                                        </g>
+                                                      </g>
+                                                    </svg>
+                                                  </Simple>
+                                                </div>
+                                                <p
+                                                  className="ant-empty-description"
+                                                >
+                                                  No Data
+                                                </p>
+                                              </div>
+                                            </LocaleReceiver>
+                                          </Empty>
+                                        </td>
+                                      </Cell>
+                                    </tr>
+                                  </ExpandedRow>
+                                </tbody>
+                              </Body>
+                            </table>
+                          </div>
+                        </div>
+                      </Component>
+                    </div>
+                  </Table>
+                </div>
+              </div>
+            </Spin>
+          </div>
+        </Table>
+      </div>
+    </section>
+  </SessionAssignmentDialog>
+</Provider>
+`;
