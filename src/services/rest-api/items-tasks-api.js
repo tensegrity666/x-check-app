@@ -5,7 +5,8 @@
 
   *****
   Доступные методы:
-
+  getItemsTask(taskId) - возвращает список подзадач в в задаче с id - taskId.
+    необходимо использовать при создании review request
   createTaskItem({ githubId, taskId, data }) - создание подзадачи в задаче с id - taskId, аргументы метода передаются объектом
   editTaskItem({ githubId, taskId, data }) - редактирование подзадачи в задаче с id - taskId, редактируются только те поля которые переданны в data, 
     необходимо обязательно! передать в data поле id подзадачи по этому полю будет осуществлен поиск подзадачи, аргументы метода передаются объектом
@@ -16,7 +17,7 @@
 */
 
 import TasksApi from './tasks-api';
-import actionTaskList from './constants';
+import { actionTaskList } from './constants';
 
 export default class ItemsTasksApi extends TasksApi {
   URL_BASE = '/tasks/';
@@ -27,6 +28,21 @@ export default class ItemsTasksApi extends TasksApi {
     const response = await this.getTask(taskId);
 
     return response;
+  }
+
+  async getItemsTask(taskId) {
+    const searchTask = await this.getTargetTask(taskId);
+
+    if (searchTask.length === 0) {
+      return {
+        error: true,
+        message: `Can't show list of subtasks. No task found with id ${taskId}`,
+      };
+    }
+
+    const task = this.arrToObj(searchTask);
+
+    return task.items;
   }
 
   async createTaskItem({ githubId, taskId, data }) {
