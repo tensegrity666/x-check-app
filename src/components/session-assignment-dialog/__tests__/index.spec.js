@@ -4,6 +4,8 @@ import toJson from 'enzyme-to-json';
 import { makeTestStore, testMount } from '../../../_test-utils/test-utils';
 import SessionAssignmentDialog from '../index';
 import reviewRequestsReducer from '../../../redux/reducers/review-requests-reducer';
+import { fetchReviewRequestsSuccess } from '../../../redux/actions';
+import mockReviewRequests from '../mock-review-requests.json';
 
 describe('SessionAssignmentDialog component', () => {
   let wrapper;
@@ -46,6 +48,19 @@ describe('SessionAssignmentDialog component', () => {
 
   it('Generates attendees list on button click', () => {
     wrapper = testMount(<SessionAssignmentDialog />, { store });
+    store.dispatch(fetchReviewRequestsSuccess(mockReviewRequests));
+    wrapper
+      .find({ children: 'Распределить проверяющих' })
+      .filter('Button')
+      .simulate('click');
+    const tableProps = wrapper.find('Table').at(0).props();
+    const { dataSource } = tableProps;
+    expect(dataSource).toHaveLength(mockReviewRequests.length);
+  });
+
+  it('Generated attendees list has valid structure', () => {
+    wrapper = testMount(<SessionAssignmentDialog />, { store });
+    store.dispatch(fetchReviewRequestsSuccess(mockReviewRequests));
     wrapper
       .find({ children: 'Распределить проверяющих' })
       .filter('Button')
@@ -53,16 +68,6 @@ describe('SessionAssignmentDialog component', () => {
     const tableProps = wrapper.find('Table').at(0).props();
     const { dataSource } = tableProps;
     expect(dataSource).not.toHaveLength(0);
-  });
-
-  it('Generated attendees list is valid', () => {
-    wrapper = testMount(<SessionAssignmentDialog />, { store });
-    wrapper
-      .find({ children: 'Распределить проверяющих' })
-      .filter('Button')
-      .simulate('click');
-    const tableProps = wrapper.find('Table').at(0).props();
-    const { dataSource } = tableProps;
     expect(
       dataSource.every(
         (element) =>
