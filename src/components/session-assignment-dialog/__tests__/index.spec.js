@@ -5,7 +5,7 @@ import { makeTestStore, testMount } from '../../../_test-utils/test-utils';
 import SessionAssignmentDialog from '../index';
 import reviewRequestsReducer from '../../../redux/reducers/review-requests-reducer';
 import { fetchReviewRequestsSuccess } from '../../../redux/actions';
-import mockReviewRequests from '../mock-review-requests.json';
+import mockReviewRequests from './mock-review-requests.json';
 
 describe('SessionAssignmentDialog component', () => {
   let wrapper;
