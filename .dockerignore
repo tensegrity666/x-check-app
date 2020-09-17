@@ -1,6 +1,10 @@
 node-modules/
 storybook-static/
 stories/
+coverage/
+
+.github/
+.vscode/
 
 .gitignore
 Dockerfile
