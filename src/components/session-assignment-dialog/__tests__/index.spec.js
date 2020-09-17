@@ -30,6 +30,20 @@ describe('SessionAssignmentDialog component', () => {
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
+  it('Save button is disabled without generated data', () => {
+    wrapper = testMount(<SessionAssignmentDialog />, { store });
+    const saveButtonProps = wrapper
+      .find({ children: 'Сохранить изменения' })
+      .filter('Button')
+      .props();
+    const tableProps = wrapper.find('Table').at(0).props();
+    if (tableProps.dataSource.length === 0) {
+      expect(saveButtonProps.disabled).toBeTruthy();
+    } else {
+      expect(saveButtonProps.disabled).toBeFalsy();
+    }
+  });
+
   it('Generates attendees list on button click', () => {
     wrapper = testMount(<SessionAssignmentDialog />, { store });
     wrapper
