@@ -33,10 +33,19 @@ const SessionAssignmentDialog = () => {
 
   const api = new RevReqApi();
 
+  const generateAssignments = (requestsList, number) => {
+    const result = getAssignments(requestsList, number);
+    result.sort(dynamicSort('githubId'));
+    setAttendees(result);
+  };
+
   const assignAttendees = async () => {
     if (reviewRequests.length === 0) {
       const result = await api.getRevReqBySession('rss2020Q3react-xcheck');
       fetchReviewRequestsSuccess(result);
+    }
+    if (isAssignmentRequested) {
+      generateAssignments(reviewRequests, assigneesNumber);
     }
     setAssignmentRequest(true);
   };
@@ -47,9 +56,7 @@ const SessionAssignmentDialog = () => {
 
   useEffect(() => {
     if (isAssignmentRequested && reviewRequests) {
-      const result = getAssignments(reviewRequests, assigneesNumber);
-      result.sort(dynamicSort('githubId'));
-      setAttendees(result);
+      generateAssignments(reviewRequests, assigneesNumber);
     }
   }, [isAssignmentRequested, reviewRequests, assigneesNumber]);
 
