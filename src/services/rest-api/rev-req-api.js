@@ -1,6 +1,6 @@
 /* 
   Класс для работы с сущностью Tasks 
-  Наследует класс AccessApi.
+  Наследует класс AccessRevReqApi.
   Требуется импорт actionTaskList из constants.js
   
   *****
@@ -11,6 +11,9 @@
   
   getRevReqByAuthor(nameAuthor) - выводит все запросы на ревью созданные автором, требуется передача в аргументе поля author,
     возвращает полные данные в виде массива объектов
+
+  getRevReqByCrossCheckId(crossCheckSessionId) - выводит все запросы на ревью созданные в рамках кросс-чек-сессии,
+  требуется передача в аргументе поля crossCheckSessionId, возвращает полные данные в виде массива объектов
   
   createRevReq({ githubId, data }) - создание запроса на ревью, аргументы метода передаются объектом!
     СТРУКТУРА объекта в параметре data:
@@ -72,6 +75,20 @@ export default class RevReqApi extends AccessRevReqApi {
 
   async getRevReqByTask(taskId) {
     const result = await this.getResource(`${this.URL_BASE}/?task=${taskId}`);
+
+    return result;
+  }
+
+  async getRevReqByTask(taskId) {
+    const result = await this.getResource(`${this.URL_BASE}/?task=${taskId}`);
+
+    return result;
+  }
+
+  async getRevReqByCrossCheckId(crossCheckSessionId) {
+    const result = await this.getResource(
+      `${this.URL_BASE}/?crossCheckSessionId=${crossCheckSessionId}`
+    );
 
     return result;
   }
