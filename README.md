@@ -28,4 +28,3 @@ _Open_ [http://localhost:3000](http://localhost:3000) _to view it in the browser
 #### Build project
 `$ npm run build`
 
-

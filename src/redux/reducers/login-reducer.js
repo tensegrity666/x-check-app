@@ -4,6 +4,7 @@ const initialUser = {
   isAuthenticated: false,
   uid: null,
   githubId: null,
+  screenName: null,
   roles: ['author', 'student', 'supervisor'],
   currentRole: null,
   isRoleSelected: false,
@@ -25,6 +26,7 @@ const loginReducer = (state = initialUser, { type, payload }) => {
         githubId: payload.email.substr(0, payload.email.indexOf('@')),
         email: payload.email,
         displayName: payload.displayName,
+        screenName: payload.email.substr(0, payload.email.indexOf('@')),
         photoURL: payload.photoURL,
       };
 

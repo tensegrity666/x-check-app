@@ -5,6 +5,7 @@ import { actionTypes, categories, taskStates } from '../constants';
 const { draft } = taskStates;
 
 const initialTask = {
+  id: null,
   author: '',
   taskTitle: '',
   state: draft,
@@ -12,13 +13,37 @@ const initialTask = {
   dateOfCreate: null,
   totalScore: 0,
   items: [],
+  isSaved: false,
 };
 
 const taskReducer = (state = initialTask, { type, payload }) => {
-  const { ADD_TASK_ITEM, REMOVE_TASK_ITEM, EDIT_TASK_TITLE } = actionTypes;
+  const {
+    ADD_TASK_ITEM,
+    REMOVE_TASK_ITEM,
+    EDIT_TASK_TITLE,
+    SAVE_TASK_ON_SERVER,
+    CREATE_TASK,
+    EDIT_DEADLINE,
+    LOAD_TASK_FROM_LOCAL_STORAGE,
+    ADD_AUTHOR,
+  } = actionTypes;
+
   const { totalScore, items } = state;
 
   switch (type) {
+    case CREATE_TASK:
+      return {
+        ...state,
+        dateOfCreate: new Date().toLocaleDateString(),
+        id: payload,
+      };
+
+    case ADD_AUTHOR:
+      return {
+        ...state,
+        author: payload,
+      };
+
     case ADD_TASK_ITEM:
       const newTaskItem = {
         id: uniqid('task-item-'),
@@ -45,6 +70,24 @@ const taskReducer = (state = initialTask, { type, payload }) => {
       return {
         ...state,
         taskTitle: payload,
+      };
+
+    case EDIT_DEADLINE:
+      return {
+        ...state,
+        deadline: payload,
+      };
+
+    case LOAD_TASK_FROM_LOCAL_STORAGE:
+      return {
+        ...state,
+        ...payload,
+      };
+
+    case SAVE_TASK_ON_SERVER:
+      return {
+        ...state,
+        isSaved: true,
       };
 
     default:

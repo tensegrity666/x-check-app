@@ -14,6 +14,9 @@ const AddNewItem = ({
   rangeValue,
   inputValue,
 }) => {
+  const MIN_VALUE = -50;
+  const MAX_VALUE = 100;
+
   const { Option } = Select;
   const { TextArea } = Input;
   const {
@@ -35,7 +38,7 @@ const AddNewItem = ({
       <Col span={18}>
         <TextArea
           className={textArea}
-          rows={8}
+          rows={7}
           onChange={onTextChange}
           value={inputValue}
         />
@@ -43,15 +46,16 @@ const AddNewItem = ({
       <Col span={6} className={controlsWrapper}>
         <Row justify="space-between" className={slider}>
           <Slider
-            min={-20}
-            max={50}
+            min={MIN_VALUE}
+            max={MAX_VALUE}
+            step={5}
             onChange={onScoreRangeChange}
             className={sliderRange}
             value={rangeValue}
           />
           <InputNumber
-            min={-20}
-            max={50}
+            min={MIN_VALUE}
+            max={MAX_VALUE}
             value={rangeValue}
             onChange={onScoreRangeChange}
           />

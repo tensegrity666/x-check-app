@@ -1,20 +1,54 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Layout } from 'antd';
+import { bindActionCreators } from 'redux';
 
-import TaskHeader from './task-header';
+import TaskHeaderContainer from './task-header-container';
 import AddNewItemContainer from './add-new-item-container';
 import Searcher from './searcher';
 import TaskListContainer from './task-list-container';
 
+import store from '../../redux/store';
+import * as actions from '../../redux/actions';
+
 import styles from './index.module.css';
+
+import TaskApi from '../../services/rest-api/tasks-api';
 
 const Task = () => {
   const { Content } = Layout;
   const { wrapper, content } = styles;
 
+  const api = new TaskApi();
+
+  const { dispatch } = store;
+  const {
+    createTask,
+    loadTaskFromLocalStorage,
+    addAuthor,
+  } = bindActionCreators(actions, dispatch);
+
+  useEffect(() => {
+    if (localStorage.getItem('savedTaskInProcess')) {
+      const savedTask = JSON.parse(localStorage.getItem('savedTaskInProcess'));
+      loadTaskFromLocalStorage(savedTask);
+      return;
+    }
+
+    const { githubId } = store.getState().loginReducer;
+    addAuthor(githubId);
+    const data = store.getState().taskReducer;
+
+    let taskId = '';
+    api.createTaskHeader({ githubId, data }).then((res) => {
+      taskId = res.id;
+      createTask(taskId);
+      localStorage.setItem('savedTaskInProcess', JSON.stringify(data));
+    });
+  });
+
   return (
     <Layout className={wrapper}>
-      <TaskHeader />
+      <TaskHeaderContainer />
       <Searcher />
       <Content className={content}>
         <TaskListContainer />

@@ -8,6 +8,7 @@ const { Sider } = Layout;
 
 const SideMenu = () => {
   const activeRoute = window.location.pathname.split('/')[1] || 'profile';
+
   return (
     <Sider theme="light" className={styles.sideMenu}>
       <Menu

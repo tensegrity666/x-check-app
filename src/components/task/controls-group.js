@@ -5,11 +5,6 @@ import PropTypes from 'prop-types';
 import { Select, Button, Slider, InputNumber, Col, Row } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
-function handleChange(value) {
-  // eslint-disable-next-line no-console
-  console.log(`selected ${value}`);
-}
-
 const ControlsGroup = ({ range, score, category, taskCategories }) => {
   const { Option } = Select;
   const { basic, advanced, hacker, fines } = taskCategories;
@@ -38,10 +33,7 @@ const ControlsGroup = ({ range, score, category, taskCategories }) => {
         />
       </Row>
       <Row justify="center" gutter={[10, 10]}>
-        <Select
-          defaultValue={category}
-          style={{ width: 160 }}
-          onChange={handleChange}>
+        <Select defaultValue={category} style={{ width: 160 }}>
           <Option value={basic.title}>{basic.title}</Option>
           <Option value={advanced.title}>{advanced.title}</Option>
           <Option value={hacker.title}>{hacker.title}</Option>
