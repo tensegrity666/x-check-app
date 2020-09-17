@@ -15,6 +15,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag x-check-app:$(date +%s)
+      run: docker build . --file Dockerfile --tag loremipsum666/x-check-app
     - name: Push to Dockerhub
       run: docker push loremipsum666/x-check-app
