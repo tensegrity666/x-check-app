@@ -9,8 +9,8 @@ import {
   populateRowsWithKeys,
   dynamicSort,
 } from './table-helpers';
+import { RevReqApi } from '../../services/rest-api';
 import getAssignments from './assignment-helper';
-import reviewRequestsMock from './mock-review-requests.json';
 import ASSIGNEES from './constants';
 
 import store from '../../redux/store';
@@ -31,10 +31,12 @@ const SessionAssignmentDialog = () => {
   const { dispatch } = store;
   const { fetchReviewRequestsSuccess } = bindActionCreators(actions, dispatch);
 
-  const assignAttendees = () => {
-    if (!reviewRequests) {
-      // TODO: Add API fetching
-      fetchReviewRequestsSuccess(reviewRequestsMock);
+  const api = new RevReqApi();
+
+  const assignAttendees = async () => {
+    if (reviewRequests.length === 0) {
+      const result = await api.getRevReqBySession('rss2020Q3react-xcheck');
+      fetchReviewRequestsSuccess(result);
     }
     setAssignmentRequest(true);
   };
@@ -45,7 +47,7 @@ const SessionAssignmentDialog = () => {
 
   useEffect(() => {
     if (isAssignmentRequested && reviewRequests) {
-      const result = getAssignments(reviewRequestsMock, assigneesNumber);
+      const result = getAssignments(reviewRequests, assigneesNumber);
       result.sort(dynamicSort('githubId'));
       setAttendees(result);
     }
