@@ -36,12 +36,6 @@ const loginReducer = (state = initialUser, { type, payload }) => {
         isRoleSelected: true,
       };
 
-    case LOAD_FROM_LOCAL_STORAGE:
-      return {
-        ...state,
-        ...payload,
-      };
-
     case SIGN_OUT:
       return {
         ...state,

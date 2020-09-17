@@ -38,7 +38,7 @@ const LoginContainer = () => {
 
       api.createUser(uid, displayName, screenName, email, roles);
 
-      localStorage.setItem('loggedInUser', JSON.stringify(newState));
+      // localStorage.setItem('loggedInUser', JSON.stringify(newState));
     } catch (error) {
       throw new Error(error);
     }
