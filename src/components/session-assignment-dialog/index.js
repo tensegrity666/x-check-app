@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, InputNumber, Space, Table } from 'antd';
@@ -44,11 +45,12 @@ const SessionAssignmentDialog = () => {
     result.sort(dynamicSort('githubId'));
     setAttendees(result);
   };
+  const { id } = useParams();
 
   const assignAttendees = async () => {
     if (reviewRequests.length === 0) {
       fetchReviewRequestsBegin();
-      const result = await api.getRevReqBySession('rss2020Q3react-xcheck');
+      const result = await api.getRevReqBySession(id);
       fetchReviewRequestsSuccess(result);
     }
     if (isAssignmentRequested) {
@@ -90,10 +92,7 @@ const SessionAssignmentDialog = () => {
               : 'Перераспределить'}
           </Button>
 
-          <Button
-            type="primary"
-            shape="round"
-            disabled={attendees.length === 0}>
+          <Button type="primary" shape="round" disabled={attendees.length <= 1}>
             Сохранить изменения
           </Button>
         </Space>
