@@ -15,7 +15,6 @@ import { changeFilter, searchItem } from './filter-actions';
 import {
   getUserInfo,
   addUserRole,
-  loadFromLocalStorage,
   signOutAndClearLocalStorage,
 } from './login-actions';
 
@@ -29,7 +28,6 @@ export {
   searchItem,
   getUserInfo,
   addUserRole,
-  loadFromLocalStorage,
   signOutAndClearLocalStorage,
   addTaskItem,
   removeTaskItem,
