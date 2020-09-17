@@ -19,7 +19,10 @@ import {
   signOutAndClearLocalStorage,
 } from './login-actions';
 
-import fetchReviewRequestsSuccess from './review-requests-actions';
+import {
+  fetchReviewRequestsBegin,
+  fetchReviewRequestsSuccess,
+} from './review-requests-actions';
 
 export {
   changeFilter,
@@ -37,5 +40,6 @@ export {
   editDeadline,
   loadTaskFromLocalStorage,
   addAuthor,
+  fetchReviewRequestsBegin,
   fetchReviewRequestsSuccess,
 };
