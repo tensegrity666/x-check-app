@@ -1,12 +1,21 @@
 import { actionTypes } from '../constants';
 
-const { FETCH_REVIEW_REQUESTS } = actionTypes;
+const {
+  FETCH_REVIEW_REQUESTS_BEGIN,
+  FETCH_REVIEW_REQUESTS_SUCCESS,
+} = actionTypes;
+
+const fetchReviewRequestsBegin = () => {
+  return {
+    type: FETCH_REVIEW_REQUESTS_BEGIN,
+  };
+};
 
 const fetchReviewRequestsSuccess = (reviewRequests) => {
   return {
-    type: FETCH_REVIEW_REQUESTS,
+    type: FETCH_REVIEW_REQUESTS_SUCCESS,
     payload: reviewRequests,
   };
 };
 
-export default fetchReviewRequestsSuccess;
+export { fetchReviewRequestsBegin, fetchReviewRequestsSuccess };

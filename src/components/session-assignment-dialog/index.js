@@ -26,10 +26,16 @@ const SessionAssignmentDialog = () => {
   const reviewRequests = useSelector(
     ({ reviewRequestsReducer }) => reviewRequestsReducer.reviewRequests
   );
+  const isLoading = useSelector(
+    ({ reviewRequestsReducer }) => reviewRequestsReducer.isLoading
+  );
 
   const { container, content, controls } = styles;
   const { dispatch } = store;
-  const { fetchReviewRequestsSuccess } = bindActionCreators(actions, dispatch);
+  const {
+    fetchReviewRequestsSuccess,
+    fetchReviewRequestsBegin,
+  } = bindActionCreators(actions, dispatch);
 
   const api = new RevReqApi();
 
@@ -41,6 +47,7 @@ const SessionAssignmentDialog = () => {
 
   const assignAttendees = async () => {
     if (reviewRequests.length === 0) {
+      fetchReviewRequestsBegin();
       const result = await api.getRevReqBySession('rss2020Q3react-xcheck');
       fetchReviewRequestsSuccess(result);
     }
@@ -73,9 +80,16 @@ const SessionAssignmentDialog = () => {
             onChange={handleChange}
           />
 
-          <Button type="primary" shape="round" onClick={assignAttendees}>
-            Распределить проверяющих
+          <Button
+            type="primary"
+            shape="round"
+            onClick={assignAttendees}
+            disabled={isLoading}>
+            {attendees.length === 0
+              ? 'Распределить проверяющих'
+              : 'Перераспределить'}
           </Button>
+
           <Button
             type="primary"
             shape="round"
