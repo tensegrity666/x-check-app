@@ -46,7 +46,7 @@
     githubId,
     ccSessionId,
     requiredState // enum DRAFT_TO_REQUESTS_GATHERING, REQUESTS_GATHERING_TO_CROSS_CHECK, CROSS_CHECK_TO_COMPLETED,
-  }) - переключение статуса запроса на ревью DRAFT, REQUESTS_GATHERING, CROSS_CHECK, COMPLETED,
+  }) - переключение статуса DRAFT, REQUESTS_GATHERING, CROSS_CHECK, COMPLETED,
     Аргумент requiredState формализован и можем принимать только перечисленные значения. 
 
   Последние 4 метода возвращают объект идентичный переданному в случае успеха, или сообщение об ошибке.
