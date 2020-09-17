@@ -1,7 +1,9 @@
 import React from 'react';
-import toJson from 'enzyme-to-json';
 
-import { makeTestStore, testMount } from '../../../_test-utils/test-utils';
+import {
+  makeTestStore,
+  testMountWithRouter,
+} from '../../../_test-utils/test-utils';
 import SessionAssignmentDialog from '../index';
 import reviewRequestsReducer from '../../../redux/reducers/review-requests-reducer';
 import { fetchReviewRequestsSuccess } from '../../../redux/actions';
@@ -10,6 +12,8 @@ import mockReviewRequests from './mock-review-requests.json';
 describe('SessionAssignmentDialog component', () => {
   let wrapper;
   const store = makeTestStore({ reviewRequestsReducer });
+  const mockId = mockReviewRequests[0].crossCheckSessionId;
+  const path = `/sessions/${mockId}`;
 
   beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
@@ -27,13 +31,11 @@ describe('SessionAssignmentDialog component', () => {
     });
   });
 
-  it('Should match the snapshot', () => {
-    wrapper = testMount(<SessionAssignmentDialog />, { store });
-    expect(toJson(wrapper)).toMatchSnapshot();
-  });
-
   it('Save button is disabled without generated data', () => {
-    wrapper = testMount(<SessionAssignmentDialog />, { store });
+    wrapper = testMountWithRouter(<SessionAssignmentDialog />, {
+      store,
+      initialEntries: path,
+    });
     const saveButtonProps = wrapper
       .find({ children: 'Сохранить изменения' })
       .filter('Button')
@@ -47,7 +49,10 @@ describe('SessionAssignmentDialog component', () => {
   });
 
   it('Generates attendees list on button click', () => {
-    wrapper = testMount(<SessionAssignmentDialog />, { store });
+    wrapper = testMountWithRouter(<SessionAssignmentDialog />, {
+      store,
+      initialEntries: path,
+    });
     store.dispatch(fetchReviewRequestsSuccess(mockReviewRequests));
     wrapper
       .find({ children: 'Распределить проверяющих' })
@@ -59,7 +64,10 @@ describe('SessionAssignmentDialog component', () => {
   });
 
   it('Generated attendees list has valid structure', () => {
-    wrapper = testMount(<SessionAssignmentDialog />, { store });
+    wrapper = testMountWithRouter(<SessionAssignmentDialog />, {
+      store,
+      initialEntries: path,
+    });
     store.dispatch(fetchReviewRequestsSuccess(mockReviewRequests));
     wrapper
       .find({ children: 'Распределить проверяющих' })
