@@ -6,6 +6,7 @@ import {
   toggleSaved,
   createTask,
   editDeadline,
+  loadTaskFromLocalStorage,
   addAuthor,
 } from './task-actions';
 
@@ -35,6 +36,7 @@ export {
   toggleSaved,
   createTask,
   editDeadline,
+  loadTaskFromLocalStorage,
   addAuthor,
   fetchReviewRequestsBegin,
   fetchReviewRequestsSuccess,

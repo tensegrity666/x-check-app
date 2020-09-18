@@ -3,7 +3,7 @@ export const saveStateToLocalStorage = (state) => {
     const serializedState = JSON.stringify(state);
     localStorage.setItem('loggedInUser', serializedState);
   } catch (error) {
-    console.log('Could not save store');
+    throw new Error(error);
   }
 };
 

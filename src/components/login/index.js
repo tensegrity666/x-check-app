@@ -36,9 +36,7 @@ const LoginContainer = () => {
       const newState = store.getState().loginReducer;
       const { uid, displayName, email, roles, screenName } = newState;
 
-      api.createUser(uid, displayName, screenName, email, roles);
-
-      // localStorage.setItem('loggedInUser', JSON.stringify(newState));
+      await api.createUser(uid, displayName, screenName, email, roles);
     } catch (error) {
       throw new Error(error);
     }
