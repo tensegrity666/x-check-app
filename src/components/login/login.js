@@ -43,6 +43,8 @@ const Login = ({ handleLogin, handleRoleAdd, userRole }) => {
                 placeholder="Choose your role"
                 type="primary"
                 size="large"
+                autoFocus
+                defaultOpen
                 value={userRole}
                 onChange={handleRoleAdd}>
                 {listOfRoles.map((role) => (
