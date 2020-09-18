@@ -18,8 +18,6 @@ const LoginContainer = () => {
 
   const { isRoleSelected } = useSelector(({ loginReducer }) => loginReducer);
 
-  const currentRoles = useSelector(({ loginReducer }) => loginReducer.roles);
-
   const [userRole, setUserRole] = useState(null);
   const handleRoleAdd = (value) => {
     setUserRole(value);
@@ -49,7 +47,6 @@ const LoginContainer = () => {
   return (
     <Login
       handleLogin={handleLogin}
-      roles={currentRoles}
       handleRoleAdd={handleRoleAdd}
       userRole={userRole}
     />

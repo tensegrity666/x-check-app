@@ -5,7 +5,7 @@ const initialUser = {
   uid: null,
   githubId: null,
   screenName: null,
-  roles: ['author', 'student', 'supervisor'],
+  roles: [],
   currentRole: null,
   isRoleSelected: false,
   email: null,

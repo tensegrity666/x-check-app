@@ -7,7 +7,9 @@ import RSLogo from './assets/logo-rs-school.svg';
 import GitHubIcon from './assets/ic-github-base64.json';
 import styles from './index.module.css';
 
-const Login = ({ handleLogin, handleRoleAdd, roles, userRole }) => {
+import listOfRoles from './constants';
+
+const Login = ({ handleLogin, handleRoleAdd, userRole }) => {
   const { Meta } = Card;
   const { Option } = Select;
   const { form, image, cardImage, roleSelect, cardWrapper } = styles;
@@ -43,8 +45,8 @@ const Login = ({ handleLogin, handleRoleAdd, roles, userRole }) => {
                 size="large"
                 value={userRole}
                 onChange={handleRoleAdd}>
-                {roles.map((role) => (
-                  <Option key={roles.indexOf(role)}>{role}</Option>
+                {listOfRoles.map((role) => (
+                  <Option key={listOfRoles.indexOf(role)}>{role}</Option>
                 ))}
               </Select>
             </Col>,
@@ -62,7 +64,6 @@ const Login = ({ handleLogin, handleRoleAdd, roles, userRole }) => {
 Login.propTypes = {
   handleLogin: PropTypes.func.isRequired,
   handleRoleAdd: PropTypes.func.isRequired,
-  roles: PropTypes.arrayOf(PropTypes.string).isRequired,
   userRole: PropTypes.string,
 };
 
