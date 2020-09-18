@@ -10,7 +10,7 @@
     screenName, // имя пользователя на гитхабе
     email,
     roles = []  // массив ролей, возможные значения ["student", "author", "supervizor"]
-  ) - возвращает созданный объект 
+  ) - возвращает созданный объект, если пользователь с screenName уже есть БД возвращается сообщение об ошибке 
   deleteUser(githubId) - удаление пользователя, возвращает стандартный response можно вытянуть response.status = OK,
   или сообщение об ошибке.
   Формат сообщения - объект вида {error: true, message: 'text ...'}
@@ -36,6 +36,12 @@ export default class UserApi extends BaseApi {
   }
 
   async createUser(uid, displayName, screenName, email, roles = []) {
+    const searchUser = await this.getUser(screenName);
+
+    if (searchUser.length !== 0) {
+      return searchUser;
+    }
+
     const lastNumberId = this.createId();
 
     const newUser = {
@@ -53,9 +59,7 @@ export default class UserApi extends BaseApi {
   }
 
   async deleteUser(githubId) {
-    const searchUser = await this.getResource(
-      `${this.URL_BASE}/?githubId=${githubId}`
-    );
+    const searchUser = await this.getUser(githubId);
 
     if (searchUser.length === 0) {
       return {
