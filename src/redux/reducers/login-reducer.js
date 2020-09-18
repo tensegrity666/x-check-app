@@ -6,7 +6,6 @@ const initialUser = {
   githubId: null,
   screenName: null,
   roles: [],
-  currentRole: null,
   isRoleSelected: false,
   email: null,
   displayName: null,
@@ -15,7 +14,7 @@ const initialUser = {
 
 const loginReducer = (state = initialUser, { type, payload }) => {
   const { LOGIN, ADD_ROLE, LOAD_FROM_LOCAL_STORAGE, SIGN_OUT } = actionTypes;
-  const { roles } = state;
+  const rolesArr = ['author', 'student', 'supervisor'];
 
   switch (type) {
     case LOGIN:
@@ -33,7 +32,7 @@ const loginReducer = (state = initialUser, { type, payload }) => {
     case ADD_ROLE:
       return {
         ...state,
-        currentRole: roles[payload],
+        roles: [rolesArr[payload]],
         isRoleSelected: true,
       };
 
@@ -49,11 +48,11 @@ const loginReducer = (state = initialUser, { type, payload }) => {
         isAuthenticated: false,
         uid: null,
         githubId: null,
-        currentRole: null,
         isRoleSelected: false,
         email: null,
         displayName: null,
         photoURL: null,
+        roles: [],
       };
 
     default:

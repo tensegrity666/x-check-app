@@ -9,6 +9,7 @@ const Signout = () => {
 
   const onSignOut = () => {
     localStorage.removeItem('loggedInUser');
+    localStorage.removeItem('savedTaskInProcess');
     signOut();
     history.push('/');
     document.location.reload();
