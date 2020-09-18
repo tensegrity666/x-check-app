@@ -37,7 +37,7 @@ describe('login reducer testing', () => {
     nextState = store.getState().loginReducer;
 
     afterEach(() => {
-      expect(nextState.currentRole).toBe('student');
+      expect(nextState.roles.join('')).toBe('student');
     });
   });
 
