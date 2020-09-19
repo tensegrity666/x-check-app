@@ -73,12 +73,6 @@ export default class RevReqApi extends AccessRevReqApi {
     return result;
   }
 
-  async getRevReqByTask(taskId) {
-    const result = await this.getResource(`${this.URL_BASE}/?task=${taskId}`);
-
-    return result;
-  }
-
   async getRevReqByCrossCheckId(crossCheckSessionId) {
     const result = await this.getResource(
       `${this.URL_BASE}/?crossCheckSessionId=${crossCheckSessionId}`
