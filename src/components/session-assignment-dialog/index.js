@@ -50,7 +50,7 @@ const SessionAssignmentDialog = () => {
   const assignAttendees = async () => {
     if (reviewRequests.length === 0) {
       fetchReviewRequestsBegin();
-      const result = await api.getRevReqBySession(id);
+      const result = await api.getRevReqByCrossCheckId(id);
       fetchReviewRequestsSuccess(result);
     }
     if (isAssignmentRequested) {
