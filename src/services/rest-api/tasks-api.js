@@ -6,9 +6,16 @@
   *****
   Доступные методы:
   getTasksAll() - выводит все задачи, возвращает полные данные в виде массива объектов
+  
   getTask(id) -  выводит задачу по id, возвращает полные данные в виде массива c одним объектом
+  
   getTaskByAuthor(nameAuthor) - выводит все задачи созданные автором, требуется передача в аргументе поля author,
     возвращает полные данные в виде массива объектов
+
+  async getTaskByStateNoDraft() - возвращает задачи в статусе отличном от статуса DRAFT
+
+  async getTaskByStateDraft() - возвращает задачи в статусе DRAFT
+
   createTaskHeader({ githubId, data }) - создание карточки задачи, можно создавать как заголовок задачи, 
     тогда необходимо в объект data поля заголовка задачи и передавать пустой массив items: []
     {
@@ -28,12 +35,15 @@
       ] 
     }
     аргументы метода передаются объектом!
-  editTaskHeader({ githubId, taskId, data }) - редактирование карточки задачи, редактируются только те поля которые переданы в объект data,
+  
+    editTaskHeader({ githubId, taskId, data }) - редактирование карточки задачи, редактируются только те поля которые переданы в объект data,
     если для редактирования items пользуются этим методом, то массив items нужно передавать полностью, т.е. не только изменяемую запись, 
     но и все записи которые там были. Для удаления всех items, можно передать объект дата с пустым массивом {items: []} 
     аргументы метода передаются объектом!
-  delTask({ githubId, taskId }) - удаление задачи, удаляется полностью, аргументы метода передаются объектом!
-  toggleTaskState({
+  
+    delTask({ githubId, taskId }) - удаление задачи, удаляется полностью, аргументы метода передаются объектом!
+  
+    toggleTaskState({
     githubId,     // пользователь 
     taskId,       // id задачи
     requiredState // enum DRAFT_TO_PUBLISHED, PUBLISHED_TO_DRAFT, PUBLISHED_TO_ARCHIVED, ARCHIVED_TO_PUBLISHED 
@@ -66,6 +76,18 @@ export default class TasksApi extends AccessTasksApi {
     const result = await this.getResource(
       `${this.URL_BASE}/?author=${nameAuthor}`
     );
+
+    return result;
+  }
+
+  async getTaskByStateNoDraft() {
+    const result = await this.getResource(`${this.URL_BASE}/?state_ne=DRAFT`);
+
+    return result;
+  }
+
+  async getTaskByStateDraft() {
+    const result = await this.getResource(`${this.URL_BASE}/?state=DRAFT`);
 
     return result;
   }
