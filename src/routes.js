@@ -8,6 +8,7 @@ import Auth from './pages/auth';
 import Sessions from './pages/sessions';
 import TaskPage from './pages/task';
 import TasksPage from './pages/tasks';
+import SelfGradePage from './pages/self-grade';
 
 const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
@@ -17,6 +18,7 @@ const useRoutes = (isAuthenticated) => {
         <Route path="/task" exact component={TaskPage} />
         <Route path="/tasks" exact component={TasksPage} />
         <Route path="/requests" exact component={Requests} />
+        <Route path="/self" exact component={SelfGradePage} />
         <Route path="/reviews" exact component={Reviews} />
         <Route path="/details" exact component={Details} />
         <Route path="/details/:id" component={Details} />

@@ -6,6 +6,7 @@ const routes = [
   'reviews',
   'details',
   'sessions',
+  'self',
 ];
 
 export default routes;
