@@ -14,6 +14,10 @@
 
   getRevReqByCrossCheckId(crossCheckSessionId) - выводит все запросы на ревью созданные в рамках кросс-чек-сессии,
   требуется передача в аргументе поля crossCheckSessionId, возвращает полные данные в виде массива объектов
+
+  async getRevReqByStateNoDraft() - выводит все запросы на ревью в статусе отличном от DRAFT
+
+  async getRevReqByStateDraft() - выводит все запросы на ревью в статусе DRAFT 
   
   createRevReq({ githubId, data }) - создание запроса на ревью, аргументы метода передаются объектом!
     СТРУКТУРА объекта в параметре data:
@@ -69,6 +73,18 @@ export default class RevReqApi extends AccessRevReqApi {
     const result = await this.getResource(
       `${this.URL_BASE}/?author=${nameAuthor}`
     );
+
+    return result;
+  }
+
+  async getRevReqByStateNoDraft() {
+    const result = await this.getResource(`${this.URL_BASE}/?state_ne=DRAFT`);
+
+    return result;
+  }
+
+  async getRevReqByStateDraft() {
+    const result = await this.getResource(`${this.URL_BASE}/?state=DRAFT`);
 
     return result;
   }
