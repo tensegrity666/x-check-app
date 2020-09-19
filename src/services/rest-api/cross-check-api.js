@@ -11,6 +11,10 @@
   
   getCCSessionAttendees(ccSessionId) - выводит значение свойства attendees кросс-чек-сессии, требуется передача в аргументе id сессии,
     возвращает полные данные в виде массива объектов
+
+  async getCCSessionByStateNoDraft() - возвращает сессии в статусе отличном от статуса DRAFT
+
+  async getCCSessionByStateDraft() - возвращает сессии в статусе DRAFT
   
   createCCSession({ githubId, data }) - создание кросс-чек-сессии, аргументы метода передаются объектом!
     СТРУКТУРА объекта в параметре data:
@@ -84,6 +88,18 @@ export default class CCSessionApi extends AccessCCSessionApi {
     const ccSession = this.arrToObj(searchCCSession);
 
     return ccSession.attendees;
+  }
+
+  async getCCSessionByStateNoDraft() {
+    const result = await this.getResource(`${this.URL_BASE}/?state_ne=DRAFT`);
+
+    return result;
+  }
+
+  async getCCSessionByStateDraft() {
+    const result = await this.getResource(`${this.URL_BASE}/?state=DRAFT`);
+
+    return result;
   }
 
   async checkExistenceCCSession(ccSessionId) {
