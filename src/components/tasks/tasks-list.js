@@ -5,10 +5,11 @@ import { ProfileOutlined } from '@ant-design/icons';
 
 import styles from './index.module.css';
 
-const TasksList = ({ tasks, handleProceedToTask }) => {
+const TasksList = ({ tasks, handleProceedToTask, isLoading }) => {
   return (
     <section>
       <List
+        loading={isLoading}
         dataSource={tasks}
         renderItem={({ id, taskTitle, dateOfCreate, state }) => (
           <List.Item>
@@ -45,10 +46,12 @@ TasksList.propTypes = {
       state: PropTypes.string,
     })
   ),
+  isLoading: PropTypes.bool,
 };
 
 TasksList.defaultProps = {
   tasks: [],
+  isLoading: false,
 };
 
 export default TasksList;
