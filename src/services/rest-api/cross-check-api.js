@@ -63,6 +63,19 @@ import { actionCCSessionCheckList } from './constants';
 export default class CCSessionApi extends AccessCCSessionApi {
   URL_BASE = '/crossCheckSessions';
 
+  setState = (requiredState) => {
+    switch (requiredState) {
+      case 'DRAFT_TO_REQUESTS_GATHERING':
+        return 'REQUESTS_GATHERING';
+      case 'REQUESTS_GATHERING_TO_CROSS_CHECK':
+        return 'CROSS_CHECK';
+      case 'CROSS_CHECK_TO_COMPLETED':
+        return 'COMPLETED';
+      default:
+        return 'CREATE';
+    }
+  };
+
   async getCCSessionAll() {
     const result = await this.getResource(this.URL_BASE);
 
@@ -111,28 +124,7 @@ export default class CCSessionApi extends AccessCCSessionApi {
   async createCCSession({ githubId, data }) {
     const { id = null, taskId = null } = data;
 
-    if (taskId === null) {
-      return {
-        error: true,
-        message: `No creating possible. Property taskId not found!`,
-      };
-    }
-
-    const taskCheck = await this.getResource(
-      `${this.URL_BASE}/?taskId=${taskId}`
-    );
-
-    if (taskCheck.length > 0) {
-      const session = this.arrToObj(taskCheck);
-      const { id: name, state } = session;
-
-      return {
-        error: true,
-        message: `Сreating a cross-check-session is impossible, for the task "${taskId}" there is already a cross-check-session name - "${name}" in the "${state}" status`,
-      };
-    }
-
-    if (id === null) {
+    if (!id) {
       return {
         error: true,
         message: `No creating possible. Cross-check-session id not specified!`,
@@ -145,6 +137,29 @@ export default class CCSessionApi extends AccessCCSessionApi {
       return {
         error: true,
         message: `No creating possible. Found a cross-check-session with this id "${id}"`,
+      };
+    }
+
+    const taskCheck = await this.getResource(`/tasks/?id=${taskId}`);
+
+    if (taskCheck.length === 0) {
+      return {
+        error: true,
+        message: `No creating possible, task "${taskId}" not found!`,
+      };
+    }
+
+    const taskUniqCheck = await this.getResource(
+      `${this.URL_BASE}/?taskId=${taskId}`
+    );
+
+    if (taskUniqCheck.length > 0) {
+      const session = this.arrToObj(taskUniqCheck);
+      const { id: name, state } = session;
+
+      return {
+        error: true,
+        message: `Сreating a cross-check-session is impossible, for the task "${taskId}" there is already a cross-check-session name - "${name}" in the "${state}" status`,
       };
     }
 
@@ -217,27 +232,10 @@ export default class CCSessionApi extends AccessCCSessionApi {
       };
     }
 
-    const action = requiredState;
-    let state = null;
-
-    switch (requiredState) {
-      case 'DRAFT_TO_REQUESTS_GATHERING':
-        state = 'REQUESTS_GATHERING';
-        break;
-      case 'REQUESTS_GATHERING_TO_CROSS_CHECK':
-        state = 'CROSS_CHECK';
-        break;
-      case 'CROSS_CHECK_TO_COMPLETED':
-        state = 'COMPLETED';
-        break;
-      default:
-        break;
-    }
-
     const accessCheck = await this.userAccessCCSessionCheck({
       githubId,
       ccSessionId,
-      action,
+      action: requiredState,
     });
 
     if (!accessCheck) {
@@ -246,6 +244,8 @@ export default class CCSessionApi extends AccessCCSessionApi {
         message: `User "${githubId}" does not have sufficient rights to toggled status a cross-check-session`,
       };
     }
+
+    const state = this.setState(requiredState);
 
     const result = await this.patchResourse(`${this.URL_BASE}/${ccSessionId}`, {
       state,
