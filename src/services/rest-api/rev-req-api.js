@@ -57,6 +57,21 @@ import { actionRevReqList } from './constants';
 export default class RevReqApi extends AccessRevReqApi {
   URL_BASE = '/reviewRequests';
 
+  setState = (requiredState) => {
+    switch (requiredState) {
+      case 'DRAFT_TO_PUBLISHED':
+        return 'PUBLISHED';
+      case 'PUBLISHED_TO_DRAFT':
+        return 'DRAFT';
+      case 'PUBLISHED_TO_COMPLETED':
+        return 'COMPLETED';
+      case 'COMPLETED_TO_PUBLISHED':
+        return 'PUBLISHED';
+      default:
+        return 'CREATE';
+    }
+  };
+
   async getRevReqAll() {
     const result = await this.getResource(this.URL_BASE);
 
@@ -104,6 +119,24 @@ export default class RevReqApi extends AccessRevReqApi {
   }
 
   async createRevReq({ githubId, data }) {
+    const { task = null } = data;
+
+    if (!task) {
+      return {
+        error: true,
+        message: `No creating possible. Property task not found!`,
+      };
+    }
+
+    const taskCheck = await this.getResource(`${this.URL_BASE}/?task=${task}`);
+
+    if (taskCheck.length === 0) {
+      return {
+        error: true,
+        message: `No creating possible. Task "${task}" not found!`,
+      };
+    }
+
     const action = actionRevReqList.CREATE_REVREQ;
     const accessCheck = await this.userAccessRevReqCheck({
       githubId,
@@ -113,7 +146,7 @@ export default class RevReqApi extends AccessRevReqApi {
     if (!accessCheck) {
       return {
         error: true,
-        message: `User ${githubId} does not have sufficient rights to create a review request`,
+        message: `User "${githubId}" does not have sufficient rights to create a review request`,
       };
     }
 
@@ -136,7 +169,7 @@ export default class RevReqApi extends AccessRevReqApi {
     if (!revReqCheck) {
       return {
         error: true,
-        message: `No editing possible. No review request found with id ${revReqId}`,
+        message: `No editing possible. No review request found with id "${revReqId}"`,
       };
     }
 
@@ -150,7 +183,7 @@ export default class RevReqApi extends AccessRevReqApi {
     if (!accessCheck) {
       return {
         error: true,
-        message: `User ${githubId} does not have sufficient rights to edit a review request`,
+        message: `User "${githubId}" does not have sufficient rights to edit a review request`,
       };
     }
 
@@ -172,42 +205,24 @@ export default class RevReqApi extends AccessRevReqApi {
     if (!revReqCheck) {
       return {
         error: true,
-        message: `No toggled status possible. No review request found with id ${revReqId}`,
+        message: `No toggled status possible. No review request found with id "${revReqId}"`,
       };
-    }
-
-    const action = requiredState;
-    let state = null;
-
-    switch (requiredState) {
-      case 'DRAFT_TO_PUBLISHED':
-        state = 'PUBLISHED';
-        break;
-      case 'PUBLISHED_TO_DRAFT':
-        state = 'DRAFT';
-        break;
-      case 'PUBLISHED_TO_COMPLETED':
-        state = 'COMPLETED';
-        break;
-      case 'COMPLETED_TO_PUBLISHED':
-        state = 'PUBLISHED';
-        break;
-      default:
-        break;
     }
 
     const accessCheck = await this.userAccessRevReqCheck({
       githubId,
       revReqId,
-      action,
+      action: requiredState,
     });
 
     if (!accessCheck) {
       return {
         error: true,
-        message: `User ${githubId} does not have sufficient rights to toggled status a review request`,
+        message: `User "${githubId}" does not have sufficient rights to toggled status a review request`,
       };
     }
+
+    const state = this.setState(requiredState);
 
     const result = await this.patchResourse(`${this.URL_BASE}/${revReqId}`, {
       state,
@@ -222,7 +237,7 @@ export default class RevReqApi extends AccessRevReqApi {
     if (!revReqCheck) {
       return {
         error: true,
-        message: `Unable to delete. No review request found with id ${revReqId}`,
+        message: `Unable to delete. No review request found with id "${revReqId}"`,
       };
     }
 
@@ -236,7 +251,7 @@ export default class RevReqApi extends AccessRevReqApi {
     if (!accessCheck) {
       return {
         error: true,
-        message: `User ${githubId} does not have sufficient rights to delete a review request`,
+        message: `User "${githubId}" does not have sufficient rights to delete a review request`,
       };
     }
 

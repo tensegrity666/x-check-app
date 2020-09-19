@@ -60,6 +60,21 @@ import { actionTaskList } from './constants';
 export default class TasksApi extends AccessTasksApi {
   URL_BASE = '/tasks';
 
+  setState = (requiredState) => {
+    switch (requiredState) {
+      case 'DRAFT_TO_PUBLISHED':
+        return 'PUBLISHED';
+      case 'PUBLISHED_TO_DRAFT':
+        return 'DRAFT';
+      case 'PUBLISHED_TO_ARCHIVED':
+        return 'ARCHIVED';
+      case 'ARCHIVED_TO_PUBLISHED':
+        return 'PUBLISHED';
+      default:
+        return 'CREATE';
+    }
+  };
+
   async getTasksAll() {
     const result = await this.getResource(this.URL_BASE);
 
@@ -176,30 +191,10 @@ export default class TasksApi extends AccessTasksApi {
       };
     }
 
-    const action = requiredState;
-    let state = null;
-
-    switch (requiredState) {
-      case 'DRAFT_TO_PUBLISHED':
-        state = 'PUBLISHED';
-        break;
-      case 'PUBLISHED_TO_DRAFT':
-        state = 'DRAFT';
-        break;
-      case 'PUBLISHED_TO_ARCHIVED':
-        state = 'ARCHIVED';
-        break;
-      case 'ARCHIVED_TO_PUBLISHED':
-        state = 'PUBLISHED';
-        break;
-      default:
-        break;
-    }
-
     const accessCheck = await this.userAccessTasksCheck({
       githubId,
       taskId,
-      action,
+      action: requiredState,
     });
 
     if (!accessCheck) {
@@ -208,6 +203,8 @@ export default class TasksApi extends AccessTasksApi {
         message: `User ${githubId} does not have sufficient rights to toggled status a task`,
       };
     }
+
+    const state = this.setState(requiredState);
 
     const result = await this.patchResourse(`${this.URL_BASE}/${taskId}`, {
       state,
