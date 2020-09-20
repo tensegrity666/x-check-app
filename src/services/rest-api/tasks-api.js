@@ -114,6 +114,7 @@ export default class TasksApi extends AccessTasksApi {
   }
 
   async createTaskHeader({ githubId, data }) {
+    const { id: prefId = 'simple-task-' } = data;
     const action = actionTaskList.CREATE_TASK;
     const accessCheck = await this.userAccessTasksCheck({
       githubId,
@@ -128,7 +129,6 @@ export default class TasksApi extends AccessTasksApi {
     }
 
     const lastTaskId = this.createId();
-    const prefId = data.id;
     const newTaskHeader = {
       ...data,
       id: `${prefId}${lastTaskId}`,

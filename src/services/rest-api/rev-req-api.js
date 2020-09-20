@@ -57,6 +57,8 @@ import { actionRevReqList } from './constants';
 export default class RevReqApi extends AccessRevReqApi {
   URL_BASE = '/reviewRequests';
 
+  URL_TASK = '/tasks';
+
   setState = (requiredState) => {
     switch (requiredState) {
       case 'DRAFT_TO_PUBLISHED':
@@ -119,7 +121,7 @@ export default class RevReqApi extends AccessRevReqApi {
   }
 
   async createRevReq({ githubId, data }) {
-    const { task = null } = data;
+    const { task = null, id: prefId = 'rev-req-' } = data;
 
     if (!task) {
       return {
@@ -128,7 +130,7 @@ export default class RevReqApi extends AccessRevReqApi {
       };
     }
 
-    const taskCheck = await this.getResource(`${this.URL_BASE}/?task=${task}`);
+    const taskCheck = await this.getResource(`${this.URL_TASK}/?id=${task}`);
 
     if (taskCheck.length === 0) {
       return {
@@ -151,7 +153,6 @@ export default class RevReqApi extends AccessRevReqApi {
     }
 
     const lastTaskId = this.createId();
-    const prefId = data.id;
     const newRevReq = {
       ...data,
       id: `${prefId}${lastTaskId}`,

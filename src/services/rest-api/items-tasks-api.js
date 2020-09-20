@@ -46,6 +46,7 @@ export default class ItemsTasksApi extends TasksApi {
   }
 
   async createTaskItem({ githubId, taskId, data }) {
+    const { id: prefId } = data;
     const searchTask = await this.getTargetTask(taskId);
 
     if (searchTask.length === 0) {
@@ -71,8 +72,6 @@ export default class ItemsTasksApi extends TasksApi {
     }
 
     const lastItemId = this.createId();
-    const prefId = data.id;
-
     const newTaskItem = {
       ...data,
       id: `${prefId}${lastItemId}`,
