@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import Profile from './pages/profile';
+import ProfilePage from './pages/profile';
 import Requests from './pages/requests';
 import Reviews from './pages/reviews';
 import Details from './pages/details';
@@ -14,7 +14,7 @@ const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
     return (
       <Switch>
-        <Route path="/profile" exact component={Profile} />
+        <Route path="/profile" exact component={ProfilePage} />
         <Route path="/task" exact component={TaskPage} />
         <Route path="/tasks" exact component={TasksPage} />
         <Route path="/requests" exact component={Requests} />
