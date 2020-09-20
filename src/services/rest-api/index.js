@@ -4,5 +4,14 @@ import TasksApi from './tasks-api';
 import ItemsTasksApi from './items-tasks-api';
 import RevReqApi from './rev-req-api';
 import CCSessionApi from './cross-check-api';
+import ReviewApi from './review-api';
 
-export { BaseApi, UserApi, TasksApi, ItemsTasksApi, RevReqApi, CCSessionApi };
+export {
+  BaseApi,
+  UserApi,
+  TasksApi,
+  ItemsTasksApi,
+  RevReqApi,
+  CCSessionApi,
+  ReviewApi,
+};
