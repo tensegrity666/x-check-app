@@ -1,0 +1,11 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+}
+
+/* stylelint-disable */
+.avatar {
+  margin: 0 12px 6px 0 !important;
+}
+/* stylelint-enable */
