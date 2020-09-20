@@ -1,14 +1,14 @@
 import React from 'react';
 import SideMenu from '../components/side-menu';
-import ProfStub from '../components/prof-stub';
+import Profile from '../components/profile';
 
-const Profile = () => {
+const ProfilePage = () => {
   return (
     <div style={{ display: 'flex' }}>
       <SideMenu />
-      <ProfStub />
+      <Profile />
     </div>
   );
 };
 
-export default Profile;
+export default ProfilePage;
