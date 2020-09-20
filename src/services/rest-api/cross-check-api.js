@@ -63,7 +63,7 @@ import { actionCCSessionCheckList } from './constants';
 export default class CCSessionApi extends AccessCCSessionApi {
   URL_BASE = '/crossCheckSessions';
 
-  URL_TASK = '/tasks';
+  URL_TASK = '/tasks/?id=';
 
   setState = (requiredState) => {
     switch (requiredState) {
@@ -142,7 +142,7 @@ export default class CCSessionApi extends AccessCCSessionApi {
       };
     }
 
-    const taskCheck = await this.getResource(`${this.URL_TASK}/?id=${taskId}`);
+    const taskCheck = await this.getResource(`${this.URL_TASK}${taskId}`);
 
     if (taskCheck.length === 0) {
       return {
