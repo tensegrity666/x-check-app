@@ -57,7 +57,7 @@ import { actionRevReqList } from './constants';
 export default class RevReqApi extends AccessRevReqApi {
   URL_BASE = '/reviewRequests';
 
-  URL_TASK = '/tasks';
+  URL_TASK = '/tasks/?id=';
 
   setState = (requiredState) => {
     switch (requiredState) {
@@ -130,7 +130,7 @@ export default class RevReqApi extends AccessRevReqApi {
       };
     }
 
-    const taskCheck = await this.getResource(`${this.URL_TASK}/?id=${task}`);
+    const taskCheck = await this.getResource(`${this.URL_TASK}${task}`);
 
     if (taskCheck.length === 0) {
       return {
