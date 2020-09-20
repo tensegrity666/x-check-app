@@ -1,3 +1,25 @@
+const rolesList = {
+  AUTHOR:
+    'author' /* право на создание, изменение, удаление tasks и review requests */,
+  STUDENT:
+    'student' /* право на создание, изменение, удаление review requests и review */,
+  SUPERVISOR:
+    'supervisor' /* право на изменения статусов, создание, изменение, удаление review */,
+  SYSTEMS:
+    'systems' /* системная учетная запись, право на изменение статусов */,
+};
+
+const stateList = {
+  CREATE: 'CREATE',
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  ARCHIVED: 'ARCHIVED',
+  COMPLETED: 'COMPLETED',
+  DISPUTED: 'DISPUTED',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+};
+
 const actionTaskList = {
   CREATE_TASK: 'CREATE_TASK',
   EDIT_TASK: 'EDIT_TASK',
@@ -58,6 +80,8 @@ const actionReviewList = {
 };
 
 export {
+  rolesList,
+  stateList,
   actionTaskList,
   actionRevReqList,
   actionCCSessionCheckList,
