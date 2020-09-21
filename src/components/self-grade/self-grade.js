@@ -26,8 +26,8 @@ const SelfGrade = ({ data, handleChange }) => {
       <Content style={{ margin: ' 0 50px' }}>
         <Table dataSource={data.items}>
           <ColumnGroup title={`maximum score: ${data.totalScore}`}>
-            <Column title="Score /" dataIndex="currentScore" />
-            <Column title="Max" dataIndex="currentScore" key="id" />
+            <Column title="Score /" dataIndex="maxScore" />
+            <Column title="Max" dataIndex="maxScore" key="id" />
             <Column
               title="Category"
               dataIndex="category"

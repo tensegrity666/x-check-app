@@ -19,7 +19,7 @@ const TaskList = ({ taskItems, removeTaskItem }) => {
         renderItem={(item) => (
           <List.Item className={listItem}>
             <List.Item.Meta
-              title={`${item.category} ${item.currentScore}`}
+              title={`${item.category} ${item.maxScore}`}
               description={item.description}
             />
             <Button
