@@ -70,7 +70,7 @@ export default class RevReqApi extends AccessRevReqApi {
       case 'COMPLETED_TO_PUBLISHED':
         return 'PUBLISHED';
       default:
-        return 'CREATE';
+        return null;
     }
   };
 
@@ -224,6 +224,13 @@ export default class RevReqApi extends AccessRevReqApi {
     }
 
     const state = this.setState(requiredState);
+
+    if (state === null) {
+      return {
+        error: true,
+        message: `Unable to change status, unknown status "${state}" a review request "${revReqId}"`,
+      };
+    }
 
     const result = await this.patchResourse(`${this.URL_BASE}/${revReqId}`, {
       state,

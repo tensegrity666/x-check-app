@@ -74,7 +74,7 @@ export default class CCSessionApi extends AccessCCSessionApi {
       case 'CROSS_CHECK_TO_COMPLETED':
         return 'COMPLETED';
       default:
-        return 'CREATE';
+        return null;
     }
   };
 
@@ -248,6 +248,13 @@ export default class CCSessionApi extends AccessCCSessionApi {
     }
 
     const state = this.setState(requiredState);
+
+    if (state === null) {
+      return {
+        error: true,
+        message: `Unable to change status, unknown status "${state}" a cross-check-session "${ccSessionId}"`,
+      };
+    }
 
     const result = await this.patchResourse(`${this.URL_BASE}/${ccSessionId}`, {
       state,

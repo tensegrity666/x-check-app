@@ -30,69 +30,61 @@ export default class AccessReviewApi extends BaseApi {
     action,
     requestAuthor,
   }) => {
-    let userRoles = null;
+    // let userRoles = null;
     switch (true) {
+      // Если пользователь создающий ревью === автор ревью реквест, то список ролей обнуляется и никто не может редактировать
+      case reviewState === stateList.CREATE:
+        return reviewAuthor !== requestAuthor ? currentUser.roles : [];
+
       // Если пользователь выполняющий изменения не автор ревью, то список ролей обнуляется и никто не может редактировать
       case reviewState === stateList.DRAFT:
-        userRoles = reviewAuthor === githubId ? currentUser.roles : [];
-        break;
+        return reviewAuthor === githubId ? currentUser.roles : [];
+      // break;
 
       // Если пользователь выполняющий изменения не автор ревью реквест, то список ролей обнуляется и никто не может редактировать
       case reviewState === stateList.PUBLISHED &&
-        action === actionReviewList.PUBLISHED_TO_DISPUTED: // {
-        // const requestAuthor = await this.onSetRequestAuthor(requestId);
-        userRoles = requestAuthor === githubId ? currentUser.roles : [];
-        // };
-        break;
+        action === actionReviewList.PUBLISHED_TO_DISPUTED:
+        return requestAuthor === githubId ? currentUser.roles : [];
+      // break;
 
       // Если пользователь выполняющий изменения не автор ревью реквест, то из списка ролей убирается роль student и author
       case reviewState === stateList.PUBLISHED &&
-        action === actionReviewList.PUBLISHED_TO_ACCEPTED: // {
-        // const requestAuthor = await this.onSetRequestAuthor(requestId);
-        userRoles =
-          requestAuthor === githubId
-            ? currentUser.roles
-            : currentUser.roles.filter(
-                (role) => ![rolesList.AUTHOR, rolesList.STUDENT].includes(role)
-              );
-        // };
-        break;
+        action === actionReviewList.PUBLISHED_TO_ACCEPTED:
+        return requestAuthor === githubId
+          ? currentUser.roles
+          : currentUser.roles.filter(
+              (role) => ![rolesList.AUTHOR, rolesList.STUDENT].includes(role)
+            );
+      // break;
 
       // Если пользователь выполняющий изменения не автор ревью или ревью реквест, то список ролей обнуляется и никто не может редактировать
       case reviewState === stateList.DISPUTED &&
-        action === actionReviewList.EDIT_REVIEW: // {
-        // const requestAuthor = await this.onSetRequestAuthor(requestId);
-        userRoles =
-          requestAuthor === githubId || reviewAuthor === githubId
-            ? currentUser.roles
-            : [];
-        // };
-        break;
+        action === actionReviewList.EDIT_REVIEW:
+        return requestAuthor === githubId || reviewAuthor === githubId
+          ? currentUser.roles
+          : [];
+      // break;
 
       // Если пользователь выполняющий изменения не автор ревью или ревью реквест, то из списка ролей удаляются author, student
       case reviewState === stateList.DISPUTED &&
-        action === actionReviewList.DISPUTED_TO_ACCEPTED: // {
-        // const requestAuthor = await this.onSetRequestAuthor(requestId);
-        userRoles =
-          requestAuthor === githubId || reviewAuthor === githubId
-            ? currentUser.roles
-            : currentUser.roles.filter(
-                (role) => ![rolesList.AUTHOR, rolesList.STUDENT].includes(role)
-              );
-        // };
-        break;
+        action === actionReviewList.DISPUTED_TO_ACCEPTED:
+        return requestAuthor === githubId || reviewAuthor === githubId
+          ? currentUser.roles
+          : currentUser.roles.filter(
+              (role) => ![rolesList.AUTHOR, rolesList.STUDENT].includes(role)
+            );
+      // break;
 
       // авторство не проверяется, отдается список ролей пользователя выполняющего изменения
       case reviewState === stateList.ACCEPTED:
       case reviewState === stateList.REJECTED:
-      case reviewState === stateList.CREATE:
-        userRoles = currentUser.roles;
-        break;
+        return currentUser.roles;
+      // break;
       default:
-        userRoles = [];
-        break;
+        return [];
+      // break;
     }
-    return userRoles;
+    // return userRoles;
   };
 
   async onGetRevReg(requestId) {
@@ -109,7 +101,12 @@ export default class AccessReviewApi extends BaseApi {
     return requestAuthor;
   }
 
-  async userAccessRevCheck({ githubId, reviewId = null, action }) {
+  async userAccessRevCheck({
+    githubId,
+    reviewId = null,
+    requestId = null,
+    action,
+  }) {
     const searchUser = await this.getResource(`${this.URL_USER}${githubId}`); // ищем юзера от имени которого делаются изменения
 
     // If the user is not found, exit with a negative check result
@@ -117,22 +114,26 @@ export default class AccessReviewApi extends BaseApi {
       return false;
     }
 
-    const searchReviewId =
+    const searchReview =
       reviewId !== null
         ? await this.getResource(`${this.URL_REV}${reviewId}`)
         : null;
 
-    const review =
-      searchReviewId !== null && searchReviewId.length !== 0
-        ? this.arrToObj(searchReviewId)
-        : null;
+    // If a review ID exists and a review was not found, exit with a negative check result.
+    if (searchReview !== null && searchReview.length === 0) {
+      return false;
+    }
+
+    /* const review =
+      searchReview !== null && searchReview.length !== 0
+        ? this.arrToObj(searchReview)
+        : null; */
+
+    const review = searchReview !== null ? this.arrToObj(searchReview) : null;
 
     const reviewState = review !== null ? review.state : stateList.CREATE; // статус записи
     const reviewAuthor = review !== null ? review.author : githubId; // автор записи
-    const requestId = review !== null ? review.requestId : null; // ссылка на запрос ревью
-
     const currentUser = this.arrToObj(searchUser); // юзер от имени которого делаются изменения
-    // отсюда начинается новая логика
 
     // Проверка на возможные действия в текущем состоянии записи
     const actionsData = await this.getResource(
@@ -147,10 +148,18 @@ export default class AccessReviewApi extends BaseApi {
       return false;
     }
 
-    const requestAuthor =
-      requestId !== null ? await this.onSetRequestAuthor(requestId) : null;
+    // const requestId = review !== null ? review.requestId : null; // ссылка на запрос ревью
+    // const requestAuthor = requestId !== null ? await this.onSetRequestAuthor(requestId) : null;
 
-    const userRoles = this.onSetUserRoles({
+    const requestAuthor = await this.onSetRequestAuthor(
+      requestId || review.requestId
+    );
+
+    if (requestAuthor === null) {
+      return false;
+    }
+
+    const allowedRoles = this.onSetUserRoles({
       reviewState,
       reviewAuthor,
       githubId,
@@ -159,68 +168,11 @@ export default class AccessReviewApi extends BaseApi {
       requestAuthor,
     });
 
-    /* switch (true) {
-      // Если пользователь выполняющий изменения не автор ревью, то список ролей обнуляется и никто не может редактировать
-      case (reviewState === stateList.DRAFT): 
-        userRoles = reviewAuthor === githubId
-          ? currentUser.roles : [];
-        break;
-      
-        // Если пользователь выполняющий изменения не автор ревью реквест, то список ролей обнуляется и никто не может редактировать
-      case (
-        reviewState === stateList.PUBLISHED 
-        && action === actionReviewList.PUBLISHED_TO_DISPUTED
-      ): // {
-        // const requestAuthor = await this.onSetRequestAuthor(requestId);
-        userRoles = requestAuthor === githubId
-          ? currentUser.roles : [];
-      // };
-        break;
-      
-        // Если пользователь выполняющий изменения не автор ревью реквест, то из списка ролей убирается роль student и author
-      case (reviewState === stateList.PUBLISHED
-        && action === actionReviewList.PUBLISHED_TO_ACCEPTED
-      ): // {
-        // const requestAuthor = await this.onSetRequestAuthor(requestId);
-        userRoles = (requestAuthor === githubId)
-          ? currentUser.roles : currentUser.roles.filter((role) => ![rolesList.AUTHOR, rolesList.STUDENT].includes(role)); 
-      // };
-        break;
-      
-        // Если пользователь выполняющий изменения не автор ревью или ревью реквест, то список ролей обнуляется и никто не может редактировать
-      case (reviewState === stateList.DISPUTED
-        && action === actionReviewList.EDIT_REVIEW
-      ): // {
-        // const requestAuthor = await this.onSetRequestAuthor(requestId);
-        userRoles = (requestAuthor === githubId || reviewAuthor === githubId)
-          ? currentUser.roles : [];
-      // };
-        break;
-      
-        // Если пользователь выполняющий изменения не автор ревью или ревью реквест, то из списка ролей удаляются author, student
-      case (reviewState === stateList.DISPUTED
-        && action === actionReviewList.DISPUTED_TO_ACCEPTED
-      ): // {
-        // const requestAuthor = await this.onSetRequestAuthor(requestId);
-        userRoles = (requestAuthor === githubId || reviewAuthor === githubId)
-          ? currentUser.roles : currentUser.roles.filter((role) => ![rolesList.AUTHOR, rolesList.STUDENT].includes(role));
-      // };
-        break;
-      
-        // авторство не проверяется, отдается список ролей пользователя выполняющего изменения
-      case (reviewState === stateList.ACCEPTED):
-      case (reviewState === stateList.REJECTED):
-      case (reviewState === stateList.CREATE): 
-        userRoles = currentUser.roles;
-        break;  
-      default:
-        userRoles = [];
-        break;
-    }; */
-
     const actionList = this.arrToObj(actionMatch);
     const rolesForState = actionList.roles;
-    const isAccess = rolesForState.filter((role) => userRoles.includes(role));
+    const isAccess = rolesForState.filter((role) =>
+      allowedRoles.includes(role)
+    );
 
     return isAccess.length > 0;
   }
