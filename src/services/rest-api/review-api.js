@@ -1,49 +1,57 @@
 /* 
-  Класс для работы с сущностью Tasks 
+  Класс для работы с сущностью Reviews 
   Наследует класс AccessReviewApi.
   Требуется импорт actionReviewList из constants.js
   
   *****
   Доступные методы:
-  getRevReqAll() - выводит все запросы на ревью, возвращает полные данные в виде массива объектов
+  getReviewAll() - выводит все ревью, возвращает полные данные в виде массива объектов
   
-  getRevReq(id) -  выводит запрос на ревью по id, возвращает полные данные в виде массива c одним объектом
+  getReview(id) -  выводит ревью по id, возвращает полные данные в виде массива c одним объектом
   
-  getRevReqByAuthor(nameAuthor) - выводит все запросы на ревью созданные автором, требуется передача в аргументе поля author,
+  getReviewByAuthor(nameAuthor) - выводит все ревью созданные автором, требуется передача в аргументе поля author,
     возвращает полные данные в виде массива объектов
 
-  getRevReqByCrossCheckId(crossCheckSessionId) - выводит все запросы на ревью созданные в рамках кросс-чек-сессии,
-  требуется передача в аргументе поля crossCheckSessionId, возвращает полные данные в виде массива объектов
+  getReviewByRequest(requestId) - выводит все ревью созданные на указанный запрос на ревью,
+  требуется передача в аргументе поля requestId, возвращает полные данные в виде массива объектов
   
-  createRevReq({ githubId, data }) - создание запроса на ревью, аргументы метода передаются объектом!
+  async getSelfGradeRequest(requestId) - выводит объект selfGrade из запроса на ревью, нужен для 
+    копирования самооценки selfGrade в оценку grade ревью
+  
+  createReview({ githubId, data }) - создание ревью, аргументы метода передаются объектом!
     СТРУКТУРА объекта в параметре data:
     {
-      id: "rev-req-", // префикс id 
-      crossCheckSessionId: null, // or id cross-check-session for example "rss2020Q3react-xcheck"
-      author: githubId, // пользователь Внимание! Обязательное поле!
-      task: taskId, // id задачи Внимание! Обязательное поле!
-      url_pr: 'https://github...', // ссылка на пулл реквест
-      url_deploy: 'https://app...', // ссылка на деплой
-      selfGrade: { // в этот объект передаются id пунктов задачи, самооценка и коментарий студента
-        basic_p1: {score: 20, comment: "Well done!"},
-        extra_p1: {score: 15, comment: "Some things are done, some are not"},
-        fines_p1: {score: 0, comment: "No ticket today"},
-      }
+      requestId: ..., // Обязательное поле, ссылка на запрос ревью на который создается ревью
+      author: githubId,    // Обязательное поле, автор ревью
+      grade: {}            // Обязательное поле, сюда передается оценка проверяющего, по структуре повторяет самооценку из запроса на ревью
     }
 
-  editRevReq({ githubId, revReqId, data }) - редактирование запроса на ревью, редактируются только те поля которые переданны в data, 
+  editReview({ githubId, reviewId = null, data }) - редактирование ревью, редактируются только те поля которые переданны в data, 
     аргументы метода передаются объектом!
+    Так как все поля заголовка не подлежат редактированию, то передавать в метод можно только grade
+    СТРУКТРУРА объекта:
+    data ={
+      grade: {
+        basic_p1: {
+          score: 20,                 // Оценка проверяющего
+          comment: "text...",         // Коментарий проверяющего
+          protest: "text ...",        // Возражения проверяемого, заполняются в статусе диспут
+          suggestedScore: 30          // Рекомендуемая оценка проверямого, заполняются в статусе диспут
+        },
+        extra_p1: {...},
+        fines_p1: {...},
+    }         
 
-  delRevReq({ githubId, revReqId }) - удаление запроса на ревью, удаляется полностью, аргументы метода передаются объектом!
+  delReview({ githubId, reviewId = null }) - удаление ревью, удаляется полностью, аргументы метода передаются объектом!
   
-  toggleRevReqState({
-    githubId,     // пользователь 
-    revReqId,       // id задачи
-    requiredState // enum DRAFT_TO_PUBLISHED, PUBLISHED_TO_DRAFT, PUBLISHED_TO_COMPLETED, COMPLETED_TO_PUBLISHED 
-  }) - переключение статуса запроса на ревью DRAFT, PUBLISHED, COMPLETED,
+  async toggleReviewState({
+    githubId,
+    reviewId = null,
+    requiredState // enum DRAFT_TO_PUBLISHED, PUBLISHED_TO_ACCEPTED, PUBLISHED_TO_DISPUTED, DISPUTED_TO_ACCEPTED, ACCEPTED_TO_REJECTED, REJECTED_TO_DISPUTED, REJECTED_TO_ACCEPTED
+  }) - переключение статуса ревью DRAFT, PUBLISHED, ACCEPTED, DISPUTED, REJECTED,
     Аргумент requiredState формализован и можем принимать только перечисленные значения. 
 
-  Последние 4 метода возвращают объект идентичный переданному в случае успеха, или сообщение об ошибке.
+  Последние 5 методов возвращают объект идентичный переданному в случае успеха, или сообщение об ошибке.
   Формат сообщения - объект вида {error: true, message: 'text ...'}
 */
 
@@ -96,9 +104,9 @@ export default class ReviewApi extends AccessReviewApi {
     return result;
   }
 
-  async getReviewByRequest(revReqId) {
+  async getReviewByRequest(requestId) {
     const result = await this.getResource(
-      `${this.URL_BASE}/?requestId=${revReqId}`
+      `${this.URL_BASE}/?requestId=${requestId}`
     );
 
     return result;
