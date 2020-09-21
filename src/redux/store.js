@@ -5,10 +5,7 @@ import taskReducer from './reducers/task-reducer';
 import filterReducer from './reducers/filter-reducer';
 import loginReducer from './reducers/login-reducer';
 import reviewRequestsReducer from './reducers/review-requests-reducer';
-import {
-  loadStateFromLocalStorage,
-  saveStateToLocalStorage,
-} from './local-storage';
+import { loadStateFromLocalStorage, saveStateToLocalStorage } from '../utils';
 
 const rootReducer = combineReducers({
   taskReducer,
