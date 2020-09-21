@@ -23,6 +23,7 @@ const SessionAssignmentDialog = () => {
   const [assigneesNumber, setAssigneesNumber] = useState(
     ASSIGNEES.DEFAULT_NUMBER
   );
+  // TODO: Add submit handler for saving attendees to crosscheck session.
 
   const reviewRequests = useSelector(
     ({ reviewRequestsReducer }) => reviewRequestsReducer.reviewRequests
@@ -30,6 +31,7 @@ const SessionAssignmentDialog = () => {
   const isLoading = useSelector(
     ({ reviewRequestsReducer }) => reviewRequestsReducer.isLoading
   );
+  const { id } = useParams();
 
   const { container, content, controls } = styles;
   const { dispatch } = store;
@@ -45,7 +47,6 @@ const SessionAssignmentDialog = () => {
     result.sort(dynamicSort('githubId'));
     setAttendees(result);
   };
-  const { id } = useParams();
 
   const assignAttendees = async () => {
     if (reviewRequests.length === 0) {
