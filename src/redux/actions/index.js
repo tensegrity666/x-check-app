@@ -23,6 +23,7 @@ import {
 import {
   fetchReviewRequestsBegin,
   fetchReviewRequestsSuccess,
+  fetchReviewRequests,
 } from './review-requests-actions';
 
 export {
@@ -43,4 +44,5 @@ export {
   fetchTasks,
   fetchReviewRequestsBegin,
   fetchReviewRequestsSuccess,
+  fetchReviewRequests,
 };

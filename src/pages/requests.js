@@ -1,8 +1,8 @@
 import React from 'react';
-import RequestsTable from '../components/requests-table';
+import ReviewRequests from '../components/requests-table';
 
 const Requests = () => {
-  return <RequestsTable />;
+  return <ReviewRequests />;
 };
 
 export default Requests;

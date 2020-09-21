@@ -1,45 +1,30 @@
-import React, { useState } from 'react';
-import { Table } from 'antd';
-import { tableColumns, pagination } from './constants';
-import defaultCustomers from './mockData';
-import getColumnsWithSearch from './utils';
-import styles from './index.module.css';
+import React, { useCallback, useEffect } from 'react';
+import { bindActionCreators } from 'redux';
+import { useSelector } from 'react-redux';
 
-const RequestsTable = () => {
-  const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
-  const { reviewRequests } = styles;
+import store from '../../redux/store';
+import * as actions from '../../redux/actions';
 
-  const handleSearch = (selectedKeys, confirm, dataIndex) => {
-    confirm();
-    setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex);
-  };
+import RequestsTable from './requests-table';
 
-  const handleReset = (clearFilters) => {
-    clearFilters();
-    setSearchText('');
-  };
-
-  const columnsWithSearch = getColumnsWithSearch(
-    tableColumns,
-    handleSearch,
-    handleReset,
-    searchText,
-    searchedColumn
+const ReviewRequests = () => {
+  const reviewRequests = useSelector(
+    ({ reviewRequestsReducer }) => reviewRequestsReducer.reviewRequests
   );
 
+  const { dispatch } = store;
+  const { fetchReviewRequests } = bindActionCreators(actions, dispatch);
+  const onFetchReviewRequests = useCallback(fetchReviewRequests, []);
+
+  useEffect(() => {
+    onFetchReviewRequests();
+  }, [onFetchReviewRequests]);
+
   return (
-    <div className={reviewRequests}>
-      <h1>Review Requests</h1>
-      <Table
-        dataSource={defaultCustomers}
-        columns={columnsWithSearch}
-        pagination={pagination}
-        scroll={{ x: 1200, y: 'calc(100vh - 210px)' }}
-      />
+    <div>
+      <RequestsTable reviewRequests={reviewRequests} />
     </div>
   );
 };
 
-export default RequestsTable;
+export default ReviewRequests;
