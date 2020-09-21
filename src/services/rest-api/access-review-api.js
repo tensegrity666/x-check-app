@@ -3,10 +3,26 @@
   с результатами проверки
   Наследует класс BaseApi.
 
-  Используются следующие роли:
-  "student" - право создавать и редактировать проверки созданные этим пользователем
-  "supervisor" - право изменять статус запроса на проверку.
+  Используются следующие роли по статусам задачи:
+  
+  Cоздание, удаление, редактирование:
+  В статусе CREATE, DRAFT - "student", "author", "supervisor" - право создавать и редактировать проверки созданные этим пользователем
+  
+  Статус PUBLISHED:
+  Изменение статуса:
+  PUBLISHED_TO_DISPUTED - только пользователь с ролью "student" - автор review request 
+  PUBLISHED_TO_ACCEPTED - авторы review request или review,а также пользователь с ролью "supervisor" и системная учетная запись "systems" 
 
+  Cтатус DISPUTED:
+  Редактирование - только авторы review request или review
+  Изменение статуса: DISPUTED_TO_ACCEPTED - авторы review request или review,а также пользователь с ролью "supervisor" и системная учетная запись "systems"
+
+  Статус ACCEPTED: 
+  Изменение статуса: ACCEPTED_TO_REJECTED - только пользователь с ролью "supervisor"
+
+  Статус REJECTED:
+  Изменение статуса:
+  REJECTED_TO_ACCEPTED, REJECTED_TO_DISPUTED - только пользователь с ролью "supervisor"
   
 */
 
