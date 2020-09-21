@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button } from 'antd';
+import { PoweroffOutlined } from '@ant-design/icons';
 
 import { signOut } from '../../services/firebase';
 
@@ -16,7 +17,11 @@ const Signout = () => {
   };
 
   return (
-    <Button danger onClick={onSignOut}>
+    <Button
+      style={{ position: 'absolute', bottom: '20px' }}
+      danger
+      onClick={onSignOut}
+      icon={<PoweroffOutlined />}>
       Sign out
     </Button>
   );

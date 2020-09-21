@@ -1,0 +1,14 @@
+/* stylelint-disable */
+.avatar {
+  margin: 0 auto !important;
+  margin-top: 20px !important;
+}
+
+.tag {
+  margin: 0 20px !important;
+}
+/* stylelint-enable */
+
+.cardWrapper {
+  width: 400px;
+}

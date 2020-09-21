@@ -5,6 +5,7 @@ import taskReducer from './reducers/task-reducer';
 import filterReducer from './reducers/filter-reducer';
 import loginReducer from './reducers/login-reducer';
 import reviewRequestsReducer from './reducers/review-requests-reducer';
+import selfGradeReducer from './reducers/self-grade-reducer';
 import { loadStateFromLocalStorage, saveStateToLocalStorage } from '../utils';
 
 const rootReducer = combineReducers({
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   filterReducer,
   loginReducer,
   reviewRequestsReducer,
+  selfGradeReducer,
 });
 
 const persistedState = loadStateFromLocalStorage();

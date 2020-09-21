@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 
 import SelfGrade from './self-grade';
-
 import { TasksApi } from '../../services/rest-api';
 
 function handleChange(value) {
