@@ -71,7 +71,7 @@ export default class TasksApi extends AccessTasksApi {
       case 'ARCHIVED_TO_PUBLISHED':
         return 'PUBLISHED';
       default:
-        return 'CREATE';
+        return null;
     }
   };
 
@@ -205,6 +205,13 @@ export default class TasksApi extends AccessTasksApi {
     }
 
     const state = this.setState(requiredState);
+
+    if (state === null) {
+      return {
+        error: true,
+        message: `Unable to change status, unknown status "${state}" a task "${taskId}"`,
+      };
+    }
 
     const result = await this.patchResourse(`${this.URL_BASE}/${taskId}`, {
       state,

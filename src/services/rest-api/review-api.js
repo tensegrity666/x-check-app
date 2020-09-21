@@ -72,7 +72,7 @@ export default class ReviewApi extends AccessReviewApi {
       case 'REJECTED_TO_ACCEPTED':
         return 'ACCEPTED';
       default:
-        return 'CREATE';
+        return null;
     }
   };
 
@@ -104,10 +104,21 @@ export default class ReviewApi extends AccessReviewApi {
     return result;
   }
 
-  async checkExistenceReview(reviewId) {
-    const isReview = await this.getReview(reviewId);
+  async getSelfGradeRequest(requestId) {
+    const searchRequest = await this.getResource(
+      `${this.URL_REQ}/?id=${requestId}`
+    );
 
-    return isReview.length > 0;
+    if (searchRequest.length === 0) {
+      return {
+        error: true,
+        message: `Can't show list of self grade. No review request found with id "${requestId}"`,
+      };
+    }
+
+    const request = this.arrToObj(searchRequest);
+
+    return request.selfGrade;
   }
 
   async createReview({ githubId, data }) {
@@ -120,21 +131,11 @@ export default class ReviewApi extends AccessReviewApi {
       };
     }
 
-    const requestCheck = await this.getResource(
-      `${this.URL_REQ}/?id=${requestId}`
-    );
-
-    if (requestCheck.length === 0) {
-      return {
-        error: true,
-        message: `No creating possible. Review request "${requestCheck}" not found!`,
-      };
-    }
-
     const action = actionReviewList.CREATE_REVIEW;
     const accessCheck = await this.userAccessRevCheck({
       githubId,
       action,
+      requestId,
     });
 
     if (!accessCheck) {
@@ -156,10 +157,8 @@ export default class ReviewApi extends AccessReviewApi {
     return result;
   }
 
-  async editReview({ githubId, reviewId, data }) {
-    const reviewCheck = await this.checkExistenceReview(reviewId);
-
-    if (!reviewCheck) {
+  async editReview({ githubId, reviewId = null, data }) {
+    if (!reviewId) {
       return {
         error: true,
         message: `No editing possible. No review found with id "${reviewId}"`,
@@ -190,15 +189,13 @@ export default class ReviewApi extends AccessReviewApi {
 
   async toggleReviewState({
     githubId,
-    reviewId,
+    reviewId = null,
     requiredState /* enum DRAFT_TO_PUBLISHED, PUBLISHED_TO_ACCEPTED, PUBLISHED_TO_DISPUTED, DISPUTED_TO_ACCEPTED, ACCEPTED_TO_REJECTED, REJECTED_TO_DISPUTED, REJECTED_TO_ACCEPTED */,
   }) {
-    const reviewCheck = await this.checkExistenceReview(reviewId);
-
-    if (!reviewCheck) {
+    if (!reviewId) {
       return {
         error: true,
-        message: `No toggled status possible. No review found with id "${reviewId}"`,
+        message: `No editing possible. No review found with id "${reviewId}"`,
       };
     }
 
@@ -217,6 +214,13 @@ export default class ReviewApi extends AccessReviewApi {
 
     const state = this.setState(requiredState);
 
+    if (state === null) {
+      return {
+        error: true,
+        message: `Unable to change status, unknown status "${state}" a review "${reviewId}"`,
+      };
+    }
+
     const result = await this.patchResourse(`${this.URL_BASE}/${reviewId}`, {
       state,
     });
@@ -224,13 +228,11 @@ export default class ReviewApi extends AccessReviewApi {
     return result;
   }
 
-  async delReview({ githubId, reviewId }) {
-    const reviewCheck = await this.checkExistenceReview(reviewId);
-
-    if (!reviewCheck) {
+  async delReview({ githubId, reviewId = null }) {
+    if (!reviewId) {
       return {
         error: true,
-        message: `Unable to delete. No review found with id "${reviewId}"`,
+        message: `No editing possible. No review found with id "${reviewId}"`,
       };
     }
 
