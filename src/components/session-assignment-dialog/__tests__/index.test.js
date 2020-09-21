@@ -37,7 +37,7 @@ describe('SessionAssignmentDialog component', () => {
       initialEntries: path,
     });
     const saveButtonProps = wrapper
-      .find({ children: 'Сохранить изменения' })
+      .find({ children: 'Save attendees' })
       .filter('Button')
       .props();
     const tableProps = wrapper.find('Table').at(0).props();
@@ -55,7 +55,7 @@ describe('SessionAssignmentDialog component', () => {
     });
     store.dispatch(fetchReviewRequestsSuccess(mockReviewRequests));
     wrapper
-      .find({ children: 'Распределить проверяющих' })
+      .find({ children: 'Assign attendees' })
       .filter('Button')
       .simulate('click');
     const tableProps = wrapper.find('Table').at(0).props();
@@ -70,7 +70,7 @@ describe('SessionAssignmentDialog component', () => {
     });
     store.dispatch(fetchReviewRequestsSuccess(mockReviewRequests));
     wrapper
-      .find({ children: 'Распределить проверяющих' })
+      .find({ children: 'Assign attendees' })
       .filter('Button')
       .simulate('click');
     const tableProps = wrapper.find('Table').at(0).props();
