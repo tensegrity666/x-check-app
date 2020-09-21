@@ -72,9 +72,9 @@ const SessionAssignmentDialog = () => {
   return (
     <section className={container}>
       <div className={content}>
-        <h3>Распределение проверяющих сессии</h3>
+        <h3>Assignment of session attendees</h3>
         <Space align="center" className={controls}>
-          <span>Количество проверяемых</span>
+          <span>Reviewed students number</span>
           <InputNumber
             min={ASSIGNEES.MIN_NUMBER}
             max={ASSIGNEES.MAX_NUMBER}
@@ -82,21 +82,16 @@ const SessionAssignmentDialog = () => {
             onChange={handleChange}
           />
 
-          <Button
-            type="primary"
-            shape="round"
-            onClick={assignAttendees}
-            disabled={isLoading}>
-            {attendees.length === 0
-              ? 'Распределить проверяющих'
-              : 'Перераспределить'}
+          <Button type="default" onClick={assignAttendees} disabled={isLoading}>
+            {attendees.length === 0 ? 'Assign attendees' : 'Reassign'}
           </Button>
 
-          <Button type="primary" shape="round" disabled={attendees.length <= 1}>
-            Сохранить изменения
+          <Button type="default" disabled={attendees.length <= 1}>
+            Save attendees
           </Button>
         </Space>
         <Table
+          loading={isLoading}
           columns={tableColumns}
           dataSource={populateRowsWithKeys(attendees)}
         />
