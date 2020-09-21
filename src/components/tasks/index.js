@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { bindActionCreators } from 'redux';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -13,6 +13,7 @@ const Tasks = () => {
   const { Title } = Typography;
   const { dispatch } = store;
   const { fetchTasks } = bindActionCreators(actions, dispatch);
+  const onFetchTasks = useCallback(fetchTasks, []);
 
   const history = useHistory();
   const tasks = useSelector(({ tasksListReducer }) => tasksListReducer.tasks);
@@ -25,9 +26,8 @@ const Tasks = () => {
   };
 
   useEffect(() => {
-    fetchTasks();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    onFetchTasks();
+  }, [onFetchTasks]);
 
   return (
     <div>
