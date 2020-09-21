@@ -13,7 +13,7 @@ const initialUser = {
 };
 
 const loginReducer = (state = initialUser, { type, payload }) => {
-  const { LOGIN, ADD_ROLE, LOAD_FROM_LOCAL_STORAGE, SIGN_OUT } = actionTypes;
+  const { LOGIN, ADD_ROLE, SIGN_OUT } = actionTypes;
   const rolesArr = ['author', 'student', 'supervisor'];
 
   switch (type) {
@@ -34,12 +34,6 @@ const loginReducer = (state = initialUser, { type, payload }) => {
         ...state,
         roles: [rolesArr[payload]],
         isRoleSelected: true,
-      };
-
-    case LOAD_FROM_LOCAL_STORAGE:
-      return {
-        ...state,
-        ...payload,
       };
 
     case SIGN_OUT:
