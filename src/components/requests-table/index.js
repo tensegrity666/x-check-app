@@ -48,8 +48,16 @@ const ReviewRequests = () => {
 
   return (
     <div>
-      <RequestsTable reviewRequests={requestForUser} />
-      <RequestsTable reviewRequests={reviewRequests} />
+      <RequestsTable
+        reviewRequests={requestForUser}
+        userId={userGithubId}
+        title="Review Requests You Need to Review"
+      />
+      <RequestsTable
+        reviewRequests={reviewRequests}
+        userId={userGithubId}
+        title="All Review Requests"
+      />
     </div>
   );
 };
