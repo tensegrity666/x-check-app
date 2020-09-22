@@ -2,11 +2,6 @@ const defaultRowsByPage = 10;
 
 const tableColumns = [
   {
-    title: 'ID',
-    dataIndex: 'id',
-    isSearchable: false,
-  },
-  {
     title: 'crossCheckID',
     dataIndex: 'crossCheckID',
     isSearchable: false,
