@@ -95,14 +95,8 @@ export default class AccessReviewApi extends BaseApi {
     }
   };
 
-  async onGetRevReg(requestId) {
-    const result = await this.getResource(`${this.URL_REV_REQ}${requestId}`);
-
-    return result;
-  }
-
   async onSetRequestAuthor(requestId) {
-    const searchRevReq = await this.onGetRevReg(requestId);
+    const searchRevReq = await this.getResource(`${this.URL_REV_REQ}${requestId}`);
     const revReq = searchRevReq.length > 0 ? this.arrToObj(searchRevReq) : null;
     const requestAuthor = revReq !== null ? revReq.author : null;
 

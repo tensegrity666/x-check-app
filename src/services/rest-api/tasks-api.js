@@ -107,12 +107,6 @@ export default class TasksApi extends AccessTasksApi {
     return result;
   }
 
-  async checkExistenceTask(taskId) {
-    const isTask = await this.getTask(taskId);
-
-    return isTask.length > 0;
-  }
-
   async createTaskHeader({ githubId, data }) {
     const { id: prefId = 'simple-task-' } = data;
     const action = actionTaskList.CREATE_TASK;
@@ -142,13 +136,11 @@ export default class TasksApi extends AccessTasksApi {
   }
 
   // Cannot edit "state", "author" property, "state", "author" property is read-only
-  async editTaskHeader({ githubId, taskId, data }) {
-    const taskCheck = await this.checkExistenceTask(taskId);
-
-    if (!taskCheck) {
+  async editTaskHeader({ githubId, taskId = null, data }) {
+    if (!taskId) {
       return {
         error: true,
-        message: `No editing possible. No task found with id ${taskId}`,
+        message: `No editing possible. No task found with id "${taskId}"`,
       };
     }
 
@@ -172,22 +164,17 @@ export default class TasksApi extends AccessTasksApi {
   }
 
   /* 
-    Нужна еше проверка на статус записи, невозможно перепрыгнуть через уровень
-    Или реализовать это на клиенте, показывать возможный переход на статус.
     Аргумент requiredState формализован и можем принимать только перечисленные значения,
-
   */
   async toggleTaskState({
     githubId,
-    taskId,
+    taskId = null,
     requiredState /* enum DRAFT_TO_PUBLISHED, PUBLISHED_TO_DRAFT, PUBLISHED_TO_ARCHIVED, ARCHIVED_TO_PUBLISHED */,
   }) {
-    const taskCheck = await this.checkExistenceTask(taskId);
-
-    if (!taskCheck) {
+    if (!taskId) {
       return {
         error: true,
-        message: `No editing possible. No task found with id ${taskId}`,
+        message: `No editing possible. No task found with id "${taskId}"`,
       };
     }
 
@@ -220,13 +207,11 @@ export default class TasksApi extends AccessTasksApi {
     return result;
   }
 
-  async delTask({ githubId, taskId }) {
-    const taskCheck = await this.checkExistenceTask(taskId);
-
-    if (!taskCheck) {
+  async delTask({ githubId, taskId = null }) {
+    if (!taskId) {
       return {
         error: true,
-        message: `Unable to delete. No task found with id ${taskId}`,
+        message: `Unable to delete. No task found with id "${taskId}"`,
       };
     }
 

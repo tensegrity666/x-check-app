@@ -117,12 +117,6 @@ export default class CCSessionApi extends AccessCCSessionApi {
     return result;
   }
 
-  async checkExistenceCCSession(ccSessionId) {
-    const isCCSession = await this.getCCSession(ccSessionId);
-
-    return isCCSession.length > 0;
-  }
-
   async createCCSession({ githubId, data }) {
     const { id = null, taskId = null } = data;
 
@@ -133,9 +127,9 @@ export default class CCSessionApi extends AccessCCSessionApi {
       };
     }
 
-    const ccSessionCheck = await this.checkExistenceCCSession(id);
+    const ccSessionCheck = await this.getCCSession(id);
 
-    if (ccSessionCheck) {
+    if (ccSessionCheck.length > 0) {
       return {
         error: true,
         message: `No creating possible. Found a cross-check-session with this id "${id}"`,
@@ -188,9 +182,7 @@ export default class CCSessionApi extends AccessCCSessionApi {
     return result;
   }
 
-  async editCCSession({ githubId, ccSessionId, data }) {
-    const ccSessionCheck = await this.checkExistenceCCSession(ccSessionId);
-
+  async editCCSession({ githubId, ccSessionId = null, data }) {
     if (!ccSessionCheck) {
       return {
         error: true,
@@ -222,11 +214,9 @@ export default class CCSessionApi extends AccessCCSessionApi {
 
   async toggleCCSessionState({
     githubId,
-    ccSessionId,
+    ccSessionId = null,
     requiredState /* enum DRAFT_TO_REQUESTS_GATHERING, REQUESTS_GATHERING_TO_CROSS_CHECK, CROSS_CHECK_TO_COMPLETED */,
   }) {
-    const ccSessionCheck = await this.checkExistenceCCSession(ccSessionId);
-
     if (!ccSessionCheck) {
       return {
         error: true,
@@ -263,9 +253,7 @@ export default class CCSessionApi extends AccessCCSessionApi {
     return result;
   }
 
-  async delCCSession({ githubId, ccSessionId }) {
-    const ccSessionCheck = await this.checkExistenceCCSession(ccSessionId);
-
+  async delCCSession({ githubId, ccSessionId =null }) {
     if (!ccSessionCheck) {
       return {
         error: true,
