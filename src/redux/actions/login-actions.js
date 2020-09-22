@@ -1,6 +1,6 @@
 import { actionTypes } from '../constants';
 
-const { LOGIN, ADD_ROLE, LOAD_FROM_LOCAL_STORAGE, SIGN_OUT } = actionTypes;
+const { LOGIN, ADD_ROLE, SIGN_OUT } = actionTypes;
 
 export const getUserInfo = (payload) => {
   return {
@@ -12,13 +12,6 @@ export const getUserInfo = (payload) => {
 export const addUserRole = (payload) => {
   return {
     type: ADD_ROLE,
-    payload,
-  };
-};
-
-export const loadFromLocalStorage = (payload) => {
-  return {
-    type: LOAD_FROM_LOCAL_STORAGE,
     payload,
   };
 };
