@@ -94,6 +94,12 @@ export default class RevReqApi extends AccessRevReqApi {
     return result;
   }
 
+  async getRevReqByTask(taskId) {
+    const result = await this.getResource(`${this.URL_BASE}/?task=${taskId}`);
+
+    return result;
+  }
+
   async getRevReqByStateNoDraft() {
     const result = await this.getResource(`${this.URL_BASE}/?state_ne=DRAFT`);
 
