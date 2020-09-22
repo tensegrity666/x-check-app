@@ -111,11 +111,12 @@ const getSelfGradeTotal = (selfGrade) => {
   return Object.values(selfGrade).reduce((total, value) => total + value, 0);
 };
 
-const reduceRequestsScore = (ReviewRequestsList) => {
+const getFormattedRows = (ReviewRequestsList) => {
   return ReviewRequestsList.map((request) => ({
     ...request,
+    key: request.id,
     selfGrade: getSelfGradeTotal(request.selfGrade),
   }));
 };
 
-export { getColumnsWithSearch, reduceRequestsScore };
+export { getColumnsWithSearch, getFormattedRows };

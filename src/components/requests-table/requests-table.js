@@ -3,7 +3,7 @@ import { Table } from 'antd';
 import PropTypes from 'prop-types';
 
 import { tableColumns, pagination } from './constants';
-import { getColumnsWithSearch, reduceRequestsScore } from './utils';
+import { getColumnsWithSearch, getFormattedRows } from './utils';
 import styles from './index.module.css';
 
 const RequestsTable = ({ reviewRequests }) => {
@@ -34,7 +34,7 @@ const RequestsTable = ({ reviewRequests }) => {
     <section className={reviewRequestsSection}>
       <h1>Review Requests</h1>
       <Table
-        dataSource={reduceRequestsScore(reviewRequests)}
+        dataSource={getFormattedRows(reviewRequests)}
         columns={columnsWithSearch}
         pagination={pagination}
         scroll={{ x: 1200, y: 'calc(100vh - 210px)' }}
