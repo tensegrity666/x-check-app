@@ -17,6 +17,10 @@
   
   async getSelfGradeRequest(requestId) - выводит объект selfGrade из запроса на ревью, нужен для 
     копирования самооценки selfGrade в оценку grade ревью
+
+  async getReviewByStateNoDraft() - вызов метода возвращает список ревью в статусе DRAFT
+
+  async getReviewByStateDraft() - вызов метода возвращает список ревью в статусе отличном от DRAFT 
   
   createReview({ githubId, data }) - создание ревью, аргументы метода передаются объектом!
     СТРУКТУРА объекта в параметре data:
