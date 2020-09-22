@@ -23,6 +23,8 @@ import {
   fetchReviewRequestsSuccess,
 } from './review-requests-actions';
 
+import { rateTaskItem, copyTaskToState } from './self-grade-actions';
+
 export {
   changeFilter,
   searchItem,
@@ -40,4 +42,6 @@ export {
   addAuthor,
   fetchReviewRequestsBegin,
   fetchReviewRequestsSuccess,
+  rateTaskItem,
+  copyTaskToState,
 };
