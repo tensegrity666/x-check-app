@@ -21,6 +21,7 @@
 */
 
 import BaseApi from './base-api';
+import { stateList } from './constants';
 
 export default class AccessCCSessionApi extends BaseApi {
   URL_USER = '/users/?githubId=';
@@ -42,14 +43,16 @@ export default class AccessCCSessionApi extends BaseApi {
         ? await this.getResource(`${this.URL_CCS}${ccSessionId}`)
         : null;
 
-    const ccSession =
-      searchCCSession !== null && searchCCSession.length !== 0
-        ? this.arrToObj(searchCCSession)
-        : null;
-    const ccSessionState = ccSession !== null ? ccSession.state : 'CREATE';
+    // If a cross-check-session ID exists and a cross-check-session was not found, exit with a negative check result.
+    if (searchCCSession !== null && searchCCSession.length === 0) {
+      return false;
+    }
 
-    const user = this.arrToObj(searchUser);
-    const userRoles = user.roles;
+    const ccSession = searchCCSession !== null ? this.arrToObj(searchCCSession) : null;
+    const ccSessionState = ccSession !== null ? ccSession.state : stateList.CREATE;
+
+    const currentUser = this.arrToObj(searchUser);
+    const allowedRoles = currentUser.roles;
 
     const actionsData = await this.getResource(
       `${this.URL_ACCESS_CCS_LIST}${ccSessionState}`
@@ -65,7 +68,7 @@ export default class AccessCCSessionApi extends BaseApi {
 
     const actionList = this.arrToObj(actionMatch);
     const rolesForState = actionList.roles;
-    const isAccess = rolesForState.filter((role) => userRoles.includes(role));
+    const isAccess = rolesForState.filter((role) => allowedRoles.includes(role));
 
     return isAccess.length > 0;
   }

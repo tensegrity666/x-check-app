@@ -129,6 +129,18 @@ export default class ReviewApi extends AccessReviewApi {
     return request.selfGrade;
   }
 
+  async getReviewByStateNoDraft() {
+    const result = await this.getResource(`${this.URL_BASE}/?state_ne=DRAFT`);
+
+    return result;
+  }
+
+  async getReviewByStateDraft() {
+    const result = await this.getResource(`${this.URL_BASE}/?state=DRAFT`);
+
+    return result;
+  }
+
   async createReview({ githubId, data }) {
     const { requestId = null, id: prefId = 'rev-id-' } = data;
 

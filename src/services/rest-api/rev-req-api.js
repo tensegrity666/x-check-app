@@ -114,12 +114,6 @@ export default class RevReqApi extends AccessRevReqApi {
     return result;
   }
 
-  async checkExistenceRevReq(revReqId) {
-    const isRevReq = await this.getRevReq(revReqId);
-
-    return isRevReq.length > 0;
-  }
-
   async createRevReq({ githubId, data }) {
     const { task = null, id: prefId = 'rev-req-' } = data;
 
@@ -164,10 +158,8 @@ export default class RevReqApi extends AccessRevReqApi {
     return result;
   }
 
-  async editRevReq({ githubId, revReqId, data }) {
-    const revReqCheck = await this.checkExistenceRevReq(revReqId);
-
-    if (!revReqCheck) {
+  async editRevReq({ githubId, revReqId = null, data }) {
+    if (!revReqId) {
       return {
         error: true,
         message: `No editing possible. No review request found with id "${revReqId}"`,
@@ -198,12 +190,10 @@ export default class RevReqApi extends AccessRevReqApi {
 
   async toggleRevReqState({
     githubId,
-    revReqId,
+    revReqId = null,
     requiredState /* enum DRAFT_TO_PUBLISHED, PUBLISHED_TO_DRAFT, PUBLISHED_TO_COMPLETED, COMPLETED_TO_PUBLISHED */,
   }) {
-    const revReqCheck = await this.checkExistenceRevReq(revReqId);
-
-    if (!revReqCheck) {
+    if (!revReqId) {
       return {
         error: true,
         message: `No toggled status possible. No review request found with id "${revReqId}"`,
@@ -239,10 +229,8 @@ export default class RevReqApi extends AccessRevReqApi {
     return result;
   }
 
-  async delRevReq({ githubId, revReqId }) {
-    const revReqCheck = await this.checkExistenceRevReq(revReqId);
-
-    if (!revReqCheck) {
+  async delRevReq({ githubId, revReqId = null }) {
+    if (!revReqId) {
       return {
         error: true,
         message: `Unable to delete. No review request found with id "${revReqId}"`,

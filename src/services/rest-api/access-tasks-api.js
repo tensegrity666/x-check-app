@@ -15,6 +15,7 @@
 */
 
 import BaseApi from './base-api';
+import { stateList } from './constants';
 
 export default class AccessTasksApi extends BaseApi {
   URL_USER = '/users/?githubId=';
@@ -23,7 +24,7 @@ export default class AccessTasksApi extends BaseApi {
 
   URL_ACCESS_TASK_LIST = '/accessTasklist/';
 
-  async userAccessTasksCheck({ githubId, taskId = undefined, action }) {
+  async userAccessTasksCheck({ githubId, taskId = null, action }) {
     const searchUser = await this.getResource(`${this.URL_USER}${githubId}`);
 
     // If the user is not found, exit with a negative check result
@@ -32,23 +33,24 @@ export default class AccessTasksApi extends BaseApi {
     }
 
     const searchTask =
-      taskId !== undefined
+      taskId !== null
         ? await this.getResource(`${this.URL_TASKS}${taskId}`)
         : null;
 
-    const task =
-      searchTask !== null && searchTask.length !== 0
-        ? this.arrToObj(searchTask)
-        : null;
+    // If a task ID exists and a task was not found, exit with a negative check result.
+    if (searchTask !== null && searchTask.length === 0) {
+      return false;
+    }
+    
+    const task = searchTask !== null ? this.arrToObj(searchTask) : null;
 
-    const taskState = task !== null ? task.state : 'CREATE';
+    const taskState = task !== null ? task.state : stateList.CREATE;
     const taskAuthor = task !== null ? task.author : githubId;
-
-    const user = this.arrToObj(searchUser);
-    const userRoles =
+    const currentUser = this.arrToObj(searchUser);
+    const allowedRoles =
       taskAuthor === githubId
-        ? user.roles
-        : user.roles.filter((role) => role !== 'author');
+        ? currentUser.roles
+        : currentUser.roles.filter((role) => role !== 'author');
 
     const actionsData = await this.getResource(
       `${this.URL_ACCESS_TASK_LIST}${taskState}`
@@ -64,7 +66,7 @@ export default class AccessTasksApi extends BaseApi {
 
     const actionList = this.arrToObj(actionMatch);
     const rolesForState = actionList.roles;
-    const isAccess = rolesForState.filter((role) => userRoles.includes(role));
+    const isAccess = rolesForState.filter((role) => allowedRoles.includes(role));
 
     return isAccess.length > 0;
   }
