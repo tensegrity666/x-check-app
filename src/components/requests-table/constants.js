@@ -1,3 +1,5 @@
+import ConditionalLink from './conditional-link';
+
 const defaultRowsByPage = 10;
 
 const tableColumns = [
@@ -44,10 +46,17 @@ const tableColumns = [
   },
 ];
 
+const getActionColumn = (userId) => ({
+  title: 'Action',
+  key: 'action',
+  render: (text, { author, id }) =>
+    ConditionalLink({ isDisabled: userId === author, slug: id }),
+});
+
 const pagination = {
   showSizeChanger: true,
   defaultPageSize: defaultRowsByPage,
   defaultCurrent: 1,
 };
 
-export { defaultRowsByPage, tableColumns, pagination };
+export { defaultRowsByPage, tableColumns, pagination, getActionColumn };

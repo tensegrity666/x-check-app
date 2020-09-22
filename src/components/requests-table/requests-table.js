@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { Table } from 'antd';
+import { Table, Typography } from 'antd';
 import PropTypes from 'prop-types';
 
-import { tableColumns, pagination } from './constants';
+import { tableColumns, pagination, getActionColumn } from './constants';
 import { getColumnsWithSearch, getFormattedRows } from './utils';
 import styles from './index.module.css';
 
-const RequestsTable = ({ reviewRequests }) => {
+const RequestsTable = ({ reviewRequests, userId, title }) => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const { reviewRequestsSection } = styles;
+
+  const { Title } = Typography;
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -23,7 +25,7 @@ const RequestsTable = ({ reviewRequests }) => {
   };
 
   const columnsWithSearch = getColumnsWithSearch(
-    tableColumns,
+    [...tableColumns, getActionColumn(userId)],
     handleSearch,
     handleReset,
     searchText,
@@ -32,7 +34,7 @@ const RequestsTable = ({ reviewRequests }) => {
 
   return (
     <section className={reviewRequestsSection}>
-      <h1>Review Requests</h1>
+      {title && <Title level={3}>{title}</Title>}
       <Table
         dataSource={getFormattedRows(reviewRequests)}
         columns={columnsWithSearch}
@@ -44,6 +46,8 @@ const RequestsTable = ({ reviewRequests }) => {
 };
 
 RequestsTable.propTypes = {
+  userId: PropTypes.string.isRequired,
+  title: PropTypes.string,
   reviewRequests: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
@@ -58,6 +62,7 @@ RequestsTable.propTypes = {
 
 RequestsTable.defaultProps = {
   reviewRequests: [],
+  title: null,
 };
 
 export default RequestsTable;
