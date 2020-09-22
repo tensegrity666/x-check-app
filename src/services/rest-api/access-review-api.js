@@ -96,7 +96,9 @@ export default class AccessReviewApi extends BaseApi {
   };
 
   async onSetRequestAuthor(requestId) {
-    const searchRevReq = await this.getResource(`${this.URL_REV_REQ}${requestId}`);
+    const searchRevReq = await this.getResource(
+      `${this.URL_REV_REQ}${requestId}`
+    );
     const revReq = searchRevReq.length > 0 ? this.arrToObj(searchRevReq) : null;
     const requestAuthor = revReq !== null ? revReq.author : null;
 
@@ -128,9 +130,9 @@ export default class AccessReviewApi extends BaseApi {
 
     const review = searchReview !== null ? this.arrToObj(searchReview) : null;
 
-    const reviewState = review !== null ? review.state : stateList.CREATE; // статус записи
-    const reviewAuthor = review !== null ? review.author : githubId; // автор записи
-    const currentUser = this.arrToObj(searchUser); // юзер от имени которого делаются изменения
+    const reviewState = review !== null ? review.state : stateList.CREATE;
+    const reviewAuthor = review !== null ? review.author : githubId;
+    const currentUser = this.arrToObj(searchUser);
 
     // Проверка на возможные действия в текущем состоянии записи
     const actionsData = await this.getResource(
