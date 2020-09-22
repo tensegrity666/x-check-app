@@ -135,7 +135,6 @@ export default class TasksApi extends AccessTasksApi {
     return result;
   }
 
-  // Cannot edit "state", "author" property, "state", "author" property is read-only
   async editTaskHeader({ githubId, taskId = null, data }) {
     if (!taskId) {
       return {
@@ -163,9 +162,6 @@ export default class TasksApi extends AccessTasksApi {
     return result;
   }
 
-  /* 
-    Аргумент requiredState формализован и можем принимать только перечисленные значения,
-  */
   async toggleTaskState({
     githubId,
     taskId = null,
