@@ -26,6 +26,8 @@ import {
   fetchReviewRequests,
 } from './review-requests-actions';
 
+import fetchSessionAttendeesByReviewer from './session-actions';
+
 export {
   changeFilter,
   searchItem,
@@ -45,4 +47,5 @@ export {
   fetchReviewRequestsBegin,
   fetchReviewRequestsSuccess,
   fetchReviewRequests,
+  fetchSessionAttendeesByReviewer,
 };

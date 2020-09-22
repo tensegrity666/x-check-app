@@ -6,6 +6,7 @@ import tasksListReducer from './reducers/tasks-list-reducer';
 import filterReducer from './reducers/filter-reducer';
 import loginReducer from './reducers/login-reducer';
 import reviewRequestsReducer from './reducers/review-requests-reducer';
+import crossCheckSessionReducer from './reducers/cross-check-session-reducer';
 import { loadStateFromLocalStorage, saveStateToLocalStorage } from '../utils';
 
 const rootReducer = combineReducers({
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   filterReducer,
   loginReducer,
   reviewRequestsReducer,
+  crossCheckSessionReducer,
 });
 
 const persistedState = loadStateFromLocalStorage();
