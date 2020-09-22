@@ -5,10 +5,10 @@ import { useSelector } from 'react-redux';
 import store from '../../redux/store';
 import * as actions from '../../redux/actions';
 
-import RequestsTable from './requests-table';
+import RequestsContainer from './requests-container';
 
 const ReviewRequests = () => {
-  const [requestForUser, setRequestsForUser] = useState([]);
+  const [requestsForUser, setRequestsForUser] = useState([]);
 
   const reviewRequests = useSelector(
     ({ reviewRequestsReducer }) => reviewRequestsReducer.reviewRequests
@@ -47,18 +47,11 @@ const ReviewRequests = () => {
   }, [students, reviewRequests]);
 
   return (
-    <div>
-      <RequestsTable
-        reviewRequests={requestForUser}
-        userId={userGithubId}
-        title="Review Requests You Need to Review"
-      />
-      <RequestsTable
-        reviewRequests={reviewRequests}
-        userId={userGithubId}
-        title="All Review Requests"
-      />
-    </div>
+    <RequestsContainer
+      userId={userGithubId}
+      reviewRequests={reviewRequests}
+      requestsForUser={requestsForUser}
+    />
   );
 };
 
