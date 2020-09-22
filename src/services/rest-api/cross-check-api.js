@@ -183,7 +183,7 @@ export default class CCSessionApi extends AccessCCSessionApi {
   }
 
   async editCCSession({ githubId, ccSessionId = null, data }) {
-    if (!ccSessionCheck) {
+    if (!ccSessionId) {
       return {
         error: true,
         message: `No editing possible. No cross-check-session found with id "${ccSessionId}"`,
@@ -217,7 +217,7 @@ export default class CCSessionApi extends AccessCCSessionApi {
     ccSessionId = null,
     requiredState /* enum DRAFT_TO_REQUESTS_GATHERING, REQUESTS_GATHERING_TO_CROSS_CHECK, CROSS_CHECK_TO_COMPLETED */,
   }) {
-    if (!ccSessionCheck) {
+    if (!ccSessionId) {
       return {
         error: true,
         message: `No toggled status possible. No cross-check-session found with id "${ccSessionId}"`,
@@ -253,8 +253,8 @@ export default class CCSessionApi extends AccessCCSessionApi {
     return result;
   }
 
-  async delCCSession({ githubId, ccSessionId =null }) {
-    if (!ccSessionCheck) {
+  async delCCSession({ githubId, ccSessionId = null }) {
+    if (!ccSessionId) {
       return {
         error: true,
         message: `Unable to delete. No cross-check-session found with id "${ccSessionId}"`,
