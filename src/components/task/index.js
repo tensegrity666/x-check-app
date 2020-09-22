@@ -35,27 +35,31 @@ const Task = () => {
     const savedTask = JSON.parse(localStorage.getItem('savedTaskInProcess'));
     if (savedTask) {
       loadTaskFromLocalStorage(savedTask);
-      return;
     }
 
-    const { githubId } = store.getState().loginReducer;
-    addAuthor(githubId);
-    const data = store.getState().taskReducer;
-
-    let taskId = '';
-    api.createTaskHeader({ githubId, data }).then((res) => {
-      taskId = res.id;
-      createTask(taskId);
-      saveTaskToLocalStorage(data);
-    });
-  });
-
-  useEffect(() => {
     return () => {
       const data = store.getState().taskReducer;
       saveTaskToLocalStorage(data);
     };
-  }, []);
+  });
+
+  useEffect(() => {
+    const { githubId } = store.getState().loginReducer;
+    addAuthor(githubId);
+
+    const data = store.getState().taskReducer;
+    if (!data.id) {
+      api.createTaskHeader({ githubId, data }).then((res) => {
+        const taskId = res.id;
+        if (taskId) {
+          createTask(taskId);
+          data.id = taskId;
+        }
+        // TODO: Add error case handling
+        saveTaskToLocalStorage(data);
+      });
+    }
+  });
 
   return (
     <Layout className={wrapper}>
