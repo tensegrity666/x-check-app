@@ -3,16 +3,17 @@ import React from 'react';
 import {
   makeTestStore,
   testMountWithRouter,
-} from '../../../_test-utils/test-utils';
+  mockData,
+} from '../../../_test-utils';
 import SessionAssignmentDialog from '../index';
 import reviewRequestsReducer from '../../../redux/reducers/review-requests-reducer';
 import { fetchReviewRequestsSuccess } from '../../../redux/actions';
-import mockReviewRequests from './mock-review-requests.json';
 
 describe('SessionAssignmentDialog component', () => {
   let wrapper;
+  const { reviewRequests } = mockData;
   const store = makeTestStore({ reviewRequestsReducer });
-  const mockId = mockReviewRequests[0].crossCheckSessionId;
+  const mockId = reviewRequests[0].crossCheckSessionId;
   const path = `/sessions/${mockId}`;
 
   beforeAll(() => {
@@ -53,14 +54,14 @@ describe('SessionAssignmentDialog component', () => {
       store,
       initialEntries: path,
     });
-    store.dispatch(fetchReviewRequestsSuccess(mockReviewRequests));
+    store.dispatch(fetchReviewRequestsSuccess(reviewRequests));
     wrapper
       .find({ children: 'Assign attendees' })
       .filter('Button')
       .simulate('click');
     const tableProps = wrapper.find('Table').at(0).props();
     const { dataSource } = tableProps;
-    expect(dataSource).toHaveLength(mockReviewRequests.length);
+    expect(dataSource).toHaveLength(reviewRequests.length);
   });
 
   it('Generated attendees list has valid structure', () => {
@@ -68,7 +69,7 @@ describe('SessionAssignmentDialog component', () => {
       store,
       initialEntries: path,
     });
-    store.dispatch(fetchReviewRequestsSuccess(mockReviewRequests));
+    store.dispatch(fetchReviewRequestsSuccess(reviewRequests));
     wrapper
       .find({ children: 'Assign attendees' })
       .filter('Button')
