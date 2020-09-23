@@ -58,13 +58,11 @@
 */
 
 import AccessCCSessionApi from './access-cross-check-api';
-import { actionCCSessionCheckList } from './constants';
+import { actionCCSessionCheckList, addrList } from './constants';
+
+const { URL_BASE_CSS, URL_Q_TASK } = addrList;
 
 export default class CCSessionApi extends AccessCCSessionApi {
-  URL_BASE = '/crossCheckSessions';
-
-  URL_TASK = '/tasks/?id=';
-
   setState = (requiredState) => {
     switch (requiredState) {
       case 'DRAFT_TO_REQUESTS_GATHERING':
@@ -79,13 +77,13 @@ export default class CCSessionApi extends AccessCCSessionApi {
   };
 
   async getCCSessionAll() {
-    const result = await this.getResource(this.URL_BASE);
+    const result = await this.getResource(URL_BASE_CSS);
 
     return result;
   }
 
   async getCCSession(id) {
-    const result = await this.getResource(`${this.URL_BASE}/?id=${id}`);
+    const result = await this.getResource(`${URL_BASE_CSS}/?id=${id}`);
 
     return result;
   }
@@ -106,13 +104,13 @@ export default class CCSessionApi extends AccessCCSessionApi {
   }
 
   async getCCSessionByStateNoDraft() {
-    const result = await this.getResource(`${this.URL_BASE}/?state_ne=DRAFT`);
+    const result = await this.getResource(`${URL_BASE_CSS}/?state_ne=DRAFT`);
 
     return result;
   }
 
   async getCCSessionByStateDraft() {
-    const result = await this.getResource(`${this.URL_BASE}/?state=DRAFT`);
+    const result = await this.getResource(`${URL_BASE_CSS}/?state=DRAFT`);
 
     return result;
   }
@@ -136,7 +134,7 @@ export default class CCSessionApi extends AccessCCSessionApi {
       };
     }
 
-    const taskCheck = await this.getResource(`${this.URL_TASK}${taskId}`);
+    const taskCheck = await this.getResource(`${URL_Q_TASK}${taskId}`);
 
     if (taskCheck.length === 0) {
       return {
@@ -146,7 +144,7 @@ export default class CCSessionApi extends AccessCCSessionApi {
     }
 
     const taskUniqCheck = await this.getResource(
-      `${this.URL_BASE}/?taskId=${taskId}`
+      `${URL_BASE_CSS}/?taskId=${taskId}`
     );
 
     if (taskUniqCheck.length > 0) {
@@ -177,7 +175,7 @@ export default class CCSessionApi extends AccessCCSessionApi {
       state: 'DRAFT',
     };
 
-    const result = await this.sendResource(this.URL_BASE, newCCSession);
+    const result = await this.sendResource(URL_BASE_CSS, newCCSession);
 
     return result;
   }
@@ -205,7 +203,7 @@ export default class CCSessionApi extends AccessCCSessionApi {
     }
 
     const result = await this.patchResourse(
-      `${this.URL_BASE}/${ccSessionId}`,
+      `${URL_BASE_CSS}/${ccSessionId}`,
       data
     );
 
@@ -246,7 +244,7 @@ export default class CCSessionApi extends AccessCCSessionApi {
       };
     }
 
-    const result = await this.patchResourse(`${this.URL_BASE}/${ccSessionId}`, {
+    const result = await this.patchResourse(`${URL_BASE_CSS}/${ccSessionId}`, {
       state,
     });
 
@@ -275,7 +273,7 @@ export default class CCSessionApi extends AccessCCSessionApi {
       };
     }
 
-    const result = await this.delResourse(`${this.URL_BASE}/${ccSessionId}`);
+    const result = await this.delResourse(`${URL_BASE_CSS}/${ccSessionId}`);
 
     return result;
   }

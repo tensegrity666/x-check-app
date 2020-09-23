@@ -9,6 +9,24 @@ const rolesList = {
     'systems' /* системная учетная запись, право на изменение статусов */,
 };
 
+const addrList = {
+  URL_Q_USER: '/users/?githubId=',
+  URL_BASE_USER: '/users',
+  URL_Q_CCS: '/crossCheckSessions/?id=',
+  URL_ACCESS_CCS_LIST: '/accessCrossChecklist/',
+  URL_BASE_CSS: '/crossCheckSessions',
+  URL_Q_TASK: '/tasks/?id=',
+  URL_ACCESS_TASK_LIST: '/accessTasklist/',
+  URL_BASE_TASK: '/tasks',
+  URL_Q_REV_REQ: '/requests/?id=',
+  URL_ACCESS_REV_REQ_LIST: '/accessRevReqlist/',
+  URL_BASE_REV_REQ: '/requests',
+  URL_Q_REV: '/reviews/?id=',
+  URL_ACCESS_REV_LIST: '/accessRevlist/',
+  URL_BASE_REV: '/reviews',
+  API_BASE: 'https://json-x-check-app.herokuapp.com',
+};
+
 const stateList = {
   CREATE: 'CREATE',
   DRAFT: 'DRAFT',
@@ -86,4 +104,5 @@ export {
   actionRevReqList,
   actionCCSessionCheckList,
   actionReviewList,
+  addrList,
 };

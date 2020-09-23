@@ -5,8 +5,10 @@
   Формат сообщения - объект вида {error: true, message: 'text ...'}
 */
 
+import { addrList } from './constants';
+
 export default class BaseApi {
-  API_BASE = 'https://json-x-check-app.herokuapp.com';
+  API_BASE = addrList.API_BASE;
 
   // Secondary functions
   arrToObj = (data) => {

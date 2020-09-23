@@ -27,17 +27,11 @@
 */
 
 import BaseApi from './base-api';
-import { actionReviewList, rolesList, stateList } from './constants';
+import { actionReviewList, rolesList, stateList, addrList } from './constants';
+
+const { URL_Q_USER, URL_Q_REV, URL_Q_REV_REQ, URL_ACCESS_REV_LIST } = addrList;
 
 export default class AccessReviewApi extends BaseApi {
-  URL_USER = '/users/?githubId=';
-
-  URL_REV = '/reviews/?id=';
-
-  URL_REV_REQ = '/reviewRequests/?id=';
-
-  URL_ACCESS_REV_LIST = '/accessRevlist/';
-
   onSetUserRoles = ({
     reviewState,
     reviewAuthor,
@@ -96,9 +90,7 @@ export default class AccessReviewApi extends BaseApi {
   };
 
   async onSetRequestAuthor(requestId) {
-    const searchRevReq = await this.getResource(
-      `${this.URL_REV_REQ}${requestId}`
-    );
+    const searchRevReq = await this.getResource(`${URL_Q_REV_REQ}${requestId}`);
     const revReq = searchRevReq.length > 0 ? this.arrToObj(searchRevReq) : null;
     const requestAuthor = revReq !== null ? revReq.author : null;
 
@@ -111,7 +103,7 @@ export default class AccessReviewApi extends BaseApi {
     requestId = null,
     action,
   }) {
-    const searchUser = await this.getResource(`${this.URL_USER}${githubId}`); // ищем юзера от имени которого делаются изменения
+    const searchUser = await this.getResource(`${URL_Q_USER}${githubId}`); // ищем юзера от имени которого делаются изменения
 
     // If the user is not found, exit with a negative check result
     if (searchUser.length === 0) {
@@ -120,7 +112,7 @@ export default class AccessReviewApi extends BaseApi {
 
     const searchReview =
       reviewId !== null
-        ? await this.getResource(`${this.URL_REV}${reviewId}`)
+        ? await this.getResource(`${URL_Q_REV}${reviewId}`)
         : null;
 
     // If a review ID exists and a review was not found, exit with a negative check result.
@@ -136,7 +128,7 @@ export default class AccessReviewApi extends BaseApi {
 
     // Проверка на возможные действия в текущем состоянии записи
     const actionsData = await this.getResource(
-      `${this.URL_ACCESS_REV_LIST}${reviewState}`
+      `${URL_ACCESS_REV_LIST}${reviewState}`
     );
     const actionMatch = actionsData.actionList.filter(
       (item) => item.title === action

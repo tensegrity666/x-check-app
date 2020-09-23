@@ -21,17 +21,13 @@
 */
 
 import BaseApi from './base-api';
-import { stateList } from './constants';
+import { stateList, addrList } from './constants';
+
+const { URL_Q_USER, URL_Q_CCS, URL_ACCESS_CCS_LIST } = addrList;
 
 export default class AccessCCSessionApi extends BaseApi {
-  URL_USER = '/users/?githubId=';
-
-  URL_CCS = '/crossCheckSessions/?id=';
-
-  URL_ACCESS_CCS_LIST = '/accessCrossChecklist/';
-
   async userAccessCCSessionCheck({ githubId, ccSessionId = null, action }) {
-    const searchUser = await this.getResource(`${this.URL_USER}${githubId}`);
+    const searchUser = await this.getResource(`${URL_Q_USER}${githubId}`);
 
     // If the user is not found, exit with a negative check result
     if (searchUser.length === 0) {
@@ -40,7 +36,7 @@ export default class AccessCCSessionApi extends BaseApi {
 
     const searchCCSession =
       ccSessionId !== null
-        ? await this.getResource(`${this.URL_CCS}${ccSessionId}`)
+        ? await this.getResource(`${URL_Q_CCS}${ccSessionId}`)
         : null;
 
     // If a cross-check-session ID exists and a cross-check-session was not found, exit with a negative check result.
@@ -48,14 +44,16 @@ export default class AccessCCSessionApi extends BaseApi {
       return false;
     }
 
-    const ccSession = searchCCSession !== null ? this.arrToObj(searchCCSession) : null;
-    const ccSessionState = ccSession !== null ? ccSession.state : stateList.CREATE;
+    const ccSession =
+      searchCCSession !== null ? this.arrToObj(searchCCSession) : null;
+    const ccSessionState =
+      ccSession !== null ? ccSession.state : stateList.CREATE;
 
     const currentUser = this.arrToObj(searchUser);
     const allowedRoles = currentUser.roles;
 
     const actionsData = await this.getResource(
-      `${this.URL_ACCESS_CCS_LIST}${ccSessionState}`
+      `${URL_ACCESS_CCS_LIST}${ccSessionState}`
     );
     const actionMatch = actionsData.actionList.filter(
       (item) => item.title === action
@@ -68,7 +66,9 @@ export default class AccessCCSessionApi extends BaseApi {
 
     const actionList = this.arrToObj(actionMatch);
     const rolesForState = actionList.roles;
-    const isAccess = rolesForState.filter((role) => allowedRoles.includes(role));
+    const isAccess = rolesForState.filter((role) =>
+      allowedRoles.includes(role)
+    );
 
     return isAccess.length > 0;
   }

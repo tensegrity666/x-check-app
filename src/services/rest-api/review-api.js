@@ -27,24 +27,25 @@
     {
       requestId: ..., // Обязательное поле, ссылка на запрос ревью на который создается ревью
       author: githubId,    // Обязательное поле, автор ревью
-      grade: {}            // Обязательное поле, сюда передается оценка проверяющего, по структуре повторяет самооценку из запроса на ревью
+      grade: []            // Обязательное поле, сюда передается оценка проверяющего, по структуре повторяет самооценку из запроса на ревью
     }
 
   editReview({ githubId, reviewId = null, data }) - редактирование ревью, редактируются только те поля которые переданны в data, 
     аргументы метода передаются объектом!
     Так как все поля заголовка не подлежат редактированию, то передавать в метод можно только grade
-    СТРУКТРУРА объекта:
+    СТРУКТРУРА массива:
     data ={
-      grade: {
-        basic_p1: {
-          score: 20,                 // Оценка проверяющего
+      grade: [
+        {
+          id: basic_p1, 
+          score: 20,                  // Оценка проверяющего
           comment: "text...",         // Коментарий проверяющего
           protest: "text ...",        // Возражения проверяемого, заполняются в статусе диспут
           suggestedScore: 30          // Рекомендуемая оценка проверямого, заполняются в статусе диспут
         },
-        extra_p1: {...},
-        fines_p1: {...},
-    }         
+        {id: extra_p1, ...},
+        {id: fines_p1, ...},
+      ]         
 
   delReview({ githubId, reviewId = null }) - удаление ревью, удаляется полностью, аргументы метода передаются объектом!
   
@@ -60,13 +61,11 @@
 */
 
 import AccessReviewApi from './access-review-api';
-import { actionReviewList } from './constants';
+import { actionReviewList, addrList } from './constants';
+
+const { URL_BASE_REV, URL_BASE_REV_REQ } = addrList;
 
 export default class ReviewApi extends AccessReviewApi {
-  URL_BASE = '/reviews';
-
-  URL_REQ = '/reviewRequests';
-
   setState = (requiredState) => {
     switch (requiredState) {
       case 'DRAFT_TO_PUBLISHED':
@@ -89,20 +88,20 @@ export default class ReviewApi extends AccessReviewApi {
   };
 
   async getReviewAll() {
-    const result = await this.getResource(this.URL_BASE);
+    const result = await this.getResource(URL_BASE_REV);
 
     return result;
   }
 
   async getReview(id) {
-    const result = await this.getResource(`${this.URL_BASE}/?id=${id}`);
+    const result = await this.getResource(`${URL_BASE_REV}/?id=${id}`);
 
     return result;
   }
 
   async getReviewByAuthor(nameAuthor) {
     const result = await this.getResource(
-      `${this.URL_BASE}/?author=${nameAuthor}`
+      `${URL_BASE_REV}/?author=${nameAuthor}`
     );
 
     return result;
@@ -110,7 +109,7 @@ export default class ReviewApi extends AccessReviewApi {
 
   async getReviewByRequest(requestId) {
     const result = await this.getResource(
-      `${this.URL_BASE}/?requestId=${requestId}`
+      `${URL_BASE_REV}/?requestId=${requestId}`
     );
 
     return result;
@@ -118,7 +117,7 @@ export default class ReviewApi extends AccessReviewApi {
 
   async getSelfGradeRequest(requestId) {
     const searchRequest = await this.getResource(
-      `${this.URL_REQ}/?id=${requestId}`
+      `${URL_BASE_REV_REQ}/?id=${requestId}`
     );
 
     if (searchRequest.length === 0) {
@@ -134,13 +133,13 @@ export default class ReviewApi extends AccessReviewApi {
   }
 
   async getReviewByStateNoDraft() {
-    const result = await this.getResource(`${this.URL_BASE}/?state_ne=DRAFT`);
+    const result = await this.getResource(`${URL_BASE_REV}/?state_ne=DRAFT`);
 
     return result;
   }
 
   async getReviewByStateDraft() {
-    const result = await this.getResource(`${this.URL_BASE}/?state=DRAFT`);
+    const result = await this.getResource(`${URL_BASE_REV}/?state=DRAFT`);
 
     return result;
   }
@@ -176,7 +175,7 @@ export default class ReviewApi extends AccessReviewApi {
       state: 'DRAFT',
     };
 
-    const result = await this.sendResource(this.URL_BASE, newReview);
+    const result = await this.sendResource(URL_BASE_REV, newReview);
 
     return result;
   }
@@ -204,7 +203,7 @@ export default class ReviewApi extends AccessReviewApi {
     }
 
     const result = await this.patchResourse(
-      `${this.URL_BASE}/${reviewId}`,
+      `${URL_BASE_REV}/${reviewId}`,
       data
     );
 
@@ -245,7 +244,7 @@ export default class ReviewApi extends AccessReviewApi {
       };
     }
 
-    const result = await this.patchResourse(`${this.URL_BASE}/${reviewId}`, {
+    const result = await this.patchResourse(`${URL_BASE_REV}/${reviewId}`, {
       state,
     });
 
@@ -274,7 +273,7 @@ export default class ReviewApi extends AccessReviewApi {
       };
     }
 
-    const result = await this.delResourse(`${this.URL_BASE}/${reviewId}`);
+    const result = await this.delResourse(`${URL_BASE_REV}/${reviewId}`);
 
     return result;
   }

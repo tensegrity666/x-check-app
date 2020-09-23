@@ -28,11 +28,11 @@
       task: taskId, // id задачи Внимание! Обязательное поле!
       url_pr: 'https://github...', // ссылка на пулл реквест
       url_deploy: 'https://app...', // ссылка на деплой
-      selfGrade: { // в этот объект передаются id пунктов задачи, самооценка и коментарий студента
-        basic_p1: {score: 20, comment: "Well done!"},
-        extra_p1: {score: 15, comment: "Some things are done, some are not"},
-        fines_p1: {score: 0, comment: "No ticket today"},
-      }
+      selfGrade: [                                                  // в этот массив передаются id пунктов задачи, самооценка и коментарий студента
+        {id: basic_p1, score: 20, comment: "Well done!"},
+        {id: extra_p1, score: 15, comment: "Some things are done, some are not"},
+        {id: fines_p1, score: 0, comment: "No ticket today"},
+      ]
     }
 
   editRevReq({ githubId, revReqId, data }) - редактирование запроса на ревью, редактируются только те поля которые переданны в data, 
@@ -52,13 +52,11 @@
 */
 
 import AccessRevReqApi from './access-rev-req-api';
-import { actionRevReqList } from './constants';
+import { actionRevReqList, addrList } from './constants';
+
+const { URL_BASE_REV_REQ, URL_Q_TASK } = addrList;
 
 export default class RevReqApi extends AccessRevReqApi {
-  URL_BASE = '/reviewRequests';
-
-  URL_TASK = '/tasks/?id=';
-
   setState = (requiredState) => {
     switch (requiredState) {
       case 'DRAFT_TO_PUBLISHED':
@@ -75,46 +73,50 @@ export default class RevReqApi extends AccessRevReqApi {
   };
 
   async getRevReqAll() {
-    const result = await this.getResource(this.URL_BASE);
+    const result = await this.getResource(URL_BASE_REV_REQ);
 
     return result;
   }
 
   async getRevReq(id) {
-    const result = await this.getResource(`${this.URL_BASE}/?id=${id}`);
+    const result = await this.getResource(`${URL_BASE_REV_REQ}/?id=${id}`);
 
     return result;
   }
 
   async getRevReqByAuthor(nameAuthor) {
     const result = await this.getResource(
-      `${this.URL_BASE}/?author=${nameAuthor}`
+      `${URL_BASE_REV_REQ}/?author=${nameAuthor}`
     );
 
     return result;
   }
 
   async getRevReqByTask(taskId) {
-    const result = await this.getResource(`${this.URL_BASE}/?task=${taskId}`);
+    const result = await this.getResource(
+      `${URL_BASE_REV_REQ}/?task=${taskId}`
+    );
 
     return result;
   }
 
   async getRevReqByStateNoDraft() {
-    const result = await this.getResource(`${this.URL_BASE}/?state_ne=DRAFT`);
+    const result = await this.getResource(
+      `${URL_BASE_REV_REQ}/?state_ne=DRAFT`
+    );
 
     return result;
   }
 
   async getRevReqByStateDraft() {
-    const result = await this.getResource(`${this.URL_BASE}/?state=DRAFT`);
+    const result = await this.getResource(`${URL_BASE_REV_REQ}/?state=DRAFT`);
 
     return result;
   }
 
   async getRevReqByCrossCheckId(crossCheckSessionId) {
     const result = await this.getResource(
-      `${this.URL_BASE}/?crossCheckSessionId=${crossCheckSessionId}`
+      `${URL_BASE_REV_REQ}/?crossCheckSessionId=${crossCheckSessionId}`
     );
 
     return result;
@@ -130,7 +132,7 @@ export default class RevReqApi extends AccessRevReqApi {
       };
     }
 
-    const taskCheck = await this.getResource(`${this.URL_TASK}${task}`);
+    const taskCheck = await this.getResource(`${URL_Q_TASK}${task}`);
 
     if (taskCheck.length === 0) {
       return {
@@ -159,7 +161,7 @@ export default class RevReqApi extends AccessRevReqApi {
       state: 'DRAFT',
     };
 
-    const result = await this.sendResource(this.URL_BASE, newRevReq);
+    const result = await this.sendResource(URL_BASE_REV_REQ, newRevReq);
 
     return result;
   }
@@ -187,7 +189,7 @@ export default class RevReqApi extends AccessRevReqApi {
     }
 
     const result = await this.patchResourse(
-      `${this.URL_BASE}/${revReqId}`,
+      `${URL_BASE_REV_REQ}/${revReqId}`,
       data
     );
 
@@ -228,7 +230,7 @@ export default class RevReqApi extends AccessRevReqApi {
       };
     }
 
-    const result = await this.patchResourse(`${this.URL_BASE}/${revReqId}`, {
+    const result = await this.patchResourse(`${URL_BASE_REV_REQ}/${revReqId}`, {
       state,
     });
 
@@ -257,7 +259,7 @@ export default class RevReqApi extends AccessRevReqApi {
       };
     }
 
-    const result = await this.delResourse(`${this.URL_BASE}/${revReqId}`);
+    const result = await this.delResourse(`${URL_BASE_REV_REQ}/${revReqId}`);
 
     return result;
   }
