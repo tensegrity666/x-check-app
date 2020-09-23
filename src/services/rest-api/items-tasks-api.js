@@ -36,7 +36,7 @@ export default class ItemsTasksApi extends TasksApi {
     if (searchTask.length === 0) {
       return {
         error: true,
-        message: `Can't show list of subtasks. No task found with id ${taskId}`,
+        message: `Can't show list of subtasks. No task found with id "${taskId}"`,
       };
     }
 
@@ -46,12 +46,13 @@ export default class ItemsTasksApi extends TasksApi {
   }
 
   async createTaskItem({ githubId, taskId, data }) {
+    const { id: prefId } = data;
     const searchTask = await this.getTargetTask(taskId);
 
     if (searchTask.length === 0) {
       return {
         error: true,
-        message: `Creation is impossible. No task found with id ${taskId}`,
+        message: `Creation is impossible. No task found with id "${taskId}"`,
       };
     }
 
@@ -66,13 +67,11 @@ export default class ItemsTasksApi extends TasksApi {
     if (!accessCheck) {
       return {
         error: true,
-        message: `User ${githubId} does not have sufficient rights to create items a task`,
+        message: `User "${githubId}" does not have sufficient rights to create items a task "${taskId}"`,
       };
     }
 
     const lastItemId = this.createId();
-    const prefId = data.id;
-
     const newTaskItem = {
       ...data,
       id: `${prefId}${lastItemId}`,
@@ -96,7 +95,7 @@ export default class ItemsTasksApi extends TasksApi {
     if (searchTask.length === 0) {
       return {
         error: true,
-        message: `No editing possible. No task found with id ${taskId}`,
+        message: `No editing possible. No task found with id "${taskId}"`,
       };
     }
 
@@ -111,7 +110,7 @@ export default class ItemsTasksApi extends TasksApi {
     if (!accessCheck) {
       return {
         error: true,
-        message: `User ${githubId} does not have sufficient rights to edit items a task`,
+        message: `User ${githubId} does not have sufficient rights to edit items a task "${taskId}"`,
       };
     }
 
@@ -120,7 +119,7 @@ export default class ItemsTasksApi extends TasksApi {
     if (oldTaskItems.filter((item) => item.id === data.id).length === 0) {
       return {
         error: true,
-        message: `No editing possible. No editable subtask id found`,
+        message: `No editing possible. No editable subtask a task "${taskId}" id found`,
       };
     }
 
@@ -146,7 +145,7 @@ export default class ItemsTasksApi extends TasksApi {
     if (searchTask.length === 0) {
       return {
         error: true,
-        message: `Unable to delete. No task found with id ${taskId}`,
+        message: `Unable to delete. No task found with id "${taskId}"`,
       };
     }
 
@@ -161,7 +160,7 @@ export default class ItemsTasksApi extends TasksApi {
     if (!accessCheck) {
       return {
         error: true,
-        message: `User ${githubId} does not have sufficient rights to delete items a task`,
+        message: `User ${githubId} does not have sufficient rights to delete items a task "${taskId}"`,
       };
     }
 
@@ -171,7 +170,7 @@ export default class ItemsTasksApi extends TasksApi {
     if (oldTaskItems.length === newTaskItems.length) {
       return {
         error: true,
-        message: `Unable to delete. No editable subtask id found`,
+        message: `Unable to delete. No editable subtask a task "${taskId}" id found`,
       };
     }
 

@@ -14,6 +14,10 @@
 
   getRevReqByCrossCheckId(crossCheckSessionId) - выводит все запросы на ревью созданные в рамках кросс-чек-сессии,
   требуется передача в аргументе поля crossCheckSessionId, возвращает полные данные в виде массива объектов
+
+  async getRevReqByStateNoDraft() - выводит все запросы на ревью в статусе отличном от DRAFT
+
+  async getRevReqByStateDraft() - выводит все запросы на ревью в статусе DRAFT 
   
   createRevReq({ githubId, data }) - создание запроса на ревью, аргументы метода передаются объектом!
     СТРУКТУРА объекта в параметре data:
@@ -53,6 +57,23 @@ import { actionRevReqList } from './constants';
 export default class RevReqApi extends AccessRevReqApi {
   URL_BASE = '/reviewRequests';
 
+  URL_TASK = '/tasks/?id=';
+
+  setState = (requiredState) => {
+    switch (requiredState) {
+      case 'DRAFT_TO_PUBLISHED':
+        return 'PUBLISHED';
+      case 'PUBLISHED_TO_DRAFT':
+        return 'DRAFT';
+      case 'PUBLISHED_TO_COMPLETED':
+        return 'COMPLETED';
+      case 'COMPLETED_TO_PUBLISHED':
+        return 'PUBLISHED';
+      default:
+        return null;
+    }
+  };
+
   async getRevReqAll() {
     const result = await this.getResource(this.URL_BASE);
 
@@ -79,6 +100,18 @@ export default class RevReqApi extends AccessRevReqApi {
     return result;
   }
 
+  async getRevReqByStateNoDraft() {
+    const result = await this.getResource(`${this.URL_BASE}/?state_ne=DRAFT`);
+
+    return result;
+  }
+
+  async getRevReqByStateDraft() {
+    const result = await this.getResource(`${this.URL_BASE}/?state=DRAFT`);
+
+    return result;
+  }
+
   async getRevReqByCrossCheckId(crossCheckSessionId) {
     const result = await this.getResource(
       `${this.URL_BASE}/?crossCheckSessionId=${crossCheckSessionId}`
@@ -87,13 +120,25 @@ export default class RevReqApi extends AccessRevReqApi {
     return result;
   }
 
-  async checkExistenceRevReq(revReqId) {
-    const isRevReq = await this.getRevReq(revReqId);
-
-    return isRevReq.length > 0;
-  }
-
   async createRevReq({ githubId, data }) {
+    const { task = null, id: prefId = 'rev-req-' } = data;
+
+    if (!task) {
+      return {
+        error: true,
+        message: `No creating possible. Property task not found!`,
+      };
+    }
+
+    const taskCheck = await this.getResource(`${this.URL_TASK}${task}`);
+
+    if (taskCheck.length === 0) {
+      return {
+        error: true,
+        message: `No creating possible. Task "${task}" not found!`,
+      };
+    }
+
     const action = actionRevReqList.CREATE_REVREQ;
     const accessCheck = await this.userAccessRevReqCheck({
       githubId,
@@ -103,12 +148,11 @@ export default class RevReqApi extends AccessRevReqApi {
     if (!accessCheck) {
       return {
         error: true,
-        message: `User ${githubId} does not have sufficient rights to create a review request`,
+        message: `User "${githubId}" does not have sufficient rights to create a review request`,
       };
     }
 
     const lastTaskId = this.createId();
-    const prefId = data.id;
     const newRevReq = {
       ...data,
       id: `${prefId}${lastTaskId}`,
@@ -120,13 +164,11 @@ export default class RevReqApi extends AccessRevReqApi {
     return result;
   }
 
-  async editRevReq({ githubId, revReqId, data }) {
-    const revReqCheck = await this.checkExistenceRevReq(revReqId);
-
-    if (!revReqCheck) {
+  async editRevReq({ githubId, revReqId = null, data }) {
+    if (!revReqId) {
       return {
         error: true,
-        message: `No editing possible. No review request found with id ${revReqId}`,
+        message: `No editing possible. No review request found with id "${revReqId}"`,
       };
     }
 
@@ -140,7 +182,7 @@ export default class RevReqApi extends AccessRevReqApi {
     if (!accessCheck) {
       return {
         error: true,
-        message: `User ${githubId} does not have sufficient rights to edit a review request`,
+        message: `User "${githubId}" does not have sufficient rights to edit a review request`,
       };
     }
 
@@ -154,48 +196,35 @@ export default class RevReqApi extends AccessRevReqApi {
 
   async toggleRevReqState({
     githubId,
-    revReqId,
+    revReqId = null,
     requiredState /* enum DRAFT_TO_PUBLISHED, PUBLISHED_TO_DRAFT, PUBLISHED_TO_COMPLETED, COMPLETED_TO_PUBLISHED */,
   }) {
-    const revReqCheck = await this.checkExistenceRevReq(revReqId);
-
-    if (!revReqCheck) {
+    if (!revReqId) {
       return {
         error: true,
-        message: `No toggled status possible. No review request found with id ${revReqId}`,
+        message: `No toggled status possible. No review request found with id "${revReqId}"`,
       };
-    }
-
-    const action = requiredState;
-    let state = null;
-
-    switch (requiredState) {
-      case 'DRAFT_TO_PUBLISHED':
-        state = 'PUBLISHED';
-        break;
-      case 'PUBLISHED_TO_DRAFT':
-        state = 'DRAFT';
-        break;
-      case 'PUBLISHED_TO_COMPLETED':
-        state = 'COMPLETED';
-        break;
-      case 'COMPLETED_TO_PUBLISHED':
-        state = 'PUBLISHED';
-        break;
-      default:
-        break;
     }
 
     const accessCheck = await this.userAccessRevReqCheck({
       githubId,
       revReqId,
-      action,
+      action: requiredState,
     });
 
     if (!accessCheck) {
       return {
         error: true,
-        message: `User ${githubId} does not have sufficient rights to toggled status a review request`,
+        message: `User "${githubId}" does not have sufficient rights to toggled status a review request`,
+      };
+    }
+
+    const state = this.setState(requiredState);
+
+    if (state === null) {
+      return {
+        error: true,
+        message: `Unable to change status, unknown status "${state}" a review request "${revReqId}"`,
       };
     }
 
@@ -206,13 +235,11 @@ export default class RevReqApi extends AccessRevReqApi {
     return result;
   }
 
-  async delRevReq({ githubId, revReqId }) {
-    const revReqCheck = await this.checkExistenceRevReq(revReqId);
-
-    if (!revReqCheck) {
+  async delRevReq({ githubId, revReqId = null }) {
+    if (!revReqId) {
       return {
         error: true,
-        message: `Unable to delete. No review request found with id ${revReqId}`,
+        message: `Unable to delete. No review request found with id "${revReqId}"`,
       };
     }
 
@@ -226,7 +253,7 @@ export default class RevReqApi extends AccessRevReqApi {
     if (!accessCheck) {
       return {
         error: true,
-        message: `User ${githubId} does not have sufficient rights to delete a review request`,
+        message: `User "${githubId}" does not have sufficient rights to delete a review request`,
       };
     }
 

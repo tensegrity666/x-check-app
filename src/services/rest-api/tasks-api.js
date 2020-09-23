@@ -6,9 +6,16 @@
   *****
   Доступные методы:
   getTasksAll() - выводит все задачи, возвращает полные данные в виде массива объектов
+  
   getTask(id) -  выводит задачу по id, возвращает полные данные в виде массива c одним объектом
+  
   getTaskByAuthor(nameAuthor) - выводит все задачи созданные автором, требуется передача в аргументе поля author,
     возвращает полные данные в виде массива объектов
+
+  async getTaskByStateNoDraft() - возвращает задачи в статусе отличном от статуса DRAFT
+
+  async getTaskByStateDraft() - возвращает задачи в статусе DRAFT
+
   createTaskHeader({ githubId, data }) - создание карточки задачи, можно создавать как заголовок задачи, 
     тогда необходимо в объект data поля заголовка задачи и передавать пустой массив items: []
     {
@@ -28,12 +35,15 @@
       ] 
     }
     аргументы метода передаются объектом!
-  editTaskHeader({ githubId, taskId, data }) - редактирование карточки задачи, редактируются только те поля которые переданы в объект data,
+  
+    editTaskHeader({ githubId, taskId, data }) - редактирование карточки задачи, редактируются только те поля которые переданы в объект data,
     если для редактирования items пользуются этим методом, то массив items нужно передавать полностью, т.е. не только изменяемую запись, 
     но и все записи которые там были. Для удаления всех items, можно передать объект дата с пустым массивом {items: []} 
     аргументы метода передаются объектом!
-  delTask({ githubId, taskId }) - удаление задачи, удаляется полностью, аргументы метода передаются объектом!
-  toggleTaskState({
+  
+    delTask({ githubId, taskId }) - удаление задачи, удаляется полностью, аргументы метода передаются объектом!
+  
+    toggleTaskState({
     githubId,     // пользователь 
     taskId,       // id задачи
     requiredState // enum DRAFT_TO_PUBLISHED, PUBLISHED_TO_DRAFT, PUBLISHED_TO_ARCHIVED, ARCHIVED_TO_PUBLISHED 
@@ -49,6 +59,21 @@ import { actionTaskList } from './constants';
 
 export default class TasksApi extends AccessTasksApi {
   URL_BASE = '/tasks';
+
+  setState = (requiredState) => {
+    switch (requiredState) {
+      case 'DRAFT_TO_PUBLISHED':
+        return 'PUBLISHED';
+      case 'PUBLISHED_TO_DRAFT':
+        return 'DRAFT';
+      case 'PUBLISHED_TO_ARCHIVED':
+        return 'ARCHIVED';
+      case 'ARCHIVED_TO_PUBLISHED':
+        return 'PUBLISHED';
+      default:
+        return null;
+    }
+  };
 
   async getTasksAll() {
     const result = await this.getResource(this.URL_BASE);
@@ -70,13 +95,20 @@ export default class TasksApi extends AccessTasksApi {
     return result;
   }
 
-  async checkExistenceTask(taskId) {
-    const isTask = await this.getTask(taskId);
+  async getTaskByStateNoDraft() {
+    const result = await this.getResource(`${this.URL_BASE}/?state_ne=DRAFT`);
 
-    return isTask.length > 0;
+    return result;
+  }
+
+  async getTaskByStateDraft() {
+    const result = await this.getResource(`${this.URL_BASE}/?state=DRAFT`);
+
+    return result;
   }
 
   async createTaskHeader({ githubId, data }) {
+    const { id: prefId = 'simple-task-' } = data;
     const action = actionTaskList.CREATE_TASK;
     const accessCheck = await this.userAccessTasksCheck({
       githubId,
@@ -91,7 +123,6 @@ export default class TasksApi extends AccessTasksApi {
     }
 
     const lastTaskId = this.createId();
-    const prefId = data.id;
     const newTaskHeader = {
       ...data,
       id: `${prefId}${lastTaskId}`,
@@ -104,14 +135,11 @@ export default class TasksApi extends AccessTasksApi {
     return result;
   }
 
-  // Cannot edit "state", "author" property, "state", "author" property is read-only
-  async editTaskHeader({ githubId, taskId, data }) {
-    const taskCheck = await this.checkExistenceTask(taskId);
-
-    if (!taskCheck) {
+  async editTaskHeader({ githubId, taskId = null, data }) {
+    if (!taskId) {
       return {
         error: true,
-        message: `No editing possible. No task found with id ${taskId}`,
+        message: `No editing possible. No task found with id "${taskId}"`,
       };
     }
 
@@ -134,56 +162,37 @@ export default class TasksApi extends AccessTasksApi {
     return result;
   }
 
-  /* 
-    Нужна еше проверка на статус записи, невозможно перепрыгнуть через уровень
-    Или реализовать это на клиенте, показывать возможный переход на статус.
-    Аргумент requiredState формализован и можем принимать только перечисленные значения,
-
-  */
   async toggleTaskState({
     githubId,
-    taskId,
+    taskId = null,
     requiredState /* enum DRAFT_TO_PUBLISHED, PUBLISHED_TO_DRAFT, PUBLISHED_TO_ARCHIVED, ARCHIVED_TO_PUBLISHED */,
   }) {
-    const taskCheck = await this.checkExistenceTask(taskId);
-
-    if (!taskCheck) {
+    if (!taskId) {
       return {
         error: true,
-        message: `No editing possible. No task found with id ${taskId}`,
+        message: `No editing possible. No task found with id "${taskId}"`,
       };
-    }
-
-    const action = requiredState;
-    let state = null;
-
-    switch (requiredState) {
-      case 'DRAFT_TO_PUBLISHED':
-        state = 'PUBLISHED';
-        break;
-      case 'PUBLISHED_TO_DRAFT':
-        state = 'DRAFT';
-        break;
-      case 'PUBLISHED_TO_ARCHIVED':
-        state = 'ARCHIVED';
-        break;
-      case 'ARCHIVED_TO_PUBLISHED':
-        state = 'PUBLISHED';
-        break;
-      default:
-        break;
     }
 
     const accessCheck = await this.userAccessTasksCheck({
       githubId,
       taskId,
-      action,
+      action: requiredState,
     });
 
     if (!accessCheck) {
       return {
         error: true,
         message: `User ${githubId} does not have sufficient rights to toggled status a task`,
+      };
+    }
+
+    const state = this.setState(requiredState);
+
+    if (state === null) {
+      return {
+        error: true,
+        message: `Unable to change status, unknown status "${state}" a task "${taskId}"`,
       };
     }
 
@@ -194,13 +203,11 @@ export default class TasksApi extends AccessTasksApi {
     return result;
   }
 
-  async delTask({ githubId, taskId }) {
-    const taskCheck = await this.checkExistenceTask(taskId);
-
-    if (!taskCheck) {
+  async delTask({ githubId, taskId = null }) {
+    if (!taskId) {
       return {
         error: true,
-        message: `Unable to delete. No task found with id ${taskId}`,
+        message: `Unable to delete. No task found with id "${taskId}"`,
       };
     }
 

@@ -11,6 +11,10 @@
   
   getCCSessionAttendees(ccSessionId) - выводит значение свойства attendees кросс-чек-сессии, требуется передача в аргументе id сессии,
     возвращает полные данные в виде массива объектов
+
+  async getCCSessionByStateNoDraft() - возвращает сессии в статусе отличном от статуса DRAFT
+
+  async getCCSessionByStateDraft() - возвращает сессии в статусе DRAFT
   
   createCCSession({ githubId, data }) - создание кросс-чек-сессии, аргументы метода передаются объектом!
     СТРУКТУРА объекта в параметре data:
@@ -26,7 +30,7 @@
       desiredReviewersAmount: 2, 
       attendees: []               // Обязательное поле! При создании Draf передается пустой массив
     }
-    при вызове метода проводятся проверки на уникальность id сессии, на пустое поле id и taskId, роли пользователя 
+    при вызове метода проводятся проверки на уникальность id сессии, taskId, на пустое поле id и taskId, роли пользователя 
 
   editCCSession({ githubId, ccSessionId, data }) - редактирование кросс-чек-сессии, редактируются только те поля которые переданны в data, 
     аргументы метода передаются объектом!
@@ -59,6 +63,21 @@ import { actionCCSessionCheckList } from './constants';
 export default class CCSessionApi extends AccessCCSessionApi {
   URL_BASE = '/crossCheckSessions';
 
+  URL_TASK = '/tasks/?id=';
+
+  setState = (requiredState) => {
+    switch (requiredState) {
+      case 'DRAFT_TO_REQUESTS_GATHERING':
+        return 'REQUESTS_GATHERING';
+      case 'REQUESTS_GATHERING_TO_CROSS_CHECK':
+        return 'CROSS_CHECK';
+      case 'CROSS_CHECK_TO_COMPLETED':
+        return 'COMPLETED';
+      default:
+        return null;
+    }
+  };
+
   async getCCSessionAll() {
     const result = await this.getResource(this.URL_BASE);
 
@@ -77,7 +96,7 @@ export default class CCSessionApi extends AccessCCSessionApi {
     if (searchCCSession.length === 0) {
       return {
         error: true,
-        message: `Can't show list of Attendees. No cross-check-session found with id ${ccSessionId}`,
+        message: `Can't show list of Attendees. No cross-check-session found with id "${ccSessionId}"`,
       };
     }
 
@@ -86,21 +105,20 @@ export default class CCSessionApi extends AccessCCSessionApi {
     return ccSession.attendees;
   }
 
-  async checkExistenceCCSession(ccSessionId) {
-    const isCCSession = await this.getCCSession(ccSessionId);
+  async getCCSessionByStateNoDraft() {
+    const result = await this.getResource(`${this.URL_BASE}/?state_ne=DRAFT`);
 
-    return isCCSession.length > 0;
+    return result;
+  }
+
+  async getCCSessionByStateDraft() {
+    const result = await this.getResource(`${this.URL_BASE}/?state=DRAFT`);
+
+    return result;
   }
 
   async createCCSession({ githubId, data }) {
-    const { id, taskId } = data;
-
-    if (!taskId) {
-      return {
-        error: true,
-        message: `No creating possible. Property taskId not found!`,
-      };
-    }
+    const { id = null, taskId = null } = data;
 
     if (!id) {
       return {
@@ -109,12 +127,35 @@ export default class CCSessionApi extends AccessCCSessionApi {
       };
     }
 
-    const ccSessionCheck = await this.checkExistenceCCSession(id);
+    const ccSessionCheck = await this.getCCSession(id);
 
-    if (ccSessionCheck) {
+    if (ccSessionCheck.length > 0) {
       return {
         error: true,
-        message: `No creating possible. Found a cross-check-session with this id ${id}`,
+        message: `No creating possible. Found a cross-check-session with this id "${id}"`,
+      };
+    }
+
+    const taskCheck = await this.getResource(`${this.URL_TASK}${taskId}`);
+
+    if (taskCheck.length === 0) {
+      return {
+        error: true,
+        message: `No creating possible, task "${taskId}" not found!`,
+      };
+    }
+
+    const taskUniqCheck = await this.getResource(
+      `${this.URL_BASE}/?taskId=${taskId}`
+    );
+
+    if (taskUniqCheck.length > 0) {
+      const session = this.arrToObj(taskUniqCheck);
+      const { id: name, state } = session;
+
+      return {
+        error: true,
+        message: `Сreating a cross-check-session is impossible, for the task "${taskId}" there is already a cross-check-session name - "${name}" in the "${state}" status`,
       };
     }
 
@@ -127,7 +168,7 @@ export default class CCSessionApi extends AccessCCSessionApi {
     if (!accessCheck) {
       return {
         error: true,
-        message: `User ${githubId} does not have sufficient rights to create a cross-check-session`,
+        message: `User "${githubId}" does not have sufficient rights to create a cross-check-session`,
       };
     }
 
@@ -141,13 +182,11 @@ export default class CCSessionApi extends AccessCCSessionApi {
     return result;
   }
 
-  async editCCSession({ githubId, ccSessionId, data }) {
-    const ccSessionCheck = await this.checkExistenceCCSession(ccSessionId);
-
-    if (!ccSessionCheck) {
+  async editCCSession({ githubId, ccSessionId = null, data }) {
+    if (!ccSessionId) {
       return {
         error: true,
-        message: `No editing possible. No cross-check-session found with id ${ccSessionId}`,
+        message: `No editing possible. No cross-check-session found with id "${ccSessionId}"`,
       };
     }
 
@@ -161,7 +200,7 @@ export default class CCSessionApi extends AccessCCSessionApi {
     if (!accessCheck) {
       return {
         error: true,
-        message: `User ${githubId} does not have sufficient rights to edit a cross-check-session`,
+        message: `User "${githubId}" does not have sufficient rights to edit a cross-check-session`,
       };
     }
 
@@ -175,45 +214,35 @@ export default class CCSessionApi extends AccessCCSessionApi {
 
   async toggleCCSessionState({
     githubId,
-    ccSessionId,
+    ccSessionId = null,
     requiredState /* enum DRAFT_TO_REQUESTS_GATHERING, REQUESTS_GATHERING_TO_CROSS_CHECK, CROSS_CHECK_TO_COMPLETED */,
   }) {
-    const ccSessionCheck = await this.checkExistenceCCSession(ccSessionId);
-
-    if (!ccSessionCheck) {
+    if (!ccSessionId) {
       return {
         error: true,
-        message: `No toggled status possible. No cross-check-session found with id ${ccSessionId}`,
+        message: `No toggled status possible. No cross-check-session found with id "${ccSessionId}"`,
       };
-    }
-
-    const action = requiredState;
-    let state = null;
-
-    switch (requiredState) {
-      case 'DRAFT_TO_REQUESTS_GATHERING':
-        state = 'REQUESTS_GATHERING';
-        break;
-      case 'REQUESTS_GATHERING_TO_CROSS_CHECK':
-        state = 'CROSS_CHECK';
-        break;
-      case 'CROSS_CHECK_TO_COMPLETED':
-        state = 'COMPLETED';
-        break;
-      default:
-        break;
     }
 
     const accessCheck = await this.userAccessCCSessionCheck({
       githubId,
       ccSessionId,
-      action,
+      action: requiredState,
     });
 
     if (!accessCheck) {
       return {
         error: true,
-        message: `User ${githubId} does not have sufficient rights to toggled status a cross-check-session`,
+        message: `User "${githubId}" does not have sufficient rights to toggled status a cross-check-session`,
+      };
+    }
+
+    const state = this.setState(requiredState);
+
+    if (state === null) {
+      return {
+        error: true,
+        message: `Unable to change status, unknown status "${state}" a cross-check-session "${ccSessionId}"`,
       };
     }
 
@@ -224,13 +253,11 @@ export default class CCSessionApi extends AccessCCSessionApi {
     return result;
   }
 
-  async delCCSession({ githubId, ccSessionId }) {
-    const ccSessionCheck = await this.checkExistenceCCSession(ccSessionId);
-
-    if (!ccSessionCheck) {
+  async delCCSession({ githubId, ccSessionId = null }) {
+    if (!ccSessionId) {
       return {
         error: true,
-        message: `Unable to delete. No cross-check-session found with id ${ccSessionId}`,
+        message: `Unable to delete. No cross-check-session found with id "${ccSessionId}"`,
       };
     }
 
@@ -244,7 +271,7 @@ export default class CCSessionApi extends AccessCCSessionApi {
     if (!accessCheck) {
       return {
         error: true,
-        message: `User ${githubId} does not have sufficient rights to delete a cross-check-session`,
+        message: `User "${githubId}" does not have sufficient rights to delete a cross-check-session`,
       };
     }
 

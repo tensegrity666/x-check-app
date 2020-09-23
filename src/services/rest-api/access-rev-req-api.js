@@ -16,6 +16,7 @@
 */
 
 import BaseApi from './base-api';
+import { stateList } from './constants';
 
 export default class AccessRevReqApi extends BaseApi {
   URL_USER = '/users/?githubId=';
@@ -32,24 +33,25 @@ export default class AccessRevReqApi extends BaseApi {
       return false;
     }
 
-    const searchRevReqId =
+    const searchRevReq =
       revReqId !== null
         ? await this.getResource(`${this.URL_REV_REQ}${revReqId}`)
         : null;
 
-    const revReq =
-      searchRevReqId !== null && searchRevReqId.length !== 0
-        ? this.arrToObj(searchRevReqId)
-        : null;
+    // If a review request ID exists and a review request was not found, exit with a negative check result.
+    if (searchRevReq !== null && searchRevReq.length === 0) {
+      return false;
+    }
 
-    const revReqState = revReq !== null ? revReq.state : 'CREATE';
+    const revReq = searchRevReq !== null ? this.arrToObj(searchRevReq) : null;
+
+    const revReqState = revReq !== null ? revReq.state : stateList.CREATE;
     const revReqAuthor = revReq !== null ? revReq.author : githubId;
-
-    const user = this.arrToObj(searchUser);
-    const userRoles =
+    const currentUser = this.arrToObj(searchUser);
+    const allowedRoles =
       revReqAuthor === githubId
-        ? user.roles
-        : user.roles.filter((role) => role !== 'student');
+        ? currentUser.roles
+        : currentUser.roles.filter((role) => role !== 'student');
 
     const actionsData = await this.getResource(
       `${this.URL_ACCESS_REV_REQ_LIST}${revReqState}`
@@ -65,7 +67,9 @@ export default class AccessRevReqApi extends BaseApi {
 
     const actionList = this.arrToObj(actionMatch);
     const rolesForState = actionList.roles;
-    const isAccess = rolesForState.filter((role) => userRoles.includes(role));
+    const isAccess = rolesForState.filter((role) =>
+      allowedRoles.includes(role)
+    );
 
     return isAccess.length > 0;
   }
