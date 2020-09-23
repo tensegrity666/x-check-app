@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { tableColumns, pagination, getActionColumn } from './constants';
 import { getColumnsWithSearch, getFormattedRows } from './utils';
 import styles from './index.module.css';
+import { REVIEW_REQUEST } from '../../types';
 
 const RequestsTable = ({ reviewRequests, userId, title }) => {
   const [searchText, setSearchText] = useState('');
@@ -48,16 +49,7 @@ const RequestsTable = ({ reviewRequests, userId, title }) => {
 RequestsTable.propTypes = {
   userId: PropTypes.string.isRequired,
   title: PropTypes.string,
-  reviewRequests: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      crossCheckSessionId: PropTypes.string,
-      author: PropTypes.string,
-      task: PropTypes.string,
-      state: PropTypes.string,
-      selfGrade: PropTypes.object,
-    })
-  ),
+  reviewRequests: PropTypes.arrayOf(REVIEW_REQUEST),
 };
 
 RequestsTable.defaultProps = {

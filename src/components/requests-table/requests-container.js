@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Layout, PageHeader } from 'antd';
 
 import RequestsTable from './requests-table';
+import { REVIEW_REQUEST } from '../../types';
 
 const RequestsContainer = ({ reviewRequests, requestsForUser, userId }) => {
   const { Content } = Layout;
@@ -13,7 +14,7 @@ const RequestsContainer = ({ reviewRequests, requestsForUser, userId }) => {
   return (
     <Layout>
       <Content>
-        <PageHeader onBack={() => history.goBack()} title="Review Requests" />
+        <PageHeader onBack={history.goBack} title="Review Requests" />
         <RequestsTable
           reviewRequests={requestsForUser}
           userId={userId}
@@ -31,8 +32,8 @@ const RequestsContainer = ({ reviewRequests, requestsForUser, userId }) => {
 
 RequestsContainer.propTypes = {
   userId: PropTypes.string.isRequired,
-  reviewRequests: PropTypes.arrayOf(PropTypes.object),
-  requestsForUser: PropTypes.arrayOf(PropTypes.object),
+  reviewRequests: PropTypes.arrayOf(REVIEW_REQUEST),
+  requestsForUser: PropTypes.arrayOf(REVIEW_REQUEST),
 };
 
 RequestsContainer.defaultProps = {
