@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import { actionTypes } from '../constants';
 
 const selfGrade = {
@@ -5,9 +6,13 @@ const selfGrade = {
   summaryComment: '',
   items: [
     {
-      comment: '',
-      score: null,
-      status: null,
+      id: null,
+      minScore: null,
+      maxScore: null,
+      category: '',
+      title: '',
+      description: '',
+      score: 0,
     },
   ],
 };
@@ -18,9 +23,19 @@ const selfGradeReducer = (state = selfGrade, { type, payload }) => {
 
   switch (type) {
     case RATE_TASK_ITEM:
+      const currentItem = items.find((item) => item.id === payload.id);
+      const index = items.indexOf(currentItem);
+
+      const newtItem = {
+        ...currentItem,
+        score: payload.rate,
+      };
+
+      items[index] = newtItem;
+
       return {
         ...state,
-        items: [...items, { score: payload }],
+        items: [...items],
       };
 
     case COPY_TASK:

@@ -2,10 +2,10 @@ import { actionTypes } from '../constants';
 
 const { RATE_TASK_ITEM, COPY_TASK } = actionTypes;
 
-export const rateTaskItem = (payload) => {
+export const rateTaskItem = ({ id, rate }) => {
   return {
     type: RATE_TASK_ITEM,
-    payload,
+    payload: { id, rate },
   };
 };
 
