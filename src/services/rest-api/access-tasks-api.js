@@ -15,17 +15,13 @@
 */
 
 import BaseApi from './base-api';
-import { stateList } from './constants';
+import { stateList, addrList } from './constants';
+
+const { URL_Q_USER, URL_Q_TASK, URL_ACCESS_TASK_LIST } = addrList;
 
 export default class AccessTasksApi extends BaseApi {
-  URL_USER = '/users/?githubId=';
-
-  URL_TASKS = '/tasks/?id=';
-
-  URL_ACCESS_TASK_LIST = '/accessTasklist/';
-
   async userAccessTasksCheck({ githubId, taskId = null, action }) {
-    const searchUser = await this.getResource(`${this.URL_USER}${githubId}`);
+    const searchUser = await this.getResource(`${URL_Q_USER}${githubId}`);
 
     // If the user is not found, exit with a negative check result
     if (searchUser.length === 0) {
@@ -33,15 +29,13 @@ export default class AccessTasksApi extends BaseApi {
     }
 
     const searchTask =
-      taskId !== null
-        ? await this.getResource(`${this.URL_TASKS}${taskId}`)
-        : null;
+      taskId !== null ? await this.getResource(`${URL_Q_TASK}${taskId}`) : null;
 
     // If a task ID exists and a task was not found, exit with a negative check result.
     if (searchTask !== null && searchTask.length === 0) {
       return false;
     }
-    
+
     const task = searchTask !== null ? this.arrToObj(searchTask) : null;
 
     const taskState = task !== null ? task.state : stateList.CREATE;
@@ -53,7 +47,7 @@ export default class AccessTasksApi extends BaseApi {
         : currentUser.roles.filter((role) => role !== 'author');
 
     const actionsData = await this.getResource(
-      `${this.URL_ACCESS_TASK_LIST}${taskState}`
+      `${URL_ACCESS_TASK_LIST}${taskState}`
     );
     const actionMatch = actionsData.actionList.filter(
       (item) => item.title === action
@@ -66,7 +60,9 @@ export default class AccessTasksApi extends BaseApi {
 
     const actionList = this.arrToObj(actionMatch);
     const rolesForState = actionList.roles;
-    const isAccess = rolesForState.filter((role) => allowedRoles.includes(role));
+    const isAccess = rolesForState.filter((role) =>
+      allowedRoles.includes(role)
+    );
 
     return isAccess.length > 0;
   }
