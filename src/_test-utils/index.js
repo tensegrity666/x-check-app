@@ -1,33 +1,38 @@
 /* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable react/prop-types */
 import React from 'react';
 import { mount, shallow, render } from 'enzyme';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { createStore, combineReducers } from 'redux';
 
+import reviewRequests from './_mocks/review-requests.json';
+
+const mockData = {
+  reviewRequests,
+};
+
 const makeStore = (testReducer) => createStore(combineReducers(testReducer));
 
-export function makeTestStore(opts = {}) {
+function makeTestStore(opts = {}) {
   const store = makeStore(opts);
   const originalDispatch = store.dispatch;
   store.dispatch = jest.fn(originalDispatch);
   return store;
 }
 
-export function testMount(ui, { store, ...otherOpts }) {
+function testMount(ui, { store, ...otherOpts }) {
   return mount(<Provider store={store}>{ui}</Provider>, otherOpts);
 }
 
-export function testShallow(ui, { store, ...otherOpts }) {
+function testShallow(ui, { store, ...otherOpts }) {
   return shallow(<Provider store={store}>{ui}</Provider>, otherOpts);
 }
 
-export function testRender(ui, { store, ...otherOpts }) {
+function testRender(ui, { store, ...otherOpts }) {
   return render(<Provider store={store}>{ui}</Provider>, otherOpts);
 }
 
-export function testMountWithRouter(
+function testMountWithRouter(
   ui,
   { store, initialEntries = '/', ...otherOpts }
 ) {
@@ -38,3 +43,12 @@ export function testMountWithRouter(
     otherOpts
   );
 }
+
+export {
+  makeTestStore,
+  testMount,
+  testShallow,
+  testRender,
+  testMountWithRouter,
+  mockData,
+};
