@@ -4,6 +4,8 @@ import { RevReqApi } from '../../services/rest-api';
 const {
   FETCH_REVIEW_REQUESTS_BEGIN,
   FETCH_REVIEW_REQUESTS_SUCCESS,
+  FETCH_REVIEW_REQUEST,
+  SET_REVIEW_REQUEST,
 } = actionTypes;
 const api = new RevReqApi();
 
@@ -20,6 +22,27 @@ const fetchReviewRequestsSuccess = (reviewRequests) => {
   };
 };
 
+const fetchReviewRequestSuccess = (reviewRequest) => {
+  return {
+    type: FETCH_REVIEW_REQUEST,
+    payload: reviewRequest,
+  };
+};
+
+const setReviewRequest = (reviewRequest) => {
+  return {
+    type: SET_REVIEW_REQUEST,
+    payload: reviewRequest,
+  };
+};
+
+const fetchReviewRequestById = (reviewRequestId) => (dispatch) => {
+  dispatch(fetchReviewRequestsBegin());
+  api
+    .getRevReq(reviewRequestId)
+    .then((result) => dispatch(fetchReviewRequestSuccess(result)));
+};
+
 const fetchReviewRequests = () => (dispatch) => {
   dispatch(fetchReviewRequestsBegin());
   api
@@ -27,8 +50,4 @@ const fetchReviewRequests = () => (dispatch) => {
     .then((result) => dispatch(fetchReviewRequestsSuccess(result)));
 };
 
-export {
-  fetchReviewRequestsBegin,
-  fetchReviewRequestsSuccess,
-  fetchReviewRequests,
-};
+export { fetchReviewRequests, setReviewRequest, fetchReviewRequestById };

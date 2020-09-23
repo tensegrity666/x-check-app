@@ -21,9 +21,9 @@ import {
 } from './login-actions';
 
 import {
-  fetchReviewRequestsBegin,
-  fetchReviewRequestsSuccess,
   fetchReviewRequests,
+  setReviewRequest,
+  fetchReviewRequestById,
 } from './review-requests-actions';
 
 import fetchSessionAttendeesByReviewer from './session-actions';
@@ -44,8 +44,8 @@ export {
   loadTaskFromLocalStorage,
   addAuthor,
   fetchTasks,
-  fetchReviewRequestsBegin,
-  fetchReviewRequestsSuccess,
   fetchReviewRequests,
+  fetchReviewRequestById,
+  setReviewRequest,
   fetchSessionAttendeesByReviewer,
 };
