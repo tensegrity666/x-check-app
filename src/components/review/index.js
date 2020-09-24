@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Layout, PageHeader } from 'antd';
 
@@ -20,16 +20,21 @@ const Review = () => {
   const currentReviewRequest = useSelector(
     ({ reviewRequestsReducer }) => reviewRequestsReducer.currentReviewRequest
   );
+  const userId = useSelector(({ loginReducer }) => loginReducer.githubId);
+  const review = useSelector(
+    ({ reviewReducer }) => reviewReducer.review,
+    shallowEqual
+  );
 
   const { dispatch } = store;
-  const { fetchReviewRequestById, setReviewRequest } = bindActionCreators(
-    actions,
-    dispatch
-  );
+  const {
+    fetchReviewRequestById,
+    setReviewRequest,
+    fetchReviewByRequestId,
+  } = bindActionCreators(actions, dispatch);
   const onFetchReviewRequest = useCallback(fetchReviewRequestById, []);
   const onSetReviewRequest = useCallback(setReviewRequest, []);
-
-  const { Content } = Layout;
+  const onFetchReviewByRequest = useCallback(fetchReviewByRequestId, []);
 
   useEffect(() => {
     const searchParam = new URLSearchParams(search).get('request');
@@ -46,7 +51,17 @@ const Review = () => {
     };
   }, [search, reviewRequests, onFetchReviewRequest, onSetReviewRequest]);
 
-  // TODO: Add review fetching effect
+  useEffect(() => {
+    const searchParam = new URLSearchParams(search).get('request');
+    if (searchParam) {
+      onFetchReviewByRequest(searchParam, userId);
+    }
+    if (currentReviewRequest) {
+      onFetchReviewByRequest(currentReviewRequest.id, userId);
+    }
+  }, [search, userId, currentReviewRequest, onFetchReviewByRequest]);
+
+  const { Content } = Layout;
 
   return (
     <Layout>
@@ -58,7 +73,7 @@ const Review = () => {
               ? mockReviewRequest
               : currentReviewRequest
           }
-          review={mockReview}
+          review={Object.keys(review).length === 0 ? mockReview : review}
         />
       </Content>
     </Layout>

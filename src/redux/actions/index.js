@@ -26,6 +26,8 @@ import {
   fetchReviewRequestById,
 } from './review-requests-actions';
 
+import fetchReviewByRequestId from './review-actions';
+
 import fetchSessionAttendeesByReviewer from './session-actions';
 
 import receiveApiErrorResponse from './error-actions';
@@ -50,5 +52,6 @@ export {
   fetchReviewRequestById,
   setReviewRequest,
   fetchSessionAttendeesByReviewer,
+  fetchReviewByRequestId,
   receiveApiErrorResponse,
 };
