@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
+import PropTypes from 'prop-types';
 
 import { REVIEW, REVIEW_REQUEST } from '../../types';
-import formatGradesToRows from './table-helpers';
+import { EDITORS, formatGradesToRows } from './table-helpers';
 import getInitialGrade from './review-helpers';
+import ConditionalTextarea from './conditional-textarea';
 
-const ReviewForm = ({ reviewRequest, review }) => {
+const ReviewForm = ({ reviewRequest, review, userId }) => {
   const [grade, setGrade] = useState([]);
   const [tableRows, setTableRows] = useState([]);
+  const [authorshipStatus, setAuthorship] = useState(null);
   const { Column } = Table;
 
   useEffect(() => {
@@ -22,6 +25,14 @@ const ReviewForm = ({ reviewRequest, review }) => {
   }, [reviewRequest, review]);
 
   useEffect(() => {
+    if (review.author === userId) {
+      setAuthorship(EDITORS.REVIEWER);
+    } else if (reviewRequest.author === userId) {
+      setAuthorship(EDITORS.STUDENT);
+    }
+  }, [userId, review, reviewRequest]);
+
+  useEffect(() => {
     if (reviewRequest.selfGrade && grade.length > 0) {
       const { selfGrade } = reviewRequest;
       const rows = formatGradesToRows(grade, selfGrade);
@@ -31,7 +42,17 @@ const ReviewForm = ({ reviewRequest, review }) => {
 
   return (
     <Table dataSource={tableRows} pagination={false}>
-      <Column title="Comment" dataIndex="inputField" />
+      <Column
+        title="Comment"
+        dataIndex="inputField"
+        render={(text, record) =>
+          ConditionalTextarea({
+            text,
+            record,
+            userStatus: authorshipStatus,
+          })
+        }
+      />
       <Column title="Score" dataIndex="scoreField" />
     </Table>
   );
@@ -39,6 +60,7 @@ const ReviewForm = ({ reviewRequest, review }) => {
 
 ReviewForm.propTypes = {
   reviewRequest: REVIEW_REQUEST.isRequired,
+  userId: PropTypes.string.isRequired,
   review: REVIEW,
 };
 

@@ -1,10 +1,10 @@
-const EDITORS = {
+export const EDITORS = {
   DISPLAY_ONLY: 'DISPLAY_ONLY',
   REVIEWER: 'REVIEWER',
   STUDENT: 'STUDENT',
 };
 
-const formatGradesToRows = (gradesList, selfGradeList) =>
+export const formatGradesToRows = (gradesList, selfGradeList) =>
   gradesList
     .map(({ id: itemId, score, comment, protest, suggestedScore }) => {
       const currentItem = selfGradeList.find(({ id }) => id === itemId);
@@ -33,5 +33,3 @@ const formatGradesToRows = (gradesList, selfGradeList) =>
       ];
     })
     .flat();
-
-export default formatGradesToRows;
