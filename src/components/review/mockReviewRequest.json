@@ -1,0 +1,24 @@
+{
+  "id": "rev-req-1",
+  "crossCheckSessionId": "rss2020Q3react-xcheck",
+  "author": "author",
+  "task": "simple-task-v1",
+  "state": "DRAFT",
+  "selfGrade": [
+    {
+      "id": "basic_p1",
+      "score": "20",
+      "comment": "Well done!"
+    },
+    {
+      "id": "extra_p1",
+      "score": "15",
+      "comment": "Some things are done, some are not"
+    },
+    {
+      "id": "fines_p1",
+      "score": "0",
+      "comment": "No ticket today"
+    }
+  ]
+}

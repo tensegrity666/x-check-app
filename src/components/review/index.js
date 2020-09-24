@@ -8,6 +8,8 @@ import * as actions from '../../redux/actions';
 import store from '../../redux/store';
 import ReviewForm from './review-form';
 
+import mockReviewRequest from './mockReviewRequest.json';
+
 const Review = () => {
   const { search } = useLocation();
   const history = useHistory();
@@ -47,7 +49,13 @@ const Review = () => {
     <Layout>
       <PageHeader onBack={history.goBack} title="Review" />
       <Content>
-        <ReviewForm reviewRequest={currentReviewRequest} />
+        <ReviewForm
+          reviewRequest={
+            Object.keys(currentReviewRequest).length === 0
+              ? mockReviewRequest
+              : currentReviewRequest
+          }
+        />
       </Content>
     </Layout>
   );
