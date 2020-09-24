@@ -9,6 +9,7 @@ import store from '../../redux/store';
 import ReviewForm from './review-form';
 
 import mockReviewRequest from './mockReviewRequest.json';
+import mockReview from './mockReview.json';
 
 const Review = () => {
   const { search } = useLocation();
@@ -45,6 +46,8 @@ const Review = () => {
     };
   }, [search, reviewRequests, onFetchReviewRequest, onSetReviewRequest]);
 
+  // TODO: Add review fetching effect
+
   return (
     <Layout>
       <PageHeader onBack={history.goBack} title="Review" />
@@ -55,6 +58,7 @@ const Review = () => {
               ? mockReviewRequest
               : currentReviewRequest
           }
+          review={mockReview}
         />
       </Content>
     </Layout>
