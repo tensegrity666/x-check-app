@@ -28,6 +28,8 @@ import {
 
 import fetchSessionAttendeesByReviewer from './session-actions';
 
+import receiveApiErrorResponse from './error-actions';
+
 export {
   changeFilter,
   searchItem,
@@ -48,4 +50,5 @@ export {
   fetchReviewRequestById,
   setReviewRequest,
   fetchSessionAttendeesByReviewer,
+  receiveApiErrorResponse,
 };
