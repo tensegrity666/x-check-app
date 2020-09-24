@@ -7,6 +7,7 @@ import formatGradesToRows from './table-helpers';
 import { EDITORS, REVIEW_STATE } from './constants';
 import getInitialGrade from './review-helpers';
 import ConditionalTextarea from './conditional-textarea';
+import ConditionalScoreInput from './conditional-score-input';
 
 const ReviewForm = ({ reviewRequest, review, userId }) => {
   const [grade, setGrade] = useState([]);
@@ -19,6 +20,19 @@ const ReviewForm = ({ reviewRequest, review, userId }) => {
     const {
       target: { value },
     } = event;
+    setGrade((prevGrade) => {
+      return prevGrade.map((item) => {
+        if (item.id === itemId) {
+          return { ...item, [dynamicKey]: value };
+        }
+        return item;
+      });
+    });
+  };
+
+  const handleScoreChange = ({ itemId, authorship }) => (value) => {
+    const dynamicKey =
+      authorship === EDITORS.REVIEWER ? 'score' : 'suggestedScore';
     setGrade((prevGrade) => {
       return prevGrade.map((item) => {
         if (item.id === itemId) {
@@ -46,9 +60,9 @@ const ReviewForm = ({ reviewRequest, review, userId }) => {
   }, [reviewRequest, review]);
 
   useEffect(() => {
-    if (review.author === userId) {
+    if (review.author === userId || 'temporary-mock') {
       setAuthorship(EDITORS.REVIEWER);
-    } else if (reviewRequest.author === userId || 'temporary-mock') {
+    } else if (reviewRequest.author === userId) {
       setAuthorship(EDITORS.STUDENT);
     }
   }, [userId, review, reviewRequest]);
@@ -81,7 +95,18 @@ const ReviewForm = ({ reviewRequest, review, userId }) => {
             })
           }
         />
-        <Column title="Score" dataIndex="scoreField" />
+        <Column
+          title="Score"
+          dataIndex="scoreField"
+          render={(text, record) =>
+            ConditionalScoreInput({
+              text,
+              record,
+              userStatus: authorshipStatus,
+              handleChange: handleScoreChange(record),
+            })
+          }
+        />
       </Table>
     </>
   );
