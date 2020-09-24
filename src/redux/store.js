@@ -7,6 +7,7 @@ import filterReducer from './reducers/filter-reducer';
 import loginReducer from './reducers/login-reducer';
 import reviewRequestsReducer from './reducers/review-requests-reducer';
 import crossCheckSessionReducer from './reducers/cross-check-session-reducer';
+import errorsReducer from './reducers/errors-reducer';
 import { loadStateFromLocalStorage, saveStateToLocalStorage } from '../utils';
 
 const rootReducer = combineReducers({
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   loginReducer,
   reviewRequestsReducer,
   crossCheckSessionReducer,
+  errorsReducer,
 });
 
 const persistedState = loadStateFromLocalStorage();
