@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table } from 'antd';
+import { Table, Button, Space } from 'antd';
 import PropTypes from 'prop-types';
 
 import { REVIEW, REVIEW_REQUEST } from '../../types';
@@ -29,6 +29,10 @@ const ReviewForm = ({ reviewRequest, review, userId }) => {
     });
   };
 
+  const onDisputeReview = () => {
+    setReviewStatus(REVIEW_STATE.DISPUTED);
+  };
+
   useEffect(() => {
     if (!review.grade && reviewRequest.selfGrade) {
       const { selfGrade } = reviewRequest;
@@ -42,35 +46,44 @@ const ReviewForm = ({ reviewRequest, review, userId }) => {
   }, [reviewRequest, review]);
 
   useEffect(() => {
-    if (review.author === userId || 'temporary-mock') {
+    if (review.author === userId) {
       setAuthorship(EDITORS.REVIEWER);
-    } else if (reviewRequest.author === userId) {
+    } else if (reviewRequest.author === userId || 'temporary-mock') {
       setAuthorship(EDITORS.STUDENT);
     }
   }, [userId, review, reviewRequest]);
 
   return (
-    <Table
-      dataSource={formatGradesToRows(
-        grade,
-        reviewRequest.selfGrade,
-        reviewStatus
-      )}
-      pagination={false}>
-      <Column
-        title="Comment"
-        dataIndex="inputField"
-        render={(text, record) =>
-          ConditionalTextarea({
-            text,
-            record,
-            userStatus: authorshipStatus,
-            handleChange: handleTextChange(record),
-          })
-        }
-      />
-      <Column title="Score" dataIndex="scoreField" />
-    </Table>
+    <>
+      <Space>
+        {authorshipStatus === EDITORS.STUDENT && (
+          <Button danger onClick={onDisputeReview}>
+            Dispute
+          </Button>
+        )}
+      </Space>
+      <Table
+        dataSource={formatGradesToRows(
+          grade,
+          reviewRequest.selfGrade,
+          reviewStatus
+        )}
+        pagination={false}>
+        <Column
+          title="Comment"
+          dataIndex="inputField"
+          render={(text, record) =>
+            ConditionalTextarea({
+              text,
+              record,
+              userStatus: authorshipStatus,
+              handleChange: handleTextChange(record),
+            })
+          }
+        />
+        <Column title="Score" dataIndex="scoreField" />
+      </Table>
+    </>
   );
 };
 
