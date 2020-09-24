@@ -1,0 +1,30 @@
+{
+
+  "id": "rev-id-1",
+  "requestId": "rev-req-1",
+  "author": "student",
+  "state": "DRAFT",
+  "grade": [
+    {
+      "id": "basic_p1",
+      "score": "20",
+      "comment": "Well done!",
+      "protest": "text ...",
+      "suggestedScore": "30"
+    },
+    {
+      "id": "extra_p1",
+      "score": "15",
+      "comment": "Some things are done, some are not",
+      "protest": "text ...",
+      "suggestedScore": "30"
+    },
+    {
+      "id": "fines_p1",
+      "score": "0",
+      "comment": "No ticket today",
+      "protest": "text ...",
+      "suggestedScore": "30"
+    }
+  ]
+}
