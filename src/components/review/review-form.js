@@ -36,7 +36,7 @@ const ReviewForm = ({ reviewRequest, review, userId }) => {
     setGrade((prevGrade) => {
       return prevGrade.map((item) => {
         if (item.id === itemId) {
-          return { ...item, [dynamicKey]: value };
+          return { ...item, [dynamicKey]: String(value) };
         }
         return item;
       });
