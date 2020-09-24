@@ -9,9 +9,23 @@ import ConditionalTextarea from './conditional-textarea';
 
 const ReviewForm = ({ reviewRequest, review, userId }) => {
   const [grade, setGrade] = useState([]);
-  const [tableRows, setTableRows] = useState([]);
   const [authorshipStatus, setAuthorship] = useState(null);
   const { Column } = Table;
+
+  const handleTextChange = ({ itemId, authorship }) => (event) => {
+    const dynamicKey = authorship === EDITORS.REVIEWER ? 'comment' : 'protest';
+    const {
+      target: { value },
+    } = event;
+    setGrade((prevGrade) => {
+      return prevGrade.map((item) => {
+        if (item.id === itemId) {
+          return { ...item, [dynamicKey]: value };
+        }
+        return item;
+      });
+    });
+  };
 
   useEffect(() => {
     if (!review.grade && reviewRequest.selfGrade) {
@@ -32,16 +46,10 @@ const ReviewForm = ({ reviewRequest, review, userId }) => {
     }
   }, [userId, review, reviewRequest]);
 
-  useEffect(() => {
-    if (reviewRequest.selfGrade && grade.length > 0) {
-      const { selfGrade } = reviewRequest;
-      const rows = formatGradesToRows(grade, selfGrade);
-      setTableRows(rows);
-    }
-  }, [grade, reviewRequest]);
-
   return (
-    <Table dataSource={tableRows} pagination={false}>
+    <Table
+      dataSource={formatGradesToRows(grade, reviewRequest.selfGrade)}
+      pagination={false}>
       <Column
         title="Comment"
         dataIndex="inputField"
@@ -50,6 +58,7 @@ const ReviewForm = ({ reviewRequest, review, userId }) => {
             text,
             record,
             userStatus: authorshipStatus,
+            handleChange: handleTextChange(record),
           })
         }
       />
