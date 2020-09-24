@@ -4,11 +4,9 @@ import { Input } from 'antd';
 
 const ConditionalTextarea = ({ text, record, userStatus, handleChange }) => {
   const { TextArea } = Input;
-  const onChange = (e) => {
-    handleChange(e);
-  };
+
   if (record.authorship === userStatus) {
-    return <TextArea value={text} onChange={onChange} />;
+    return <TextArea value={text} onChange={handleChange} />;
   }
   return text;
 };
