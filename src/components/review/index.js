@@ -6,6 +6,7 @@ import { Layout, PageHeader } from 'antd';
 
 import * as actions from '../../redux/actions';
 import store from '../../redux/store';
+import ReviewForm from './review-form';
 
 const Review = () => {
   const { search } = useLocation();
@@ -45,7 +46,9 @@ const Review = () => {
   return (
     <Layout>
       <PageHeader onBack={history.goBack} title="Review" />
-      <Content>{currentReviewRequest.id}</Content>
+      <Content>
+        <ReviewForm reviewRequest={currentReviewRequest} />
+      </Content>
     </Layout>
   );
 };
