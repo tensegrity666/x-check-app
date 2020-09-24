@@ -4,7 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 
 const ConditionalLink = ({ isDisabled, slug }) => {
   return (
-    <RouterLink to={`/reviews?request=${slug}`} disabled={isDisabled}>
+    <RouterLink to={`/reviews/edit?request=${slug}`} disabled={isDisabled}>
       Review
     </RouterLink>
   );

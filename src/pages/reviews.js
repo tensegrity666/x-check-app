@@ -1,10 +1,9 @@
 import React from 'react';
-import Review from '../components/review';
 
 const Reviews = () => {
   return (
     <>
-      <Review />
+      <h1>Reviews List will be here</h1>
     </>
   );
 };
