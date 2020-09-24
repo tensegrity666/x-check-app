@@ -4,7 +4,7 @@ export const EDITORS = {
   STUDENT: 'STUDENT',
 };
 
-export const formatGradesToRows = (gradesList, selfGradeList) =>
+export const getRowsFullView = (gradesList, selfGradeList) =>
   gradesList
     .map(({ id: itemId, score, comment, protest, suggestedScore }) => {
       const currentItem = selfGradeList.find(({ id }) => id === itemId);
@@ -33,3 +33,11 @@ export const formatGradesToRows = (gradesList, selfGradeList) =>
       ];
     })
     .flat();
+
+export const formatGradesToRows = (gradesList, selfGradeList) => {
+  if (gradesList.length === 0 || !selfGradeList) {
+    return [];
+  }
+
+  return getRowsFullView(gradesList, selfGradeList);
+};
