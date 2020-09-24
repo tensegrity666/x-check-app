@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
 
 import { REVIEW, REVIEW_REQUEST } from '../../types';
-import populateRowsWithKeys from './table-helpers';
+import formatGradesToRows from './table-helpers';
 import getInitialGrade from './review-helpers';
 
 const ReviewForm = ({ reviewRequest, review }) => {
-  const [grade, setGrade] = useState({});
+  const [grade, setGrade] = useState([]);
+  const [tableRows, setTableRows] = useState([]);
   const { Column } = Table;
 
   useEffect(() => {
@@ -21,15 +22,17 @@ const ReviewForm = ({ reviewRequest, review }) => {
   }, [reviewRequest, review]);
 
   useEffect(() => {
-    console.dir(grade);
-  }, [grade]);
+    if (reviewRequest.selfGrade && grade.length > 0) {
+      const { selfGrade } = reviewRequest;
+      const rows = formatGradesToRows(grade, selfGrade);
+      setTableRows(rows);
+    }
+  }, [grade, reviewRequest]);
 
   return (
-    <Table
-      dataSource={populateRowsWithKeys(reviewRequest.selfGrade)}
-      pagination={false}>
-      <Column title="Comment" dataIndex="comment" />
-      <Column title="Score" dataIndex="score" />
+    <Table dataSource={tableRows} pagination={false}>
+      <Column title="Comment" dataIndex="inputField" />
+      <Column title="Score" dataIndex="scoreField" />
     </Table>
   );
 };
