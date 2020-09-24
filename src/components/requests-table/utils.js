@@ -108,7 +108,7 @@ const getColumnsWithSearch = (
 };
 
 const getSelfGradeTotal = (selfGrade) => {
-  return Object.values(selfGrade).reduce((total, value) => total + value, 0);
+  return selfGrade.reduce((total, { score }) => total + score, 0);
 };
 
 const getFormattedRows = (ReviewRequestsList) => {
