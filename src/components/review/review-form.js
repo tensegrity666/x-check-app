@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Space } from 'antd';
+import { Table } from 'antd';
 import PropTypes from 'prop-types';
 
 import { REVIEW, REVIEW_REQUEST } from '../../types';
@@ -8,6 +8,7 @@ import { EDITORS, REVIEW_STATE } from './constants';
 import getInitialGrade from './review-helpers';
 import ConditionalTextarea from './conditional-textarea';
 import ConditionalScoreInput from './conditional-score-input';
+import ReviewControls from './review-controls';
 
 const ReviewForm = ({ reviewRequest, review, userId }) => {
   const [grade, setGrade] = useState([]);
@@ -60,22 +61,20 @@ const ReviewForm = ({ reviewRequest, review, userId }) => {
   }, [reviewRequest, review]);
 
   useEffect(() => {
-    if (review.author === userId || 'temporary-mock') {
+    if (review.author === userId) {
       setAuthorship(EDITORS.REVIEWER);
-    } else if (reviewRequest.author === userId) {
+    } else if (reviewRequest.author === userId || 'temporary-mock') {
       setAuthorship(EDITORS.STUDENT);
     }
   }, [userId, review, reviewRequest]);
 
   return (
     <>
-      <Space>
-        {authorshipStatus === EDITORS.STUDENT && (
-          <Button danger onClick={onDisputeReview}>
-            Dispute
-          </Button>
-        )}
-      </Space>
+      <ReviewControls
+        authorshipStatus={authorshipStatus}
+        reviewStatus={reviewStatus}
+        onDisputeReview={onDisputeReview}
+      />
       <Table
         dataSource={formatGradesToRows(
           grade,

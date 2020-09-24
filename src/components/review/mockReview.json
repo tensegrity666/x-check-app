@@ -3,7 +3,7 @@
   "id": "rev-id-1",
   "requestId": "rev-req-1",
   "author": "student",
-  "state": "DRAFT",
+  "state": "PUBLISHED",
   "grade": [
     {
       "id": "basic_p1",
