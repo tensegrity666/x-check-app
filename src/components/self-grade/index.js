@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useEffect, useState } from 'react';
@@ -6,30 +5,83 @@ import { bindActionCreators } from 'redux';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SelfGrade from './self-grade';
-import { TasksApi } from '../../services/rest-api';
+import { TasksApi, RevReqApi } from '../../services/rest-api';
+import { CATEGORIES, RATES } from './constants';
 
 import store from '../../redux/store';
 import * as actions from '../../redux/actions';
 
 const SelfGradeContainer = () => {
-  const api = new TasksApi();
+  const tasksApi = new TasksApi();
+  const reviewApi = new RevReqApi();
+
+  const { fines } = CATEGORIES;
+  const { nope, partially, fully } = RATES;
+
   const [loading, setloading] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const [prLink, setPrLink] = useState('');
+  const [deployLink, setDeployLink] = useState('');
+
   const history = useHistory();
 
   const { dispatch } = store;
-  const { copyTaskToState, rateTaskItem } = bindActionCreators(
-    actions,
-    dispatch
-  );
+  const {
+    copyTaskToState,
+    rateTask,
+    commentTaskItem,
+    addSummaryComment,
+  } = bindActionCreators(actions, dispatch);
 
-  const data = useSelector(({ selfGradeReducer }) => selfGradeReducer);
+  const state = useSelector(({ selfGradeReducer }) => selfGradeReducer);
 
-  const handleSelectChange = (id, category, value) => {
+  const onTextChange = (value) => {
+    setInputValue(value);
+  };
+
+  const onSelfGradeSubmit = () => {
+    const { githubId } = store.getState().loginReducer;
+    const { items } = store.getState().selfGradeReducer;
+
+    addSummaryComment(inputValue);
+
+    const data = {
+      url_pr: prLink,
+      url_deploy: deployLink,
+      author: githubId,
+      task: 'null1600969000220.888',
+      selfGrade: items,
+    };
+
+    reviewApi.createRevReq({ githubId, data });
+  };
+
+  const handleSelectChange = (id, maxScore, minScore, category, value) => {
     switch (value) {
-      case 'not':
-        console.log(id, category, value);
-        rateTaskItem({ id, rate: 0 });
+      case nope:
+        if (category === fines) {
+          rateTask({ id, rate: minScore });
+          break;
+        }
+        rateTask({ id, rate: 0 });
         break;
+
+      case partially:
+        if (category === fines) {
+          rateTask({ id, rate: Math.trunc(minScore / 2) });
+          break;
+        }
+        rateTask({ id, rate: Math.trunc(maxScore / 2) });
+        break;
+
+      case fully:
+        if (category === fines) {
+          rateTask({ id, rate: 0 });
+          break;
+        }
+        rateTask({ id, rate: maxScore });
+        break;
+
       default:
         break;
     }
@@ -37,7 +89,7 @@ const SelfGradeContainer = () => {
 
   useEffect(() => {
     setloading(true);
-    api.getTask('simple-task-v3').then((res) => {
+    tasksApi.getTask('null1600969000220.888').then((res) => {
       copyTaskToState(res[0]);
       setloading(false);
     });
@@ -46,9 +98,17 @@ const SelfGradeContainer = () => {
   return (
     <SelfGrade
       handleSelectChange={handleSelectChange}
-      data={data}
+      state={state}
       loading={loading}
       history={history}
+      commentTaskItem={commentTaskItem}
+      inputValue={inputValue}
+      onTextChange={onTextChange}
+      onSelfGradeSubmit={onSelfGradeSubmit}
+      prLink={prLink}
+      deployLink={deployLink}
+      setPrLink={setPrLink}
+      setDeployLink={setDeployLink}
     />
   );
 };

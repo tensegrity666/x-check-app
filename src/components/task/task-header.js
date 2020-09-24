@@ -29,7 +29,7 @@ const TaskHeader = ({
 }) => {
   const { statsHeading, datePicker } = styles;
   const {
-    totalScore,
+    maxScore,
     dateOfCreate,
     taskTitle,
     author,
@@ -80,7 +80,7 @@ const TaskHeader = ({
           <Statistic
             className={statsHeading}
             title="Total score"
-            value={totalScore}
+            value={maxScore}
           />
           <Statistic
             className={statsHeading}

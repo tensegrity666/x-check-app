@@ -2,8 +2,11 @@
 import { actionTypes } from '../constants';
 
 const selfGrade = {
-  totalScore: null,
+  maxScore: null,
+  totalScore: 0,
   summaryComment: '',
+  deadline: '',
+  taskTitle: '',
   items: [
     {
       id: null,
@@ -13,19 +16,30 @@ const selfGrade = {
       title: '',
       description: '',
       score: 0,
+      comment: '',
     },
   ],
 };
 
+let index;
+
+const getCurrentItem = (arr, payload) => {
+  return arr.find((item) => item.id === payload.id);
+};
+
 const selfGradeReducer = (state = selfGrade, { type, payload }) => {
-  const { RATE_TASK_ITEM, COPY_TASK } = actionTypes;
-  const { items } = state;
+  const { items, totalScore } = state;
+  const {
+    RATE_TASK,
+    COPY_TASK,
+    COMMENT_TASK_ITEM,
+    SUMMARY_COMMENT,
+  } = actionTypes;
 
   switch (type) {
-    case RATE_TASK_ITEM:
+    case RATE_TASK:
       const currentItem = items.find((item) => item.id === payload.id);
-      const index = items.indexOf(currentItem);
-
+      index = items.indexOf(currentItem);
       const newtItem = {
         ...currentItem,
         score: payload.rate,
@@ -35,15 +49,39 @@ const selfGradeReducer = (state = selfGrade, { type, payload }) => {
 
       return {
         ...state,
+        totalScore: totalScore + newtItem.score,
+        items: [...items],
+      };
+
+    case COMMENT_TASK_ITEM:
+      const currentComment = getCurrentItem(items, payload);
+      index = items.indexOf(currentComment);
+      const newComment = {
+        ...currentComment,
+        comment: payload.comment,
+      };
+
+      items[index] = newComment;
+
+      return {
+        ...state,
         items: [...items],
       };
 
     case COPY_TASK:
       return {
         ...state,
-        totalScore: payload.totalScore,
+        taskTitle: payload.taskTitle,
+        deadline: payload.deadline,
+        maxScore: payload.totalScore,
         summaryComment: payload.summaryComment,
         items: payload.items,
+      };
+
+    case SUMMARY_COMMENT:
+      return {
+        ...state,
+        summaryComment: payload,
       };
 
     default:
