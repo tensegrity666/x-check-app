@@ -74,6 +74,7 @@ const Review = () => {
               : currentReviewRequest
           }
           review={Object.keys(review).length === 0 ? mockReview : review}
+          userId={userId}
         />
       </Content>
     </Layout>
