@@ -1,9 +1,8 @@
 import React from 'react';
-
-import Tasks from '../components/tasks';
+import TasksContainer from '../components/tasks';
 
 const TasksPage = () => {
-  return <Tasks />;
+  return <TasksContainer />;
 };
 
 export default TasksPage;

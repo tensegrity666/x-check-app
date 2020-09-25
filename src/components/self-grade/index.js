@@ -18,7 +18,7 @@ const SelfGradeContainer = () => {
   const { fines } = CATEGORIES;
   const { nope, partially, fully } = RATES;
 
-  const [loading, setloading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [prLink, setPrLink] = useState('');
   const [deployLink, setDeployLink] = useState('');
@@ -88,10 +88,10 @@ const SelfGradeContainer = () => {
   };
 
   useEffect(() => {
-    setloading(true);
+    setLoading(true);
     tasksApi.getTask('null1600969000220.888').then((res) => {
       copyTaskToState(res[0]);
-      setloading(false);
+      setLoading(false);
     });
   }, []);
 

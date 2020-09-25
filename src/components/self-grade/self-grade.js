@@ -176,8 +176,8 @@ const SelfGrade = ({
 };
 
 SelfGrade.propTypes = {
-  state: PropTypes.PropTypes.object.isRequired,
-  history: PropTypes.PropTypes.object.isRequired,
+  state: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   handleSelectChange: PropTypes.func.isRequired,
   commentTaskItem: PropTypes.func.isRequired,
   onTextChange: PropTypes.func.isRequired,
@@ -187,7 +187,7 @@ SelfGrade.propTypes = {
   setPrLink: PropTypes.func.isRequired,
   onSelfGradeSubmit: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
-  loading: PropTypes.PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default SelfGrade;
