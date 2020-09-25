@@ -1,10 +1,14 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { shallowEqual, useSelector } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Layout, PageHeader } from 'antd';
 
-import * as actions from '../../redux/actions';
+import {
+  fetchReviewRequestById,
+  setReviewRequest,
+  fetchReviewByRequestId,
+  fetchTaskById,
+} from '../../redux/actions';
 import store from '../../redux/store';
 import ReviewForm from './review-form';
 
@@ -30,49 +34,38 @@ const Review = () => {
     ({ tasksListReducer }) => tasksListReducer.currentTask,
     shallowEqual
   );
-
   const { dispatch } = store;
-  const {
-    fetchReviewRequestById,
-    setReviewRequest,
-    fetchReviewByRequestId,
-    fetchTaskById,
-  } = bindActionCreators(actions, dispatch);
-  const onFetchReviewRequest = useCallback(fetchReviewRequestById, []);
-  const onSetReviewRequest = useCallback(setReviewRequest, []);
-  const onFetchReviewByRequest = useCallback(fetchReviewByRequestId, []);
-  const onFetchTaskById = useCallback(fetchTaskById, []);
 
   useEffect(() => {
     const searchParam = new URLSearchParams(search).get('request');
 
     if (searchParam && reviewRequests.length > 0) {
       const reviewRequest = reviewRequests.find(({ id }) => id === searchParam);
-      onSetReviewRequest(reviewRequest);
+      dispatch(setReviewRequest(reviewRequest));
     } else if (searchParam) {
-      onFetchReviewRequest(searchParam);
+      dispatch(fetchReviewRequestById(searchParam));
     }
 
     return () => {
-      onSetReviewRequest({});
+      dispatch(setReviewRequest({}));
     };
-  }, [search, reviewRequests, onFetchReviewRequest, onSetReviewRequest]);
+  }, [search, reviewRequests, dispatch]);
 
   useEffect(() => {
     const searchParam = new URLSearchParams(search).get('request');
     if (searchParam) {
-      onFetchReviewByRequest(searchParam, userId);
+      dispatch(fetchReviewByRequestId(searchParam, userId));
     }
     if (currentReviewRequest) {
-      onFetchReviewByRequest(currentReviewRequest.id, userId);
+      dispatch(fetchReviewByRequestId(currentReviewRequest.id, userId));
     }
-  }, [search, userId, currentReviewRequest, onFetchReviewByRequest]);
+  }, [search, userId, currentReviewRequest, dispatch]);
 
   useEffect(() => {
     if (currentReviewRequest.task) {
-      onFetchTaskById(currentReviewRequest.task);
+      dispatch(fetchTaskById(currentReviewRequest.task));
     }
-  }, [currentReviewRequest, onFetchTaskById]);
+  }, [currentReviewRequest, dispatch]);
 
   const { Content } = Layout;
 
