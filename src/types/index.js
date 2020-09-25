@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import PropTypes from 'prop-types';
 
 export const SELF_GRADE_ITEM = PropTypes.shape({
@@ -30,4 +29,25 @@ export const REVIEW = PropTypes.shape({
   author: PropTypes.string,
   state: PropTypes.oneOf(['DRAFT', 'PUBLISHED', 'ACCEPTED', 'DISPUTED']),
   grade: PropTypes.arrayOf(GRADE_ITEM),
+});
+
+export const TASK_ITEM = PropTypes.shape({
+  id: PropTypes.string,
+  minScore: PropTypes.number,
+  maxScore: PropTypes.number,
+  category: PropTypes.string,
+  title: PropTypes.string,
+  description: PropTypes.string,
+});
+
+export const TASK = PropTypes.shape({
+  id: PropTypes.string,
+  author: PropTypes.string,
+  taskTitle: PropTypes.string,
+  state: PropTypes.string,
+  categories: PropTypes.arrayOf(PropTypes.string),
+  dateOfCreate: PropTypes.string,
+  deadline: PropTypes.string,
+  totalScore: PropTypes.number,
+  items: PropTypes.arrayOf(TASK_ITEM),
 });
