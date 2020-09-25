@@ -10,6 +10,7 @@ import ReviewForm from './review-form';
 
 import mockReviewRequest from './mockReviewRequest.json';
 import mockReview from './mockReview.json';
+import mockTask from './mockTask.json';
 
 const Review = () => {
   const { search } = useLocation();
@@ -74,6 +75,7 @@ const Review = () => {
               : currentReviewRequest
           }
           review={Object.keys(review).length === 0 ? mockReview : review}
+          task={mockTask}
           userId={userId}
         />
       </Content>
