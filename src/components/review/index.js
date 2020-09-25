@@ -26,16 +26,22 @@ const Review = () => {
     ({ reviewReducer }) => reviewReducer.review,
     shallowEqual
   );
+  const currentTask = useSelector(
+    ({ tasksListReducer }) => tasksListReducer.currentTask,
+    shallowEqual
+  );
 
   const { dispatch } = store;
   const {
     fetchReviewRequestById,
     setReviewRequest,
     fetchReviewByRequestId,
+    fetchTaskById,
   } = bindActionCreators(actions, dispatch);
   const onFetchReviewRequest = useCallback(fetchReviewRequestById, []);
   const onSetReviewRequest = useCallback(setReviewRequest, []);
   const onFetchReviewByRequest = useCallback(fetchReviewByRequestId, []);
+  const onFetchTaskById = useCallback(fetchTaskById, []);
 
   useEffect(() => {
     const searchParam = new URLSearchParams(search).get('request');
@@ -62,6 +68,12 @@ const Review = () => {
     }
   }, [search, userId, currentReviewRequest, onFetchReviewByRequest]);
 
+  useEffect(() => {
+    if (currentReviewRequest.task) {
+      onFetchTaskById(currentReviewRequest.task);
+    }
+  }, [currentReviewRequest, onFetchTaskById]);
+
   const { Content } = Layout;
 
   return (
@@ -75,7 +87,7 @@ const Review = () => {
               : currentReviewRequest
           }
           review={Object.keys(review).length === 0 ? mockReview : review}
-          task={mockTask}
+          task={currentTask.items ? currentTask : mockTask}
           userId={userId}
         />
       </Content>

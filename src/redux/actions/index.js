@@ -10,7 +10,7 @@ import {
   addAuthor,
 } from './task-actions';
 
-import { fetchTasks } from './tasks-list-actions';
+import { fetchTasks, fetchTaskById } from './tasks-list-actions';
 
 import { changeFilter, searchItem } from './filter-actions';
 
@@ -48,6 +48,7 @@ export {
   loadTaskFromLocalStorage,
   addAuthor,
   fetchTasks,
+  fetchTaskById,
   fetchReviewRequests,
   fetchReviewRequestById,
   setReviewRequest,
