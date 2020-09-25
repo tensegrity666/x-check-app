@@ -9,11 +9,15 @@ import { getInitialGrade } from './review-helpers';
 import ConditionalTextarea from './conditional-textarea';
 import ConditionalScoreInput from './conditional-score-input';
 import ReviewControls from './review-controls';
+import { ReviewApi } from '../../services/rest-api';
 
 const ReviewForm = ({ reviewRequest, review, task, userId }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [grade, setGrade] = useState([]);
   const [authorshipStatus, setAuthorship] = useState(null);
   const [reviewStatus, setReviewStatus] = useState(REVIEW_STATE.DRAFT);
+  const api = new ReviewApi();
+
   const { Column } = Table;
 
   const handleTextChange = ({ itemId, authorship }) => (event) => {
@@ -48,6 +52,43 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
     setReviewStatus(REVIEW_STATE.DISPUTED);
   };
 
+  const handleReviewCreation = async () => {
+    const data = {
+      requestId: reviewRequest.id,
+      author: userId,
+      grade: [...grade],
+    };
+    const body = {
+      githubId: userId,
+      data,
+    };
+    setIsLoading(true);
+    await api.createReview(body);
+    setIsLoading(false);
+  };
+
+  const handleReviewEdit = async () => {
+    const body = {
+      githubId: userId,
+      reviewId: review.id,
+      data: grade,
+    };
+    setIsLoading(true);
+    await api.editReview(body);
+    setIsLoading(false);
+  };
+
+  const handleToggleReviewStatus = async (modificatorType) => {
+    const body = {
+      githubId: userId,
+      reviewId: review.id,
+      requiredState: modificatorType,
+    };
+    setIsLoading(true);
+    await api.toggleReviewState(body);
+    setIsLoading(false);
+  };
+
   useEffect(() => {
     if (!review.grade && reviewRequest.selfGrade) {
       const { selfGrade } = reviewRequest;
@@ -74,6 +115,9 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
         authorshipStatus={authorshipStatus}
         reviewStatus={reviewStatus}
         onDisputeReview={onDisputeReview}
+        createReview={handleReviewCreation}
+        editReview={handleReviewEdit}
+        toggleReviewStatus={handleToggleReviewStatus}
       />
       <Table
         dataSource={formatGradesToRows(
@@ -82,6 +126,7 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
           task.items,
           reviewStatus
         )}
+        isLoading={isLoading}
         pagination={false}>
         <Column
           title="Task Criteria"
