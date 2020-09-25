@@ -1,4 +1,5 @@
-import { EDITORS, REVIEW_STATE } from './constants';
+import { EDITORS, REVIEW_STATE, ROWS } from './constants';
+import CriteriaCell from './criteria-cell';
 import { getScoreLimitsAverage } from './review-helpers';
 
 const getRowsFullView = (gradesList, selfGradeList, taskItems) =>
@@ -6,12 +7,12 @@ const getRowsFullView = (gradesList, selfGradeList, taskItems) =>
     .map(({ id: itemId, score, comment, protest, suggestedScore }) => {
       const currentItem = selfGradeList.find(({ id }) => id === itemId);
       const taskItem = taskItems.find(({ id }) => id === itemId);
-      const { title, minScore, maxScore, average } = taskItem;
+      const { title, description, minScore, maxScore, average } = taskItem;
       return [
         {
           key: itemId,
           itemId,
-          title,
+          criteria: { title, description },
           inputField: currentItem.comment,
           scoreField: currentItem.score,
           authorship: EDITORS.DISPLAY_ONLY,
@@ -45,12 +46,12 @@ const getRowsShortView = (gradesList, selfGradeList, taskItems) =>
     .map(({ id: itemId, score, comment }) => {
       const currentItem = selfGradeList.find(({ id }) => id === itemId);
       const taskItem = taskItems.find(({ id }) => id === itemId);
-      const { title, minScore, maxScore, average } = taskItem;
+      const { title, description, minScore, maxScore, average } = taskItem;
       return [
         {
           key: itemId,
           itemId,
-          title,
+          criteria: { title, description },
           inputField: currentItem.comment,
           scoreField: currentItem.score,
           authorship: EDITORS.DISPLAY_ONLY,
@@ -92,4 +93,34 @@ const formatGradesToRows = (
   return getRowsFullView(gradesList, selfGradeList, taskItemsWithAverage);
 };
 
-export default formatGradesToRows;
+const getCriteriaRowSpan = (reviewState) => {
+  if (
+    reviewState === REVIEW_STATE.DRAFT ||
+    reviewState === REVIEW_STATE.PUBLISHED
+  ) {
+    return ROWS.SHORT_VIEW_NUMBER;
+  }
+  return ROWS.FULL_VIEW_NUMBER;
+};
+
+const getCriteriaCell = (value, row, reviewState) => {
+  if (row.authorship === EDITORS.DISPLAY_ONLY) {
+    return {
+      children: CriteriaCell({
+        title: value.title,
+        description: value.description,
+      }),
+      props: {
+        rowSpan: getCriteriaRowSpan(reviewState),
+      },
+    };
+  }
+  return {
+    children: value,
+    props: {
+      rowSpan: 0,
+    },
+  };
+};
+
+export { formatGradesToRows, getCriteriaCell };

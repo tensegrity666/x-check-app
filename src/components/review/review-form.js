@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { REVIEW, REVIEW_REQUEST, TASK } from '../../types';
 import { EDITORS, REVIEW_STATE } from './constants';
-import formatGradesToRows from './table-helpers';
+import { formatGradesToRows, getCriteriaCell } from './table-helpers';
 import { getInitialGrade } from './review-helpers';
 import ConditionalTextarea from './conditional-textarea';
 import ConditionalScoreInput from './conditional-score-input';
@@ -83,7 +83,11 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
           reviewStatus
         )}
         pagination={false}>
-        <Column title="Task Item Title" dataIndex="title" />
+        <Column
+          title="Task Criteria"
+          dataIndex="criteria"
+          render={(text, record) => getCriteriaCell(text, record, reviewStatus)}
+        />
         <Column
           title="Comment"
           dataIndex="inputField"

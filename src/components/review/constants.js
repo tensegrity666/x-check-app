@@ -11,4 +11,9 @@ export const REVIEW_STATE = {
   DISPUTED: 'DISPUTED',
 };
 
+export const ROWS = {
+  SHORT_VIEW_NUMBER: 2,
+  FULL_VIEW_NUMBER: 3,
+};
+
 export const SCORE_SELECT_DEFAULT_STEP = 5;
