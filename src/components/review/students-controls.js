@@ -13,7 +13,7 @@ const StudentsControls = ({
 }) => {
   const handleReviewDispute = async () => {
     onDisputeReview();
-    await toggleReviewStatus(modify.PUBLISHED_TO_DISPUTED);
+    await toggleReviewStatus(modify.PUBLISHED_TO_DISPUTED, true);
   };
 
   if (
@@ -24,7 +24,7 @@ const StudentsControls = ({
 
   if (reviewStatus === REVIEW_STATE.PUBLISHED) {
     return (
-      <Space>
+      <Space size="middle">
         <Button danger onClick={handleReviewDispute}>
           Dispute
         </Button>
@@ -38,7 +38,7 @@ const StudentsControls = ({
 
   if (reviewStatus === REVIEW_STATE.DISPUTED) {
     return (
-      <Space>
+      <Space size="middle">
         <Button onClick={editReview}>Save</Button>
         <Button onCLick={() => toggleReviewStatus(modify.DISPUTED_TO_ACCEPTED)}>
           Accept

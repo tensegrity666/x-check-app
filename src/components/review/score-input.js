@@ -11,7 +11,7 @@ const ScoreInput = ({ text, handleChange, minScore, maxScore, average }) => {
     handleChange(value);
   };
   return (
-    <Space>
+    <Space direction="vertical">
       <InputNumber
         value={text}
         onChange={handleChange}
