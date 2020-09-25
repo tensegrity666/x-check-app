@@ -3,9 +3,9 @@ import { Table } from 'antd';
 import PropTypes from 'prop-types';
 
 import { REVIEW, REVIEW_REQUEST, TASK } from '../../types';
-import formatGradesToRows from './table-helpers';
 import { EDITORS, REVIEW_STATE } from './constants';
-import getInitialGrade, { getScoreLimitsAverage } from './review-helpers';
+import formatGradesToRows from './table-helpers';
+import { getInitialGrade } from './review-helpers';
 import ConditionalTextarea from './conditional-textarea';
 import ConditionalScoreInput from './conditional-score-input';
 import ReviewControls from './review-controls';
@@ -68,15 +68,6 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
     }
   }, [userId, review, reviewRequest]);
 
-  useEffect(() => {
-    const { items } = task;
-    const formatted = items.map((item) => ({
-      ...item,
-      average: getScoreLimitsAverage(item.minScore, item.maxScore),
-    }));
-    console.dir(formatted);
-  }, [task]);
-
   return (
     <>
       <ReviewControls
@@ -88,9 +79,11 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
         dataSource={formatGradesToRows(
           grade,
           reviewRequest.selfGrade,
+          task.items,
           reviewStatus
         )}
         pagination={false}>
+        <Column title="Task Item Title" dataIndex="title" />
         <Column
           title="Comment"
           dataIndex="inputField"

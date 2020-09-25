@@ -5,7 +5,7 @@ const getInitialGrade = (selfGradeList) =>
     suggestedScore: 0,
   }));
 
-export const getScoreLimitsAverage = (minScore, maxScore) =>
+const getScoreLimitsAverage = (minScore, maxScore) =>
   Math.ceil((minScore + maxScore) / 2);
 
-export default getInitialGrade;
+export { getInitialGrade, getScoreLimitsAverage };

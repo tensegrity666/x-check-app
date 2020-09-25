@@ -10,3 +10,5 @@ export const REVIEW_STATE = {
   ACCEPTED: 'ACCEPTED',
   DISPUTED: 'DISPUTED',
 };
+
+export const SCORE_SELECT_DEFAULT_STEP = 5;
