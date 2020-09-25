@@ -27,9 +27,13 @@ const ReviewControls = ({
 };
 
 ReviewControls.propTypes = {
-  authorshipStatus: PropTypes.string.isRequired,
   reviewStatus: PropTypes.string.isRequired,
   onDisputeReview: PropTypes.func.isRequired,
+  authorshipStatus: PropTypes.string,
+};
+
+ReviewControls.defaultProps = {
+  authorshipStatus: null,
 };
 
 export default ReviewControls;
