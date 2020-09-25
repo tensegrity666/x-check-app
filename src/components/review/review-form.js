@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
 import PropTypes from 'prop-types';
 
-import { REVIEW, REVIEW_REQUEST } from '../../types';
+import { REVIEW, REVIEW_REQUEST, TASK } from '../../types';
 import formatGradesToRows from './table-helpers';
 import { EDITORS, REVIEW_STATE } from './constants';
-import getInitialGrade from './review-helpers';
+import getInitialGrade, { getScoreLimitsAverage } from './review-helpers';
 import ConditionalTextarea from './conditional-textarea';
 import ConditionalScoreInput from './conditional-score-input';
 import ReviewControls from './review-controls';
 
-const ReviewForm = ({ reviewRequest, review, userId }) => {
+const ReviewForm = ({ reviewRequest, review, task, userId }) => {
   const [grade, setGrade] = useState([]);
   const [authorshipStatus, setAuthorship] = useState(null);
   const [reviewStatus, setReviewStatus] = useState(REVIEW_STATE.DRAFT);
@@ -68,6 +68,15 @@ const ReviewForm = ({ reviewRequest, review, userId }) => {
     }
   }, [userId, review, reviewRequest]);
 
+  useEffect(() => {
+    const { items } = task;
+    const formatted = items.map((item) => ({
+      ...item,
+      average: getScoreLimitsAverage(item.minScore, item.maxScore),
+    }));
+    console.dir(formatted);
+  }, [task]);
+
   return (
     <>
       <ReviewControls
@@ -114,6 +123,7 @@ const ReviewForm = ({ reviewRequest, review, userId }) => {
 ReviewForm.propTypes = {
   reviewRequest: REVIEW_REQUEST.isRequired,
   userId: PropTypes.string.isRequired,
+  task: TASK.isRequired,
   review: REVIEW,
 };
 
