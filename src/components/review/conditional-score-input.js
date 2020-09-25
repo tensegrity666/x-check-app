@@ -1,18 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { InputNumber } from 'antd';
-import { SCORE_SELECT_DEFAULT_STEP } from './constants';
+import ScoreInput from './score-input';
 
 const ConditionalScoreInput = ({ text, record, userStatus, handleChange }) => {
-  const { authorship, minScore, maxScore } = record;
+  const { authorship, minScore, maxScore, average } = record;
   if (authorship === userStatus) {
     return (
-      <InputNumber
-        value={text}
-        onChange={handleChange}
-        min={minScore}
-        max={maxScore}
-        step={SCORE_SELECT_DEFAULT_STEP}
+      <ScoreInput
+        text={text}
+        handleChange={handleChange}
+        minScore={minScore}
+        maxScore={maxScore}
+        average={average}
       />
     );
   }
