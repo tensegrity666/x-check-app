@@ -78,15 +78,22 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
     setIsLoading(false);
   };
 
-  const handleToggleReviewStatus = async (modificatorType) => {
+  const handleToggleReviewStatus = async (
+    modificatorType,
+    isSilent = false
+  ) => {
     const body = {
       githubId: userId,
       reviewId: review.id,
       requiredState: modificatorType,
     };
-    setIsLoading(true);
-    await api.toggleReviewState(body);
-    setIsLoading(false);
+    if (isSilent) {
+      await api.toggleReviewState(body);
+    } else {
+      setIsLoading(true);
+      await api.toggleReviewState(body);
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -126,11 +133,13 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
           task.items,
           reviewStatus
         )}
-        isLoading={isLoading}
-        pagination={false}>
+        loading={isLoading}
+        pagination={false}
+        bordered>
         <Column
           title="Task Criteria"
           dataIndex="criteria"
+          width="30%"
           render={(text, record) => getCriteriaCell(text, record, reviewStatus)}
         />
         <Column
@@ -148,6 +157,7 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
         <Column
           title="Score"
           dataIndex="scoreField"
+          align="center"
           render={(text, record) =>
             ConditionalScoreInput({
               text,

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { EDITORS } from './constants';
 import StudentsControls from './students-controls';
 import AuthorsControls from './authors-controls';
+import styles from './index.module.css';
 
 const ReviewControls = ({
   authorshipStatus,
@@ -13,8 +14,10 @@ const ReviewControls = ({
   editReview,
   toggleReviewStatus,
 }) => {
+  const { buttonsGroup } = styles;
+
   return (
-    <section>
+    <section className={buttonsGroup}>
       {authorshipStatus === EDITORS.STUDENT && (
         <StudentsControls
           reviewStatus={reviewStatus}

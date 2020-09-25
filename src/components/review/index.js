@@ -11,6 +11,7 @@ import {
 } from '../../redux/actions';
 import store from '../../redux/store';
 import ReviewForm from './review-form';
+import styles from './index.module.css';
 
 import mockReviewRequest from './mockReviewRequest.json';
 import mockReview from './mockReview.json';
@@ -70,7 +71,7 @@ const Review = () => {
   const { Content } = Layout;
 
   return (
-    <Layout>
+    <Layout className={styles.wrapper}>
       <PageHeader onBack={history.goBack} title="Review" />
       <Content>
         <ReviewForm

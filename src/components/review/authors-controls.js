@@ -18,7 +18,7 @@ const AuthorsControls = ({
 
   if (reviewStatus === REVIEW_STATE.DRAFT) {
     return (
-      <Space>
+      <Space size="middle">
         <Button onClick={createReview}>Save Draft</Button>
         <Button onClick={handlePublish}>Publish</Button>
       </Space>
@@ -27,7 +27,7 @@ const AuthorsControls = ({
 
   if (reviewStatus === REVIEW_STATE.PUBLISHED) {
     return (
-      <Space>
+      <Space size="middle">
         <Button onClick={editReview}>Save</Button>
       </Space>
     );
@@ -35,7 +35,7 @@ const AuthorsControls = ({
 
   if (reviewStatus === REVIEW_STATE.DISPUTED) {
     return (
-      <Space>
+      <Space size="middle">
         <Button onClick={editReview}>Save</Button>
         <Button onClick={() => toggleReviewStatus(modify.DISPUTED_TO_ACCEPTED)}>
           Accept
