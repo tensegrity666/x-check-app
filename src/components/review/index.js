@@ -56,7 +56,7 @@ const Review = () => {
     if (searchParam) {
       dispatch(fetchReviewByRequestId(searchParam, userId));
     }
-    if (currentReviewRequest) {
+    if (currentReviewRequest.id) {
       dispatch(fetchReviewByRequestId(currentReviewRequest.id, userId));
     }
   }, [search, userId, currentReviewRequest, dispatch]);
