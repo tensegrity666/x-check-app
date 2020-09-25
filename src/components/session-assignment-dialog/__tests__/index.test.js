@@ -7,7 +7,7 @@ import {
 } from '../../../_test-utils';
 import SessionAssignmentDialog from '../index';
 import reviewRequestsReducer from '../../../redux/reducers/review-requests-reducer';
-import { fetchReviewRequestsSuccess } from '../../../redux/actions';
+import { fetchReviewRequestsSuccess } from '../../../redux/actions/review-requests-actions';
 
 describe('SessionAssignmentDialog component', () => {
   let wrapper;

@@ -53,4 +53,9 @@ const fetchReviewRequests = () => (dispatch) => {
     .catch((result) => dispatch(receiveErrorResponse(result)));
 };
 
-export { fetchReviewRequests, setReviewRequest, fetchReviewRequestById };
+export {
+  fetchReviewRequestsSuccess,
+  fetchReviewRequests,
+  setReviewRequest,
+  fetchReviewRequestById,
+};
