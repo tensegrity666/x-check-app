@@ -5,7 +5,7 @@ import receiveErrorResponse from './error-actions';
 const {
   FETCH_REVIEW_REQUESTS_BEGIN,
   FETCH_REVIEW_REQUESTS_SUCCESS,
-  FETCH_REVIEW_REQUEST,
+  FETCH_REVIEW_REQUEST_SUCCESS,
   SET_REVIEW_REQUEST,
 } = actionTypes;
 const api = new RevReqApi();
@@ -25,7 +25,7 @@ const fetchReviewRequestsSuccess = (reviewRequests) => {
 
 const fetchReviewRequestSuccess = (reviewRequest) => {
   return {
-    type: FETCH_REVIEW_REQUEST,
+    type: FETCH_REVIEW_REQUEST_SUCCESS,
     payload: reviewRequest,
   };
 };
@@ -37,12 +37,14 @@ const setReviewRequest = (reviewRequest) => {
   };
 };
 
-const fetchReviewRequestById = (reviewRequestId) => (dispatch) => {
-  dispatch(fetchReviewRequestsBegin());
-  api
-    .getRevReq(reviewRequestId)
-    .then((result) => dispatch(fetchReviewRequestSuccess(result)))
-    .catch((result) => dispatch(receiveErrorResponse(result)));
+const fetchReviewRequestById = (reviewRequestId) => async (dispatch) => {
+  try {
+    dispatch(fetchReviewRequestsBegin());
+    const [result] = await api.getRevReq(reviewRequestId);
+    dispatch(fetchReviewRequestSuccess(result));
+  } catch (error) {
+    dispatch(receiveErrorResponse(error));
+  }
 };
 
 const fetchReviewRequests = () => (dispatch) => {

@@ -36,7 +36,7 @@ export const fetchTasks = () => async (dispatch) => {
 export const fetchTaskById = (taskId) => async (dispatch) => {
   try {
     dispatch(fetchTasksRequest());
-    const result = await api.getTask(taskId);
+    const [result] = await api.getTask(taskId);
     dispatch(fetchOneTaskSuccess(result));
   } catch (error) {
     dispatch(receiveApiErrorResponse(error));
