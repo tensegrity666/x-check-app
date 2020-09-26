@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 export const SELF_GRADE_ITEM = PropTypes.shape({
   id: PropTypes.string,
-  score: PropTypes.string,
+  score: PropTypes.number,
   comment: PropTypes.string,
 });
 
@@ -17,7 +17,7 @@ export const REVIEW_REQUEST = PropTypes.shape({
 
 export const GRADE_ITEM = PropTypes.shape({
   id: PropTypes.string,
-  score: PropTypes.string,
+  score: PropTypes.number,
   comment: PropTypes.string,
   protest: PropTypes.string,
   suggestedScore: PropTypes.string,

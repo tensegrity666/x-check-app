@@ -76,7 +76,13 @@ const formatGradesToRows = (
   taskItems,
   reviewState
 ) => {
-  if (gradesList.length === 0 || !selfGradeList) {
+  if (
+    !gradesList ||
+    gradesList.length === 0 ||
+    !selfGradeList ||
+    !taskItems ||
+    taskItems.length === 0
+  ) {
     return [];
   }
   const taskItemsWithAverage = taskItems.map((item) => ({

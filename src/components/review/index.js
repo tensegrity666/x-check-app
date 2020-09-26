@@ -13,9 +13,9 @@ import store from '../../redux/store';
 import ReviewForm from './review-form';
 import styles from './index.module.css';
 
-import mockReviewRequest from './mockReviewRequest.json';
-import mockReview from './mockReview.json';
-import mockTask from './mockTask.json';
+// import mockReviewRequest from './mockReviewRequest.json';
+// import mockReview from './mockReview.json';
+// import mockTask from './mockTask.json';
 
 const Review = () => {
   const { search } = useLocation();
@@ -43,30 +43,29 @@ const Review = () => {
     if (searchParam && reviewRequests.length > 0) {
       const reviewRequest = reviewRequests.find(({ id }) => id === searchParam);
       dispatch(setReviewRequest(reviewRequest));
+      dispatch(fetchReviewByRequestId(searchParam, userId));
     } else if (searchParam) {
       dispatch(fetchReviewRequestById(searchParam));
+      dispatch(fetchReviewByRequestId(searchParam, userId));
     }
 
     return () => {
       dispatch(setReviewRequest({}));
     };
-  }, [search, reviewRequests, dispatch]);
+  }, [search, reviewRequests, userId, dispatch]);
 
   useEffect(() => {
     const searchParam = new URLSearchParams(search).get('request');
-    if (searchParam) {
-      dispatch(fetchReviewByRequestId(searchParam, userId));
-    }
-    if (currentReviewRequest.id) {
+    if (!searchParam && currentReviewRequest.id) {
       dispatch(fetchReviewByRequestId(currentReviewRequest.id, userId));
     }
-  }, [search, userId, currentReviewRequest, dispatch]);
+  }, [search, currentReviewRequest.id, userId, dispatch]);
 
   useEffect(() => {
     if (currentReviewRequest.task) {
       dispatch(fetchTaskById(currentReviewRequest.task));
     }
-  }, [currentReviewRequest, dispatch]);
+  }, [currentReviewRequest.task, dispatch]);
 
   const { Content } = Layout;
 
@@ -75,13 +74,9 @@ const Review = () => {
       <PageHeader onBack={history.goBack} title="Review" />
       <Content>
         <ReviewForm
-          reviewRequest={
-            Object.keys(currentReviewRequest).length === 0
-              ? mockReviewRequest
-              : currentReviewRequest
-          }
-          review={Object.keys(review).length === 0 ? mockReview : review}
-          task={currentTask.items ? currentTask : mockTask}
+          reviewRequest={currentReviewRequest}
+          review={review}
+          task={currentTask}
           userId={userId}
         />
       </Content>

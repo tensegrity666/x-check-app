@@ -97,14 +97,16 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
   };
 
   useEffect(() => {
+    if (review.grade) {
+      const { grade: reviewGrade, state } = review;
+      setReviewStatus(state);
+      setGrade(reviewGrade);
+    }
+
     if (!review.grade && reviewRequest.selfGrade) {
       const { selfGrade } = reviewRequest;
       const initialGrade = getInitialGrade(selfGrade);
       setGrade(initialGrade);
-    } else {
-      const { grade: reviewGrade, state } = review;
-      setReviewStatus(state);
-      setGrade(reviewGrade);
     }
   }, [reviewRequest, review]);
 

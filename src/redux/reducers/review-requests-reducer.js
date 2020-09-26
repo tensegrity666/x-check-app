@@ -10,7 +10,7 @@ const reviewRequestsReducer = (state = initialState, { type, payload }) => {
   const {
     FETCH_REVIEW_REQUESTS_SUCCESS,
     FETCH_REVIEW_REQUESTS_BEGIN,
-    FETCH_REVIEW_REQUEST,
+    FETCH_REVIEW_REQUEST_SUCCESS,
     SET_REVIEW_REQUEST,
   } = actionTypes;
   switch (type) {
@@ -18,7 +18,7 @@ const reviewRequestsReducer = (state = initialState, { type, payload }) => {
       return { ...state, isLoading: true };
     case FETCH_REVIEW_REQUESTS_SUCCESS:
       return { ...state, reviewRequests: [...payload], isLoading: false };
-    case FETCH_REVIEW_REQUEST:
+    case FETCH_REVIEW_REQUEST_SUCCESS:
     case SET_REVIEW_REQUEST:
       return {
         ...state,
