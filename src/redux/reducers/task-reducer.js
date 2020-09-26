@@ -55,7 +55,7 @@ const taskReducer = (state = initialTask, { type, payload }) => {
 
       return {
         ...state,
-        totalScore: totalScore + newTaskItem.maxScore,
+        totalScore: totalScore + newTaskItem.maxScore + newTaskItem.minScore,
         items: [newTaskItem, ...items],
       };
 

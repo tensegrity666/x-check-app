@@ -29,7 +29,7 @@ const TaskHeader = ({
 }) => {
   const { statsHeading, datePicker } = styles;
   const {
-    maxScore,
+    totalScore,
     dateOfCreate,
     taskTitle,
     author,
@@ -38,73 +38,79 @@ const TaskHeader = ({
   } = taskState;
 
   return (
-    <>
-      <PageHeader
-        onBack={() => history.goBack()}
-        title="Task Editor"
-        tags={<Tag color="blue">{state}</Tag>}
-        subTitle="status"
-        extra={[
-          <Button size="large" key="2" type="default">
-            Complete & Exit
-          </Button>,
-          <Button size="large" onClick={onSaveTask} key="1" type="primary">
-            Save & Upload
-          </Button>,
-        ]}>
-        <Row>
-          <Statistic
-            title="Name of task"
-            value={taskTitle || 'Unnamed task'}
-            suffix={
-              <Popover
-                content={
-                  <Input
-                    value={nameEditorValue}
-                    onChange={(event) => onInputChange(event)}
-                  />
-                }
-                title="Edit name of task"
-                trigger="click">
-                <Button shape="circle">
-                  <EditOutlined />
-                </Button>
-              </Popover>
-            }
-          />
-          <Statistic
-            className={statsHeading}
-            title="Author"
-            value={author || 'Anonymous'}
-          />
-          <Statistic
-            className={statsHeading}
-            title="Total score"
-            value={maxScore}
-          />
-          <Statistic
-            className={statsHeading}
-            title="Сreation date"
-            value={dateOfCreate || ' '}
-          />
-          <Col>
-            <div className="ant-statistic-title">Deadline</div>
-            <Row>
-              <span className="ant-statistic-content">
-                {deadline || 'Choose day of Deadline'}
-              </span>
-              <DatePicker
-                format="DD.MM.YYYY"
-                value={dateOfDeadline}
-                onChange={onDateChange}
-                size="medium"
-                className={`${datePicker} ant-statistic-content-suffix`}
-              />
-            </Row>
-          </Col>
-        </Row>
-      </PageHeader>
-    </>
+    <PageHeader
+      onBack={() => history.goBack()}
+      title="Task Editor"
+      tags={<Tag color="blue">{state}</Tag>}
+      subTitle="status"
+      extra={[
+        <Button style={{ width: '200px' }} size="large" key="2" type="default">
+          Copy task as JSON
+        </Button>,
+        <Button
+          loading={false}
+          style={{ width: '200px' }}
+          size="large"
+          onClick={onSaveTask}
+          key="1"
+          type="primary">
+          Save & Upload
+        </Button>,
+      ]}>
+      <Row>
+        <Statistic
+          title="Name of task"
+          value={taskTitle || 'Enter name of task'}
+          suffix={
+            <Popover
+              content={
+                <Input
+                  value={nameEditorValue}
+                  onChange={(event) => onInputChange(event)}
+                />
+              }
+              title="Edit name of task"
+              trigger="click">
+              <Button shape="circle">
+                <EditOutlined />
+              </Button>
+            </Popover>
+          }
+        />
+        <Statistic
+          className={statsHeading}
+          title="Author"
+          value={author || 'Anonymous'}
+        />
+        <Statistic
+          className={statsHeading}
+          title="Total score"
+          value={totalScore}
+        />
+        <Statistic
+          className={statsHeading}
+          title="Сreation date"
+          value={dateOfCreate || ' '}
+        />
+        <Col>
+          <div className="ant-statistic-title">Deadline</div>
+          <Row>
+            <span className="ant-statistic-content">
+              {deadline === 'Invalid date'
+                ? 'Choose day of deadline'
+                : deadline}
+            </span>
+            <DatePicker
+              format="DD.MM.YYYY"
+              value={dateOfDeadline}
+              onChange={onDateChange}
+              size="medium"
+              className={`${datePicker} ant-statistic-content-suffix`}
+            />
+          </Row>
+        </Col>
+      </Row>
+    </PageHeader>
   );
 };
 

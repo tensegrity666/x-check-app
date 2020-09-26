@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { bindActionCreators } from 'redux';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import SelfGrade from './self-grade';
 import { TasksApi, RevReqApi } from '../../services/rest-api';
 import { CATEGORIES, RATES } from './constants';
@@ -14,6 +14,8 @@ import * as actions from '../../redux/actions';
 const SelfGradeContainer = () => {
   const tasksApi = new TasksApi();
   const reviewApi = new RevReqApi();
+
+  const taskId = useParams();
 
   const { fines } = CATEGORIES;
   const { nope, partially, fully } = RATES;
@@ -49,7 +51,7 @@ const SelfGradeContainer = () => {
       url_pr: prLink,
       url_deploy: deployLink,
       author: githubId,
-      task: 'null1600969000220.888',
+      task: taskId.id,
       selfGrade: items,
     };
 
@@ -89,7 +91,7 @@ const SelfGradeContainer = () => {
 
   useEffect(() => {
     setLoading(true);
-    tasksApi.getTask('null1600969000220.888').then((res) => {
+    tasksApi.getTask(taskId.id).then((res) => {
       copyTaskToState(res[0]);
       setLoading(false);
     });
