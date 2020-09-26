@@ -24,6 +24,7 @@ const addrList = {
   URL_Q_REV: '/reviews/?id=',
   URL_ACCESS_REV_LIST: '/accessRevlist/',
   URL_BASE_REV: '/reviews',
+  URL_BASE_SCORE: '/gradebooks',
   API_BASE: 'https://json-x-check-app.herokuapp.com',
 };
 

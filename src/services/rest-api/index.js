@@ -5,6 +5,7 @@ import ItemsTasksApi from './items-tasks-api';
 import RevReqApi from './rev-req-api';
 import CCSessionApi from './cross-check-api';
 import ReviewApi from './review-api';
+import GradebookApi from './gradebook-api';
 
 export {
   BaseApi,
@@ -14,4 +15,5 @@ export {
   RevReqApi,
   CCSessionApi,
   ReviewApi,
+  GradebookApi,
 };
