@@ -24,6 +24,7 @@ import {
   fetchReviewRequests,
   setReviewRequest,
   fetchReviewRequestById,
+  fetchReviewRequestsBySession,
 } from './review-requests-actions';
 
 import fetchReviewByRequestId from './review-actions';
@@ -50,6 +51,7 @@ export {
   fetchTasks,
   fetchTaskById,
   fetchReviewRequests,
+  fetchReviewRequestsBySession,
   fetchReviewRequestById,
   setReviewRequest,
   fetchSessionAttendeesByReviewer,
