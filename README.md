@@ -10,7 +10,7 @@
 ---
 ### [Changelog](https://github.com/tensegrity666/x-check-app/blob/dev/CHANGELOG.md)
 ---
-[db.json](https://gist.github.com/tensegrity666/f4039fa8d695b31705eac2e0575becc5)
+[db.json](https://json-x-check-app.herokuapp.com/db)
 ---
 
 
