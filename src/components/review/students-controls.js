@@ -40,7 +40,7 @@ const StudentsControls = ({
     return (
       <Space size="middle">
         <Button onClick={editReview}>Save</Button>
-        <Button onCLick={() => toggleReviewStatus(modify.DISPUTED_TO_ACCEPTED)}>
+        <Button onClick={() => toggleReviewStatus(modify.DISPUTED_TO_ACCEPTED)}>
           Accept
         </Button>
       </Space>

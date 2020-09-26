@@ -30,7 +30,7 @@ import fetchReviewByRequestId from './review-actions';
 
 import fetchSessionAttendeesByReviewer from './session-actions';
 
-import receiveApiErrorResponse from './error-actions';
+import { receiveApiErrorResponse, handleAppError } from './error-actions';
 
 export {
   changeFilter,
@@ -55,4 +55,5 @@ export {
   fetchSessionAttendeesByReviewer,
   fetchReviewByRequestId,
   receiveApiErrorResponse,
+  handleAppError,
 };

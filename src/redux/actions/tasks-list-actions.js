@@ -1,6 +1,6 @@
 import { actionTypes } from '../constants';
 import { TasksApi } from '../../services/rest-api';
-import receiveApiErrorResponse from './error-actions';
+import { receiveApiErrorResponse } from './error-actions';
 
 const {
   FETCH_TASKS_REQUEST,
