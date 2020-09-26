@@ -55,8 +55,19 @@ const fetchReviewRequests = () => (dispatch) => {
     .catch((result) => dispatch(receiveApiErrorResponse(result)));
 };
 
+const fetchReviewRequestsBySession = (sessionId) => async (dispatch) => {
+  try {
+    dispatch(fetchReviewRequestsBegin());
+    const result = await api.getRevReqByCrossCheckId(sessionId);
+    dispatch(fetchReviewRequestsSuccess(result));
+  } catch (error) {
+    dispatch(receiveApiErrorResponse(error.message));
+  }
+};
+
 export {
   fetchReviewRequestsSuccess,
+  fetchReviewRequestsBySession,
   fetchReviewRequests,
   setReviewRequest,
   fetchReviewRequestById,
