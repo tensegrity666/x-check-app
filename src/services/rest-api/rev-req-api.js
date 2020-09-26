@@ -1,5 +1,5 @@
 /* 
-  Класс для работы с сущностью Tasks 
+  Класс для работы с сущностью Review request 
   Наследует класс AccessRevReqApi.
   Требуется импорт actionTaskList из constants.js
   
@@ -123,7 +123,7 @@ export default class RevReqApi extends AccessRevReqApi {
   }
 
   async createRevReq({ githubId, data }) {
-    const { task = null, id: prefId = 'rev-req-' } = data;
+    const { task = null, id: prefId = 'rev-req-', crossCheckSessionId } = data;
 
     if (!task) {
       return {
@@ -138,6 +138,17 @@ export default class RevReqApi extends AccessRevReqApi {
       return {
         error: true,
         message: `No creating possible. Task "${task}" not found!`,
+      };
+    }
+
+    const revReqCheck = await this.getResource(
+      `${URL_BASE_REV_REQ}?crossCheckSessionId=${crossCheckSessionId}&author=${githubId}`
+    );
+
+    if (revReqCheck.length > 0) {
+      return {
+        error: true,
+        message: `No creating possible. Found a review request in the cross-check-session with this id "${crossCheckSessionId}"`,
       };
     }
 
