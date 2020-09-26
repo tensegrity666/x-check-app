@@ -1,6 +1,6 @@
 import { ReviewApi } from '../../services/rest-api';
 import { actionTypes } from '../constants';
-import receiveApiErrorResponse from './error-actions';
+import { receiveApiErrorResponse } from './error-actions';
 
 const { FETCH_REVIEW_BEGIN, FETCH_REVIEW_SUCCESS } = actionTypes;
 const api = new ReviewApi();

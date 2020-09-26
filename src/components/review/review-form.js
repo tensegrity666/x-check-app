@@ -11,6 +11,9 @@ import ConditionalScoreInput from './conditional-score-input';
 import ReviewControls from './review-controls';
 import { ReviewApi } from '../../services/rest-api';
 
+import { handleAppError } from '../../redux/actions';
+import store from '../../redux/store';
+
 const ReviewForm = ({ reviewRequest, review, task, userId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [grade, setGrade] = useState([]);
@@ -18,6 +21,7 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
   const [reviewStatus, setReviewStatus] = useState(REVIEW_STATE.DRAFT);
   const api = new ReviewApi();
 
+  const { dispatch } = store;
   const { Column } = Table;
 
   const handleTextChange = ({ itemId, authorship }) => (event) => {
@@ -78,14 +82,11 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
     setIsLoading(false);
   };
 
-  const handleToggleReviewStatus = async (
-    modificatorType,
-    isSilent = false
-  ) => {
+  const handleToggleReviewStatus = async (modifierType, isSilent = false) => {
     const body = {
       githubId: userId,
       reviewId: review.id,
-      requiredState: modificatorType,
+      requiredState: modifierType,
     };
     if (isSilent) {
       await api.toggleReviewState(body);
@@ -96,8 +97,22 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
     }
   };
 
+  const getTableRows = () => {
+    try {
+      return formatGradesToRows(
+        grade,
+        reviewRequest.selfGrade,
+        task.items,
+        reviewStatus
+      );
+    } catch (error) {
+      dispatch(handleAppError(error.message));
+      return [];
+    }
+  };
+
   useEffect(() => {
-    if (review.grade) {
+    if (review.grade && review.state) {
       const { grade: reviewGrade, state } = review;
       setReviewStatus(state);
       setGrade(reviewGrade);
@@ -111,9 +126,9 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
   }, [reviewRequest, review]);
 
   useEffect(() => {
-    if (review.author === userId) {
+    if (review.author === userId || 'temporary-mock') {
       setAuthorship(EDITORS.REVIEWER);
-    } else if (reviewRequest.author === userId || 'temporary-mock') {
+    } else if (reviewRequest.author === userId) {
       setAuthorship(EDITORS.STUDENT);
     }
   }, [userId, review, reviewRequest]);
@@ -129,12 +144,7 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
         toggleReviewStatus={handleToggleReviewStatus}
       />
       <Table
-        dataSource={formatGradesToRows(
-          grade,
-          reviewRequest.selfGrade,
-          task.items,
-          reviewStatus
-        )}
+        dataSource={getTableRows()}
         loading={isLoading}
         pagination={false}
         bordered>

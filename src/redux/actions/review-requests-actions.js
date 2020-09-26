@@ -1,6 +1,6 @@
 import { actionTypes } from '../constants';
 import { RevReqApi } from '../../services/rest-api';
-import receiveErrorResponse from './error-actions';
+import { receiveApiErrorResponse } from './error-actions';
 
 const {
   FETCH_REVIEW_REQUESTS_BEGIN,
@@ -43,7 +43,7 @@ const fetchReviewRequestById = (reviewRequestId) => async (dispatch) => {
     const [result] = await api.getRevReq(reviewRequestId);
     dispatch(fetchReviewRequestSuccess(result));
   } catch (error) {
-    dispatch(receiveErrorResponse(error));
+    dispatch(receiveApiErrorResponse(error));
   }
 };
 
@@ -52,7 +52,7 @@ const fetchReviewRequests = () => (dispatch) => {
   api
     .getRevReqAll()
     .then((result) => dispatch(fetchReviewRequestsSuccess(result)))
-    .catch((result) => dispatch(receiveErrorResponse(result)));
+    .catch((result) => dispatch(receiveApiErrorResponse(result)));
 };
 
 export {
