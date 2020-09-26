@@ -5,6 +5,7 @@ const {
   COPY_TASK,
   COMMENT_TASK_ITEM,
   SUMMARY_COMMENT,
+  CHANGE_STATUS,
 } = actionTypes;
 
 export const rateTask = ({ id, rate }) => {
@@ -32,5 +33,12 @@ export const copyTaskToState = (payload) => {
   return {
     type: COPY_TASK,
     payload,
+  };
+};
+
+export const changeStatus = (status) => {
+  return {
+    type: CHANGE_STATUS,
+    payload: status,
   };
 };

@@ -7,6 +7,7 @@ const selfGrade = {
   summaryComment: '',
   deadline: '',
   taskTitle: '',
+  status: '',
   items: [
     {
       id: null,
@@ -34,6 +35,7 @@ const selfGradeReducer = (state = selfGrade, { type, payload }) => {
     COPY_TASK,
     COMMENT_TASK_ITEM,
     SUMMARY_COMMENT,
+    CHANGE_STATUS,
   } = actionTypes;
 
   switch (type) {
@@ -82,6 +84,12 @@ const selfGradeReducer = (state = selfGrade, { type, payload }) => {
       return {
         ...state,
         summaryComment: payload,
+      };
+
+    case CHANGE_STATUS:
+      return {
+        ...state,
+        status: payload,
       };
 
     default:

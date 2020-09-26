@@ -21,6 +21,7 @@ const actionTypes = {
   COPY_TASK: 'COPY_TASK',
   COMMENT_TASK_ITEM: 'COMMENT_TASK_ITEM',
   SUMMARY_COMMENT: 'SUMMARY_COMMENT',
+  CHANGE_STATUS: 'CHANGE_STATUS',
 };
 
 const categories = {

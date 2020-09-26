@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout } from 'antd';
 import { bindActionCreators } from 'redux';
+
+import ModalWindow from '../modal-window';
 
 import TaskHeaderContainer from './task-header-container';
 import AddNewItemContainer from './add-new-item-container';
@@ -18,6 +20,9 @@ const Task = () => {
   const { Content } = Layout;
   const { wrapper, content } = styles;
 
+  const [modalVisible, setModalVisible] = useState(true);
+  const [jsonTask, setJsonTask] = useState('');
+
   const api = new TaskApi();
 
   const { dispatch } = store;
@@ -28,6 +33,8 @@ const Task = () => {
   } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
+    setJsonTask('TEST TEST TEST');
+
     if (localStorage.getItem('savedTaskInProcess')) {
       const savedTask = JSON.parse(localStorage.getItem('savedTaskInProcess'));
       loadTaskFromLocalStorage(savedTask);
@@ -44,13 +51,18 @@ const Task = () => {
       createTask(taskId);
       localStorage.setItem('savedTaskInProcess', JSON.stringify(data));
     });
-  });
+  }, [addAuthor, api, loadTaskFromLocalStorage, createTask]);
 
   return (
     <Layout className={wrapper}>
       <TaskHeaderContainer />
       <Searcher />
       <Content className={content}>
+        <ModalWindow
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          jsonTask={jsonTask}
+        />
         <TaskListContainer />
       </Content>
       <AddNewItemContainer />

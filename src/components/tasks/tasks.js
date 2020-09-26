@@ -1,50 +1,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Typography, List } from 'antd';
-import { ProfileOutlined } from '@ant-design/icons';
+import { Typography, List, Button, Row } from 'antd';
+import { ProfileOutlined, FormOutlined } from '@ant-design/icons';
 
 import styles from './index.module.css';
 
-const { Title } = Typography;
+// eslint-disable-next-line no-unused-vars
+const Tasks = ({ handleProceedToTask, tasksList, loading }) => {
+  const { tasksMeta } = styles;
 
-const Tasks = ({ handleProceedToTask, tasksList }) => {
   return (
-    <div>
-      <Typography>
-        <Title>Список задач</Title>
-      </Typography>
-      <section>
-        <List
-          dataSource={tasksList}
-          renderItem={({ id, taskTitle, dateOfCreate, state }) => (
-            <List.Item>
-              <List.Item.Meta
-                className={styles.tasksMeta}
-                onClick={() => handleProceedToTask(id)}
-                avatar={<ProfileOutlined style={{ fontSize: '30px' }} />}
-                title={
-                  state !== 'PUBLISHED' ? (
-                    <>
-                      <Typography.Text mark>{`[${state}] `}</Typography.Text>
-                      {taskTitle}
-                    </>
-                  ) : (
-                    taskTitle
-                  )
-                }
-                description={`дата создания: ${dateOfCreate}`}
-              />
-            </List.Item>
-          )}
-        />
-      </section>
-    </div>
+    <List
+      style={{ width: '100%', marginLeft: '50px' }}
+      loading={loading}
+      dataSource={tasksList}
+      renderItem={({ id, taskTitle, dateOfCreate, state }) => (
+        <List.Item>
+          <Row justify="start">
+            <List.Item.Meta
+              className={tasksMeta}
+              // onClick={() => handleProceedToTask(id)}
+              avatar={<ProfileOutlined style={{ fontSize: '30px' }} />}
+              title={
+                state !== 'PUBLISHED' ? (
+                  <>
+                    <Typography.Text mark>{`[${state}] `}</Typography.Text>
+                    {taskTitle}
+                  </>
+                ) : (
+                  taskTitle
+                )
+              }
+              description={`created: ${dateOfCreate}`}
+            />
+            <Button icon={<FormOutlined />} type="dotted" href={`/self/${id}`}>
+              Start self-grade
+            </Button>
+          </Row>
+        </List.Item>
+      )}
+    />
   );
 };
 
 Tasks.propTypes = {
   handleProceedToTask: PropTypes.func.isRequired,
   tasksList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default Tasks;

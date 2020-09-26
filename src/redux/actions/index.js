@@ -28,6 +28,7 @@ import {
   copyTaskToState,
   commentTaskItem,
   addSummaryComment,
+  changeStatus,
 } from './self-grade-actions';
 
 export {
@@ -51,4 +52,5 @@ export {
   copyTaskToState,
   commentTaskItem,
   addSummaryComment,
+  changeStatus,
 };

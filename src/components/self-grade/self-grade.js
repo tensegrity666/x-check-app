@@ -31,6 +31,7 @@ const SelfGrade = ({
   setDeployLink,
   prLink,
   setPrLink,
+  onStatusChange,
 }) => {
   const { Content } = Layout;
   const { TextArea } = Input;
@@ -121,11 +122,13 @@ const SelfGrade = ({
                       value
                     )
                   }>
-                  <Option value={nope}>
+                  <Option key={nope} value={nope}>
                     {record.category === fines ? 'Not working' : 'No'}
                   </Option>
-                  <Option value={partially}>Partially</Option>
-                  <Option value={fully}>
+                  <Option key={partially} value={partially}>
+                    Partially
+                  </Option>
+                  <Option key={fully} value={fully}>
                     {record.category === fines ? 'Without fines' : 'Fully'}
                   </Option>
                 </Select>
@@ -165,9 +168,20 @@ const SelfGrade = ({
               block>
               Save and submit
             </Button>
-            <Button type="default" block>
-              Save draft
-            </Button>
+            <Select
+              placeholder="Choose status"
+              style={{ width: '100%' }}
+              onChange={(value) => onStatusChange(value)}>
+              <Option key="DRAFT" value="DRAFT">
+                DRAFT
+              </Option>
+              <Option
+                style={{ color: 'tomato' }}
+                key="PUBLISHED"
+                value="PUBLISHED">
+                PUBLISHED
+              </Option>
+            </Select>
           </Col>
         </Row>
       </Content>
@@ -188,6 +202,7 @@ SelfGrade.propTypes = {
   onSelfGradeSubmit: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
+  onStatusChange: PropTypes.func.isRequired,
 };
 
 export default SelfGrade;

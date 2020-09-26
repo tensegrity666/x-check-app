@@ -33,6 +33,7 @@ const SelfGradeContainer = () => {
     rateTask,
     commentTaskItem,
     addSummaryComment,
+    changeStatus,
   } = bindActionCreators(actions, dispatch);
 
   const state = useSelector(({ selfGradeReducer }) => selfGradeReducer);
@@ -89,6 +90,10 @@ const SelfGradeContainer = () => {
     }
   };
 
+  const onStatusChange = (value) => {
+    changeStatus(value);
+  };
+
   useEffect(() => {
     setLoading(true);
     tasksApi.getTask(taskId.id).then((res) => {
@@ -111,6 +116,7 @@ const SelfGradeContainer = () => {
       deployLink={deployLink}
       setPrLink={setPrLink}
       setDeployLink={setDeployLink}
+      onStatusChange={onStatusChange}
     />
   );
 };

@@ -5,13 +5,13 @@ import Header from '../components/header';
 
 const ProfilePage = () => {
   return (
-    <div>
+    <>
       <Header />
       <div style={{ display: 'flex', flexWrap: 'nowrap' }}>
         <SideMenu />
         <Profile />
       </div>
-    </div>
+    </>
   );
 };
 

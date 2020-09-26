@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { TasksApi } from '../../services/rest-api';
+
 import Tasks from './tasks';
 
 const TasksContainer = () => {
@@ -21,6 +22,12 @@ const TasksContainer = () => {
   }, []);
 
   const handleProceedToTask = (taskId) => {
+    setLoading(true);
+    tasksApi.getTask(taskId).then((res) => {
+      // eslint-disable-next-line no-console
+      console.log(res);
+      setLoading(false);
+    });
     history.push(`/tasks${taskId}`);
   };
 
