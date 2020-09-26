@@ -108,6 +108,8 @@ const getColumnsWithSearch = (
 };
 
 const getSelfGradeTotal = (selfGrade) => {
+  if (!Array.isArray(selfGrade)) return 0;
+
   return selfGrade.reduce((total, { score }) => total + score, 0);
 };
 
