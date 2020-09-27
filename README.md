@@ -1,4 +1,5 @@
 ### [x-check-app](https://x-check-app.netlify.app/) ![Build and Deploy to Netlify](https://github.com/tensegrity666/x-check-app/workflows/Build%20and%20Deploy%20to%20Netlify/badge.svg?branch=dev) 
+### [json-x-check-app.herokuapp.com](https://json-x-check-app.herokuapp.com/)
 
 # [>>>Task Board<<<](https://github.com/tensegrity666/x-check-app/projects/1)
 
@@ -9,7 +10,7 @@
 ---
 ### [Changelog](https://github.com/tensegrity666/x-check-app/blob/dev/CHANGELOG.md)
 ---
-[db.json](https://gist.github.com/tensegrity666/f4039fa8d695b31705eac2e0575becc5)
+[db.json](https://json-x-check-app.herokuapp.com/db)
 ---
 
 
@@ -30,3 +31,5 @@ _Open_ [http://localhost:3000](http://localhost:3000) _to view it in the browser
 #### Build project
 `$ npm run build`
 
+#### View test coverage
+`$ npm run test:coverage`

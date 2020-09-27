@@ -17,11 +17,11 @@
 */
 
 import TasksApi from './tasks-api';
-import { actionTaskList } from './constants';
+import { actionTaskList, addrList } from './constants';
+
+const { URL_BASE_TASK } = addrList;
 
 export default class ItemsTasksApi extends TasksApi {
-  URL_BASE = '/tasks/';
-
   ACTION = actionTaskList.EDIT_TASK;
 
   async getTargetTask(taskId) {
@@ -82,7 +82,7 @@ export default class ItemsTasksApi extends TasksApi {
     };
 
     const result = await this.patchResourse(
-      `${this.URL_BASE}${taskId}`,
+      `${URL_BASE_TASK}/${taskId}`,
       newItems
     );
 
@@ -132,7 +132,7 @@ export default class ItemsTasksApi extends TasksApi {
     };
 
     const result = await this.patchResourse(
-      `${this.URL_BASE}${taskId}`,
+      `${URL_BASE_TASK}/${taskId}`,
       newItems
     );
 
@@ -179,7 +179,7 @@ export default class ItemsTasksApi extends TasksApi {
     };
 
     const result = await this.patchResourse(
-      `${this.URL_BASE}${taskId}`,
+      `${URL_BASE_TASK}/${taskId}`,
       newItems
     );
 

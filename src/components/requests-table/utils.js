@@ -107,4 +107,18 @@ const getColumnsWithSearch = (
   });
 };
 
-export default getColumnsWithSearch;
+const getSelfGradeTotal = (selfGrade) => {
+  if (!Array.isArray(selfGrade)) return 0;
+
+  return selfGrade.reduce((total, { score }) => total + score, 0);
+};
+
+const getFormattedRows = (ReviewRequestsList) => {
+  return ReviewRequestsList.map((request) => ({
+    ...request,
+    key: request.id,
+    selfGrade: getSelfGradeTotal(request.selfGrade),
+  }));
+};
+
+export { getColumnsWithSearch, getFormattedRows };

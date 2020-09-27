@@ -1,9 +1,14 @@
 import { actionTypes } from '../constants';
+import { RevReqApi } from '../../services/rest-api';
+import { receiveApiErrorResponse } from './error-actions';
 
 const {
   FETCH_REVIEW_REQUESTS_BEGIN,
   FETCH_REVIEW_REQUESTS_SUCCESS,
+  FETCH_REVIEW_REQUEST_SUCCESS,
+  SET_REVIEW_REQUEST,
 } = actionTypes;
+const api = new RevReqApi();
 
 const fetchReviewRequestsBegin = () => {
   return {
@@ -18,4 +23,52 @@ const fetchReviewRequestsSuccess = (reviewRequests) => {
   };
 };
 
-export { fetchReviewRequestsBegin, fetchReviewRequestsSuccess };
+const fetchReviewRequestSuccess = (reviewRequest) => {
+  return {
+    type: FETCH_REVIEW_REQUEST_SUCCESS,
+    payload: reviewRequest,
+  };
+};
+
+const setReviewRequest = (reviewRequest) => {
+  return {
+    type: SET_REVIEW_REQUEST,
+    payload: reviewRequest,
+  };
+};
+
+const fetchReviewRequestById = (reviewRequestId) => async (dispatch) => {
+  try {
+    dispatch(fetchReviewRequestsBegin());
+    const [result] = await api.getRevReq(reviewRequestId);
+    dispatch(fetchReviewRequestSuccess(result));
+  } catch (error) {
+    dispatch(receiveApiErrorResponse(error));
+  }
+};
+
+const fetchReviewRequests = () => (dispatch) => {
+  dispatch(fetchReviewRequestsBegin());
+  api
+    .getRevReqAll()
+    .then((result) => dispatch(fetchReviewRequestsSuccess(result)))
+    .catch((result) => dispatch(receiveApiErrorResponse(result)));
+};
+
+const fetchReviewRequestsBySession = (sessionId) => async (dispatch) => {
+  try {
+    dispatch(fetchReviewRequestsBegin());
+    const result = await api.getRevReqByCrossCheckId(sessionId);
+    dispatch(fetchReviewRequestsSuccess(result));
+  } catch (error) {
+    dispatch(receiveApiErrorResponse(error.message));
+  }
+};
+
+export {
+  fetchReviewRequestsSuccess,
+  fetchReviewRequestsBySession,
+  fetchReviewRequests,
+  setReviewRequest,
+  fetchReviewRequestById,
+};

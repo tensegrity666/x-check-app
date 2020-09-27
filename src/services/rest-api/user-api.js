@@ -18,18 +18,20 @@
 
 import BaseApi from './base-api';
 
-export default class UserApi extends BaseApi {
-  URL_BASE = '/users';
+import { addrList } from './constants';
 
+const { URL_BASE_USER } = addrList;
+
+export default class UserApi extends BaseApi {
   async getUsersAll() {
-    const result = await this.getResource(this.URL_BASE);
+    const result = await this.getResource(URL_BASE_USER);
 
     return result;
   }
 
   async getUser(githubId) {
     const result = await this.getResource(
-      `${this.URL_BASE}/?githubId=${githubId}`
+      `${URL_BASE_USER}/?githubId=${githubId}`
     );
 
     return result;
@@ -53,7 +55,7 @@ export default class UserApi extends BaseApi {
       roles,
     };
 
-    const result = await this.sendResource(this.URL_BASE, newUser);
+    const result = await this.sendResource(URL_BASE_USER, newUser);
 
     return result;
   }
@@ -69,7 +71,7 @@ export default class UserApi extends BaseApi {
     }
 
     const user = this.arrToObj(searchUser);
-    const result = await this.delResourse(`${this.URL_BASE}/${user.id}`);
+    const result = await this.delResourse(`${URL_BASE_USER}/${user.id}`);
 
     return result;
   }

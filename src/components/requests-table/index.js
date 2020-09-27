@@ -1,45 +1,58 @@
-import React, { useState } from 'react';
-import { Table } from 'antd';
-import { tableColumns, pagination } from './constants';
-import defaultCustomers from './mockData';
-import getColumnsWithSearch from './utils';
-import styles from './index.module.css';
+import React, { useCallback, useEffect, useState } from 'react';
+import { bindActionCreators } from 'redux';
+import { useSelector } from 'react-redux';
 
-const RequestsTable = () => {
-  const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
-  const { reviewRequests } = styles;
+import store from '../../redux/store';
+import * as actions from '../../redux/actions';
 
-  const handleSearch = (selectedKeys, confirm, dataIndex) => {
-    confirm();
-    setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex);
-  };
+import RequestsContainer from './requests-container';
 
-  const handleReset = (clearFilters) => {
-    clearFilters();
-    setSearchText('');
-  };
+const ReviewRequests = () => {
+  const [requestsForUser, setRequestsForUser] = useState([]);
 
-  const columnsWithSearch = getColumnsWithSearch(
-    tableColumns,
-    handleSearch,
-    handleReset,
-    searchText,
-    searchedColumn
+  const reviewRequests = useSelector(
+    ({ reviewRequestsReducer }) => reviewRequestsReducer.reviewRequests
+  );
+  const userGithubId = useSelector(({ loginReducer }) => loginReducer.githubId);
+  const students = useSelector(
+    ({ crossCheckSessionReducer }) => crossCheckSessionReducer.userStudents
   );
 
+  const { dispatch } = store;
+  const {
+    fetchReviewRequests,
+    fetchSessionAttendeesByReviewer,
+  } = bindActionCreators(actions, dispatch);
+  const onFetchReviewRequests = useCallback(fetchReviewRequests, []);
+  const onFetchAttendeesByUser = useCallback(
+    fetchSessionAttendeesByReviewer,
+    []
+  );
+
+  useEffect(() => {
+    onFetchReviewRequests();
+    onFetchAttendeesByUser(
+      'rss2020Q3react-xcheck',
+      'ButterBrot777' || userGithubId
+    );
+  }, [userGithubId, onFetchReviewRequests, onFetchAttendeesByUser]);
+
+  useEffect(() => {
+    if (students.length > 0 && reviewRequests.length > 0) {
+      const requests = reviewRequests.filter(({ author }) =>
+        students.includes(author)
+      );
+      setRequestsForUser(requests);
+    }
+  }, [students, reviewRequests]);
+
   return (
-    <div className={reviewRequests}>
-      <h1>Review Requests</h1>
-      <Table
-        dataSource={defaultCustomers}
-        columns={columnsWithSearch}
-        pagination={pagination}
-        scroll={{ x: 1200, y: 'calc(100vh - 210px)' }}
-      />
-    </div>
+    <RequestsContainer
+      userId={userGithubId}
+      reviewRequests={reviewRequests}
+      requestsForUser={requestsForUser}
+    />
   );
 };
 
-export default RequestsTable;
+export default ReviewRequests;

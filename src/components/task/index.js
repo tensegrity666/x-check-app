@@ -31,24 +31,50 @@ const Task = () => {
     addAuthor,
   } = bindActionCreators(actions, dispatch);
 
+  const saveTaskToLocalStorage = (taskData) => {
+    localStorage.setItem('savedTaskInProcess', JSON.stringify(taskData));
+  };
+
   useEffect(() => {
-    if (localStorage.getItem('savedTaskInProcess')) {
-      const savedTask = JSON.parse(localStorage.getItem('savedTaskInProcess'));
+    const savedTask = JSON.parse(localStorage.getItem('savedTaskInProcess'));
+    if (savedTask) {
       loadTaskFromLocalStorage(savedTask);
-      return;
     }
 
+    return () => {
+      const data = store.getState().taskReducer;
+      saveTaskToLocalStorage(data);
+    };
+  });
+
+  useEffect(() => {
     const { githubId } = store.getState().loginReducer;
     addAuthor(githubId);
-    const data = store.getState().taskReducer;
 
-    let taskId = '';
-    api.createTaskHeader({ githubId, data }).then((res) => {
-      taskId = res.id;
-      createTask(taskId);
-      localStorage.setItem('savedTaskInProcess', JSON.stringify(data));
-    });
-  }, [addAuthor, api, loadTaskFromLocalStorage, createTask]);
+    // <<<<<<< HEAD
+    //     let taskId = '';
+    //     const data = store.getState().taskReducer;
+    //     api.createTaskHeader({ githubId, data }).then((res) => {
+    //       taskId = res.id;
+    //       createTask(taskId);
+    //       localStorage.setItem('savedTaskInProcess', JSON.stringify(data));
+    //     });
+    //   }, [addAuthor, api, loadTaskFromLocalStorage, createTask]);
+    // =======
+    const data = store.getState().taskReducer;
+    if (!data.id) {
+      api.createTaskHeader({ githubId, data }).then((res) => {
+        const taskId = res.id;
+        if (taskId) {
+          createTask(taskId);
+          data.id = taskId;
+        }
+        // TODO: Add error case handling
+        saveTaskToLocalStorage(data);
+      });
+    }
+  });
+  // >>>>>>> dev
 
   return (
     <Layout className={wrapper}>

@@ -10,7 +10,6 @@ import {
   populateRowsWithKeys,
   dynamicSort,
 } from './table-helpers';
-import { RevReqApi } from '../../services/rest-api';
 import getAssignments from './assignment-helper';
 import ASSIGNEES from './constants';
 
@@ -35,12 +34,10 @@ const SessionAssignmentDialog = () => {
 
   const { container, content, controls } = styles;
   const { dispatch } = store;
-  const {
-    fetchReviewRequestsSuccess,
-    fetchReviewRequestsBegin,
-  } = bindActionCreators(actions, dispatch);
-
-  const api = new RevReqApi();
+  const { fetchReviewRequestsBySession } = bindActionCreators(
+    actions,
+    dispatch
+  );
 
   const generateAssignments = (requestsList, number) => {
     const result = getAssignments(requestsList, number);
@@ -48,11 +45,9 @@ const SessionAssignmentDialog = () => {
     setAttendees(result);
   };
 
-  const assignAttendees = async () => {
+  const assignAttendees = () => {
     if (reviewRequests.length === 0) {
-      fetchReviewRequestsBegin();
-      const result = await api.getRevReqByCrossCheckId(id);
-      fetchReviewRequestsSuccess(result);
+      fetchReviewRequestsBySession(id);
     }
     if (isAssignmentRequested) {
       generateAssignments(reviewRequests, assigneesNumber);

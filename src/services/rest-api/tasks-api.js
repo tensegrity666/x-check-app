@@ -55,11 +55,11 @@
 */
 
 import AccessTasksApi from './access-tasks-api';
-import { actionTaskList } from './constants';
+import { actionTaskList, addrList } from './constants';
+
+const { URL_BASE_TASK } = addrList;
 
 export default class TasksApi extends AccessTasksApi {
-  URL_BASE = '/tasks';
-
   setState = (requiredState) => {
     switch (requiredState) {
       case 'DRAFT_TO_PUBLISHED':
@@ -76,33 +76,33 @@ export default class TasksApi extends AccessTasksApi {
   };
 
   async getTasksAll() {
-    const result = await this.getResource(this.URL_BASE);
+    const result = await this.getResource(URL_BASE_TASK);
 
     return result;
   }
 
   async getTask(id) {
-    const result = await this.getResource(`${this.URL_BASE}/?id=${id}`);
+    const result = await this.getResource(`${URL_BASE_TASK}/?id=${id}`);
 
     return result;
   }
 
   async getTaskByAuthor(nameAuthor) {
     const result = await this.getResource(
-      `${this.URL_BASE}/?author=${nameAuthor}`
+      `${URL_BASE_TASK}/?author=${nameAuthor}`
     );
 
     return result;
   }
 
   async getTaskByStateNoDraft() {
-    const result = await this.getResource(`${this.URL_BASE}/?state_ne=DRAFT`);
+    const result = await this.getResource(`${URL_BASE_TASK}/?state_ne=DRAFT`);
 
     return result;
   }
 
   async getTaskByStateDraft() {
-    const result = await this.getResource(`${this.URL_BASE}/?state=DRAFT`);
+    const result = await this.getResource(`${URL_BASE_TASK}/?state=DRAFT`);
 
     return result;
   }
@@ -130,7 +130,7 @@ export default class TasksApi extends AccessTasksApi {
       dateOfCreate: new Date().toLocaleDateString(),
     };
 
-    const result = await this.sendResource(this.URL_BASE, newTaskHeader);
+    const result = await this.sendResource(URL_BASE_TASK, newTaskHeader);
 
     return result;
   }
@@ -157,7 +157,7 @@ export default class TasksApi extends AccessTasksApi {
       };
     }
 
-    const result = await this.patchResourse(`${this.URL_BASE}/${taskId}`, data);
+    const result = await this.patchResourse(`${URL_BASE_TASK}/${taskId}`, data);
 
     return result;
   }
@@ -196,7 +196,7 @@ export default class TasksApi extends AccessTasksApi {
       };
     }
 
-    const result = await this.patchResourse(`${this.URL_BASE}/${taskId}`, {
+    const result = await this.patchResourse(`${URL_BASE_TASK}/${taskId}`, {
       state,
     });
 
@@ -225,7 +225,7 @@ export default class TasksApi extends AccessTasksApi {
       };
     }
 
-    const result = await this.delResourse(`${this.URL_BASE}/${taskId}`);
+    const result = await this.delResourse(`${URL_BASE_TASK}/${taskId}`);
 
     return result;
   }

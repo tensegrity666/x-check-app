@@ -16,17 +16,13 @@
 */
 
 import BaseApi from './base-api';
-import { stateList } from './constants';
+import { stateList, addrList } from './constants';
+
+const { URL_Q_USER, URL_Q_REV_REQ, URL_ACCESS_REV_REQ_LIST } = addrList;
 
 export default class AccessRevReqApi extends BaseApi {
-  URL_USER = '/users/?githubId=';
-
-  URL_REV_REQ = '/reviewRequests/?id=';
-
-  URL_ACCESS_REV_REQ_LIST = '/accessRevReqlist/';
-
   async userAccessRevReqCheck({ githubId, revReqId = null, action }) {
-    const searchUser = await this.getResource(`${this.URL_USER}${githubId}`);
+    const searchUser = await this.getResource(`${URL_Q_USER}${githubId}`);
 
     // If the user is not found, exit with a negative check result
     if (searchUser.length === 0) {
@@ -35,7 +31,7 @@ export default class AccessRevReqApi extends BaseApi {
 
     const searchRevReq =
       revReqId !== null
-        ? await this.getResource(`${this.URL_REV_REQ}${revReqId}`)
+        ? await this.getResource(`${URL_Q_REV_REQ}${revReqId}`)
         : null;
 
     // If a review request ID exists and a review request was not found, exit with a negative check result.
@@ -54,7 +50,7 @@ export default class AccessRevReqApi extends BaseApi {
         : currentUser.roles.filter((role) => role !== 'student');
 
     const actionsData = await this.getResource(
-      `${this.URL_ACCESS_REV_REQ_LIST}${revReqState}`
+      `${URL_ACCESS_REV_REQ_LIST}${revReqState}`
     );
     const actionMatch = actionsData.actionList.filter(
       (item) => item.title === action
