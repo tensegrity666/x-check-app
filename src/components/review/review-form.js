@@ -22,7 +22,7 @@ import store from '../../redux/store';
 const ReviewForm = ({ reviewRequest, review, task, userId }) => {
   const [grade, setGrade] = useState([]);
   const [authorshipStatus, setAuthorship] = useState(null);
-  const [reviewStatus, setReviewStatus] = useState(REVIEW_STATE.PUBLISHED);
+  const [reviewStatus, setReviewStatus] = useState(REVIEW_STATE.DRAFT);
   const reviewIsLoading = useSelector(
     ({ reviewReducer }) => reviewReducer.isLoading
   );
@@ -104,10 +104,10 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
   }, [reviewRequest, review]);
 
   useEffect(() => {
-    if (review.author === userId) {
-      setAuthorship(EDITORS.REVIEWER);
-    } else if (reviewRequest.author === userId) {
+    if (reviewRequest.author === userId) {
       setAuthorship(EDITORS.STUDENT);
+    } else if (!review.id || review.author === userId) {
+      setAuthorship(EDITORS.REVIEWER);
     }
   }, [userId, review, reviewRequest]);
 
