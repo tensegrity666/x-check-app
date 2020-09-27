@@ -28,6 +28,7 @@ const TasksContainer = () => {
   }, []);
 
   return <Tasks tasksList={tasksList} loading={loading} isAuthor={isAuthor} />;
+
 };
 
 export default TasksContainer;

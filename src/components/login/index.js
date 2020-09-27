@@ -37,6 +37,7 @@ const LoginContainer = () => {
       const newState = store.getState().loginReducer;
       const { uid, displayName, email, screenName } = newState;
 
+
       await api.createUser(uid, displayName, screenName, email, roles);
     } catch (error) {
       throw new Error(error);

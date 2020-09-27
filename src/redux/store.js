@@ -5,7 +5,9 @@ import taskReducer from './reducers/task-reducer';
 import tasksListReducer from './reducers/tasks-list-reducer';
 import filterReducer from './reducers/filter-reducer';
 import loginReducer from './reducers/login-reducer';
+
 import selfGradeReducer from './reducers/self-grade-reducer';
+
 import reviewRequestsReducer from './reducers/review-requests-reducer';
 import crossCheckSessionReducer from './reducers/cross-check-session-reducer';
 import reviewReducer from './reducers/review-reducer';
@@ -18,6 +20,7 @@ const rootReducer = combineReducers({
   filterReducer,
   loginReducer,
   selfGradeReducer,
+
   reviewRequestsReducer,
   crossCheckSessionReducer,
   reviewReducer,

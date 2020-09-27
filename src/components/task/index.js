@@ -59,6 +59,7 @@ const Task = () => {
           createTask(taskId);
           data.id = taskId;
         }
+
         saveTaskToLocalStorage(data);
       });
     }
