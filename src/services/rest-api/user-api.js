@@ -38,11 +38,24 @@ export default class UserApi extends BaseApi {
   }
 
   async createUser(uid, displayName, screenName, email, roles = []) {
-    // const searchUser = await this.getUser(screenName);
+    const searchUser = await this.getUser(screenName);
 
-    // if (searchUser.length !== 0) {
-    //   return searchUser;
-    // }
+    if (searchUser.length !== 0) {
+      const { id } = this.arrToObj(searchUser);
+      const editUser = {
+        uid,
+        displayName,
+        email,
+        roles,
+      };
+
+      const resEdit = await this.patchResourse(
+        `${URL_BASE_USER}/${id}`,
+        editUser
+      );
+
+      return resEdit;
+    }
 
     const lastNumberId = this.createId();
 
