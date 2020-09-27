@@ -32,3 +32,6 @@ _Open_ [http://localhost:3000](http://localhost:3000) _to view it in the browser
 
 #### View test coverage
 `$ npm run test:coverage`
+
+#### Deploy
+`$ npm run deploy`
