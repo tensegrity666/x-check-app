@@ -20,8 +20,7 @@ const Task = () => {
   const { Content } = Layout;
   const { wrapper, content } = styles;
 
-  const [modalVisible, setModalVisible] = useState(true);
-  const [jsonTask, setJsonTask] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
   const api = new TaskApi();
 
@@ -33,8 +32,6 @@ const Task = () => {
   } = bindActionCreators(actions, dispatch);
 
   useEffect(() => {
-    setJsonTask('TEST TEST TEST');
-
     if (localStorage.getItem('savedTaskInProcess')) {
       const savedTask = JSON.parse(localStorage.getItem('savedTaskInProcess'));
       loadTaskFromLocalStorage(savedTask);
@@ -55,13 +52,12 @@ const Task = () => {
 
   return (
     <Layout className={wrapper}>
-      <TaskHeaderContainer />
+      <TaskHeaderContainer setModalVisible={setModalVisible} />
       <Searcher />
       <Content className={content}>
         <ModalWindow
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-          jsonTask={jsonTask}
         />
         <TaskListContainer />
       </Content>

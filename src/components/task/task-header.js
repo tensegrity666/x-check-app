@@ -26,6 +26,7 @@ const TaskHeader = ({
   taskState,
   onDateChange,
   dateOfDeadline,
+  loading,
 }) => {
   const { statsHeading, datePicker } = styles;
   const {
@@ -44,14 +45,19 @@ const TaskHeader = ({
       tags={<Tag color="blue">{state}</Tag>}
       subTitle="status"
       extra={[
-        <Button style={{ width: '200px' }} size="large" key="2" type="default">
-          Copy task as JSON
-        </Button>,
         <Button
-          loading={false}
+          onClick={() => onSaveTask(true)}
           style={{ width: '200px' }}
           size="large"
-          onClick={onSaveTask}
+          key="2"
+          type="default">
+          Watch task as JSON
+        </Button>,
+        <Button
+          loading={loading}
+          style={{ width: '200px' }}
+          size="large"
+          onClick={() => onSaveTask(false)}
           key="1"
           type="primary">
           Save & Upload
@@ -122,6 +128,7 @@ TaskHeader.propTypes = {
   taskState: PropTypes.object.isRequired,
   nameEditorValue: PropTypes.string,
   dateOfDeadline: PropTypes.object,
+  loading: PropTypes.bool.isRequired,
 };
 
 TaskHeader.defaultProps = {

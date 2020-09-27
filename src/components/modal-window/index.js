@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'antd';
+import store from '../../redux/store';
 
-const ModalWindow = ({ modalVisible, setModalVisible, jsonTask }) => {
+const ModalWindow = ({ modalVisible, setModalVisible }) => {
+  const task = store.getState().taskReducer;
+  const jsonTask = JSON.stringify(task, null, '\t');
+
   return (
     <Modal
       title=""
@@ -16,7 +20,7 @@ const ModalWindow = ({ modalVisible, setModalVisible, jsonTask }) => {
           Return
         </Button>,
       ]}>
-      <p>{jsonTask}</p>
+      <pre>{jsonTask}</pre>
     </Modal>
   );
 };
@@ -24,7 +28,6 @@ const ModalWindow = ({ modalVisible, setModalVisible, jsonTask }) => {
 ModalWindow.propTypes = {
   modalVisible: PropTypes.bool.isRequired,
   setModalVisible: PropTypes.func.isRequired,
-  jsonTask: PropTypes.string.isRequired,
 };
 
 export default ModalWindow;
