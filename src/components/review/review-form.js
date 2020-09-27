@@ -145,6 +145,7 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
               text,
               record,
               userStatus: authorshipStatus,
+              reviewStatus,
               handleChange: handleTextChange(record),
             })
           }
@@ -158,6 +159,7 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
               text,
               record,
               userStatus: authorshipStatus,
+              reviewStatus,
               handleChange: handleScoreChange(record),
             })
           }
