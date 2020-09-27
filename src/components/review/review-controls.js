@@ -9,7 +9,6 @@ import styles from './index.module.css';
 const ReviewControls = ({
   authorshipStatus,
   reviewStatus,
-  onDisputeReview,
   createReview,
   editReview,
   toggleReviewStatus,
@@ -22,7 +21,6 @@ const ReviewControls = ({
       {authorshipStatus === EDITORS.STUDENT && (
         <StudentsControls
           reviewStatus={reviewStatus}
-          onDisputeReview={onDisputeReview}
           editReview={editReview}
           toggleReviewStatus={toggleReviewStatus}
           isDisabled={isDisabled}
@@ -43,17 +41,15 @@ const ReviewControls = ({
 };
 
 ReviewControls.propTypes = {
-  onDisputeReview: PropTypes.func.isRequired,
   createReview: PropTypes.func.isRequired,
   editReview: PropTypes.func.isRequired,
   toggleReviewStatus: PropTypes.func.isRequired,
-  reviewStatus: PropTypes.string,
+  reviewStatus: PropTypes.string.isRequired,
   authorshipStatus: PropTypes.string,
   isDisabled: PropTypes.bool,
 };
 
 ReviewControls.defaultProps = {
-  reviewStatus: null,
   authorshipStatus: null,
   isDisabled: false,
 };

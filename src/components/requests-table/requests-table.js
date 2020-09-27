@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Table, Typography } from 'antd';
 import PropTypes from 'prop-types';
 
@@ -11,6 +12,10 @@ const RequestsTable = ({ reviewRequests, userId, title }) => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const { reviewRequestsSection } = styles;
+
+  const isLoading = useSelector(
+    ({ reviewRequestsReducer }) => reviewRequestsReducer.isLoading
+  );
 
   const { Title } = Typography;
 
@@ -37,6 +42,7 @@ const RequestsTable = ({ reviewRequests, userId, title }) => {
     <section className={reviewRequestsSection}>
       {title && <Title level={3}>{title}</Title>}
       <Table
+        loading={isLoading}
         dataSource={getFormattedRows(reviewRequests)}
         columns={columnsWithSearch}
         pagination={pagination}
