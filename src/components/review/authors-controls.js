@@ -13,6 +13,7 @@ const AuthorsControls = ({
   editReview,
   toggleReviewStatus,
   isDisabled,
+  isTouched,
 }) => {
   const review = useSelector(({ reviewReducer }) => reviewReducer.review);
 
@@ -56,7 +57,7 @@ const AuthorsControls = ({
         </Button>
         <Button
           onClick={() => toggleReviewStatus(modify.DISPUTED_TO_ACCEPTED)}
-          disabled={isDisabled}>
+          disabled={isDisabled || isTouched}>
           Accept
         </Button>
       </Space>
@@ -77,6 +78,7 @@ AuthorsControls.propTypes = {
   editReview: PropTypes.func.isRequired,
   toggleReviewStatus: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,
+  isTouched: PropTypes.bool.isRequired,
 };
 
 export default AuthorsControls;

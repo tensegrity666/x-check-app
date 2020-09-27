@@ -23,6 +23,7 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
   const [grade, setGrade] = useState([]);
   const [authorshipStatus, setAuthorship] = useState(null);
   const [reviewStatus, setReviewStatus] = useState(REVIEW_STATE.DRAFT);
+  const [isTouched, setTouched] = useState(false);
   const reviewIsLoading = useSelector(
     ({ reviewReducer }) => reviewReducer.isLoading
   );
@@ -35,6 +36,7 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
     const {
       target: { value },
     } = event;
+    setTouched(true);
     setGrade((prevGrade) => {
       return prevGrade.map((item) => {
         if (item.id === itemId) {
@@ -48,6 +50,7 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
   const handleScoreChange = ({ itemId, authorship }) => (value) => {
     const dynamicKey =
       authorship === EDITORS.REVIEWER ? 'score' : 'suggestedScore';
+    setTouched(true);
     setGrade((prevGrade) => {
       return prevGrade.map((item) => {
         if (item.id === itemId) {
@@ -59,10 +62,12 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
   };
 
   const handleReviewCreation = async () => {
+    setTouched(false);
     return dispatch(createReview(reviewRequest.id, userId, grade));
   };
 
   const handleReviewEdit = async () => {
+    setTouched(false);
     return dispatch(editReview(userId, review.id, grade));
   };
 
@@ -117,6 +122,7 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
         authorshipStatus={authorshipStatus}
         reviewStatus={reviewStatus}
         isDisabled={reviewIsLoading}
+        isTouched={isTouched}
         createReview={handleReviewCreation}
         editReview={handleReviewEdit}
         toggleReviewStatus={handleToggleReviewStatus}

@@ -13,6 +13,7 @@ const ReviewControls = ({
   editReview,
   toggleReviewStatus,
   isDisabled,
+  isTouched,
 }) => {
   const { buttonsGroup } = styles;
 
@@ -24,6 +25,7 @@ const ReviewControls = ({
           editReview={editReview}
           toggleReviewStatus={toggleReviewStatus}
           isDisabled={isDisabled}
+          isTouched={isTouched}
         />
       )}
 
@@ -34,6 +36,7 @@ const ReviewControls = ({
           editReview={editReview}
           toggleReviewStatus={toggleReviewStatus}
           isDisabled={isDisabled}
+          isTouched={isTouched}
         />
       )}
     </section>
@@ -47,11 +50,13 @@ ReviewControls.propTypes = {
   reviewStatus: PropTypes.string.isRequired,
   authorshipStatus: PropTypes.string,
   isDisabled: PropTypes.bool,
+  isTouched: PropTypes.bool,
 };
 
 ReviewControls.defaultProps = {
   authorshipStatus: null,
   isDisabled: false,
+  isTouched: false,
 };
 
 export default ReviewControls;
