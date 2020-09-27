@@ -26,7 +26,8 @@ const SelfGrade = ({
   commentTaskItem,
   inputValue,
   onTextChange,
-  onSelfGradeSubmit,
+  sendRevReq,
+  isReqCreated,
   deployLink,
   setDeployLink,
   prLink,
@@ -172,7 +173,7 @@ const SelfGrade = ({
             <Button
               loading={loading}
               style={{ marginBottom: '30px' }}
-              onClick={onSelfGradeSubmit}
+              onClick={() => sendRevReq(isReqCreated)}
               type="primary"
               block>
               Save and submit
@@ -208,9 +209,10 @@ SelfGrade.propTypes = {
   prLink: PropTypes.string.isRequired,
   setDeployLink: PropTypes.func.isRequired,
   setPrLink: PropTypes.func.isRequired,
-  onSelfGradeSubmit: PropTypes.func.isRequired,
+  sendRevReq: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
+  isReqCreated: PropTypes.bool.isRequired,
   onStatusChange: PropTypes.func.isRequired,
 };
 

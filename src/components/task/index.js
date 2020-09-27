@@ -51,16 +51,6 @@ const Task = () => {
     const { githubId } = store.getState().loginReducer;
     addAuthor(githubId);
 
-    // <<<<<<< HEAD
-    //     let taskId = '';
-    //     const data = store.getState().taskReducer;
-    //     api.createTaskHeader({ githubId, data }).then((res) => {
-    //       taskId = res.id;
-    //       createTask(taskId);
-    //       localStorage.setItem('savedTaskInProcess', JSON.stringify(data));
-    //     });
-    //   }, [addAuthor, api, loadTaskFromLocalStorage, createTask]);
-    // =======
     const data = store.getState().taskReducer;
     if (!data.id) {
       api.createTaskHeader({ githubId, data }).then((res) => {
@@ -69,12 +59,10 @@ const Task = () => {
           createTask(taskId);
           data.id = taskId;
         }
-        // TODO: Add error case handling
         saveTaskToLocalStorage(data);
       });
     }
   });
-  // >>>>>>> dev
 
   return (
     <Layout className={wrapper}>

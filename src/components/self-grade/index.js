@@ -24,8 +24,12 @@ const SelfGradeContainer = () => {
   const [inputValue, setInputValue] = useState('');
   const [prLink, setPrLink] = useState('');
   const [deployLink, setDeployLink] = useState('');
+  const [reqId, setReqId] = useState('');
+  const [isReqCreated, setIsReqCreated] = useState(false);
 
   const history = useHistory();
+
+  const { githubId } = store.getState().loginReducer;
 
   const { dispatch } = store;
   const {
@@ -42,8 +46,8 @@ const SelfGradeContainer = () => {
     setInputValue(value);
   };
 
-  const onSelfGradeSubmit = () => {
-    const { githubId } = store.getState().loginReducer;
+  const sendRevReq = (isCreated) => {
+    setLoading(true);
     const { items } = store.getState().selfGradeReducer;
 
     addSummaryComment(inputValue);
@@ -56,7 +60,19 @@ const SelfGradeContainer = () => {
       selfGrade: items,
     };
 
-    reviewApi.createRevReq({ githubId, data });
+    if (!isCreated) {
+      reviewApi
+        .createRevReq({ githubId, data })
+        .then((res) => setReqId(res.id))
+        .then(() => setLoading(false));
+
+      setIsReqCreated(true);
+      return;
+    }
+
+    reviewApi
+      .editRevReq({ githubId, reqId, data })
+      .then(() => setLoading(false));
   };
 
   const handleSelectChange = (id, maxScore, minScore, category, value) => {
@@ -91,14 +107,26 @@ const SelfGradeContainer = () => {
   };
 
   const onStatusChange = (value) => {
+    const PUBLISHED_TO_DRAFT = 'PUBLISHED_TO_DRAFT';
+    const DRAFT_TO_PUBLISHED = 'DRAFT_TO_PUBLISHED';
+
     changeStatus(value);
+
+    switch (value) {
+      case 'DRAFT':
+        reviewApi.toggleRevReqState({ githubId, reqId, PUBLISHED_TO_DRAFT });
+        break;
+      case 'PUBLISHED':
+        reviewApi.toggleRevReqState({ githubId, reqId, DRAFT_TO_PUBLISHED });
+        break;
+      default:
+        break;
+    }
   };
 
   useEffect(() => {
-    setLoading(true);
     tasksApi.getTask(taskId.id).then((res) => {
       copyTaskToState(res[0]);
-      setLoading(false);
     });
   }, []);
 
@@ -111,7 +139,8 @@ const SelfGradeContainer = () => {
       commentTaskItem={commentTaskItem}
       inputValue={inputValue}
       onTextChange={onTextChange}
-      onSelfGradeSubmit={onSelfGradeSubmit}
+      sendRevReq={sendRevReq}
+      isReqCreated={isReqCreated}
       prLink={prLink}
       deployLink={deployLink}
       setPrLink={setPrLink}

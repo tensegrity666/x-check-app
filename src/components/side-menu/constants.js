@@ -1,11 +1,3 @@
-const routes = [
-  'profile',
-  'requests',
-  'task',
-  'tasks',
-  'reviews',
-  'details',
-  'sessions',
-];
+const routes = ['profile', 'requests', 'task', 'tasks', 'reviews'];
 
 export default routes;

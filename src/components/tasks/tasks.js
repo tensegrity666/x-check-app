@@ -5,8 +5,7 @@ import { ProfileOutlined, FormOutlined } from '@ant-design/icons';
 
 import styles from './index.module.css';
 
-// eslint-disable-next-line no-unused-vars
-const Tasks = ({ handleProceedToTask, tasksList, loading }) => {
+const Tasks = ({ tasksList, loading, isAuthor }) => {
   const { tasksMeta } = styles;
 
   return (
@@ -19,7 +18,6 @@ const Tasks = ({ handleProceedToTask, tasksList, loading }) => {
           <Row justify="start">
             <List.Item.Meta
               className={tasksMeta}
-              // onClick={() => handleProceedToTask(id)}
               avatar={<ProfileOutlined style={{ fontSize: '30px' }} />}
               title={
                 state !== 'PUBLISHED' ? (
@@ -33,8 +31,12 @@ const Tasks = ({ handleProceedToTask, tasksList, loading }) => {
               }
               description={`created: ${dateOfCreate}`}
             />
-            <Button icon={<FormOutlined />} type="dotted" href={`/self/${id}`}>
-              Start self-grade
+            <Button
+              disabled={isAuthor}
+              icon={<FormOutlined />}
+              type="dotted"
+              href={`/self/${id}`}>
+              {isAuthor ? 'Please, login as a student' : 'Start self-grade'}
             </Button>
           </Row>
         </List.Item>
@@ -44,9 +46,9 @@ const Tasks = ({ handleProceedToTask, tasksList, loading }) => {
 };
 
 Tasks.propTypes = {
-  handleProceedToTask: PropTypes.func.isRequired,
   tasksList: PropTypes.arrayOf(PropTypes.object).isRequired,
   loading: PropTypes.bool.isRequired,
+  isAuthor: PropTypes.bool.isRequired,
 };
 
 export default Tasks;
