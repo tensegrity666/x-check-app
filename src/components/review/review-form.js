@@ -71,11 +71,7 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
     updatedReviewId = null
   ) => {
     return dispatch(
-      toggleReviewStatus(
-        'author' || userId,
-        updatedReviewId || review.id,
-        modifierType
-      )
+      toggleReviewStatus(userId, updatedReviewId || review.id, modifierType)
     );
   };
 
