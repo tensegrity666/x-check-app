@@ -22,9 +22,9 @@ const loginReducer = (state = initialUser, { type, payload }) => {
         ...state,
         isAuthenticated: true,
         uid: payload.uid,
+        displayName: payload.displayName,
         githubId: payload.email.substr(0, payload.email.indexOf('@')),
         email: payload.email,
-        displayName: payload.displayName,
         screenName: payload.email.substr(0, payload.email.indexOf('@')),
         photoURL: payload.photoURL,
       };

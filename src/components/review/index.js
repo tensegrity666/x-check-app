@@ -13,10 +13,6 @@ import store from '../../redux/store';
 import ReviewForm from './review-form';
 import styles from './index.module.css';
 
-// import mockReviewRequest from './mockReviewRequest.json';
-// import mockReview from './mockReview.json';
-// import mockTask from './mockTask.json';
-
 const Review = () => {
   const { search } = useLocation();
   const history = useHistory();

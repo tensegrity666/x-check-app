@@ -1,46 +1,34 @@
-import React, { useCallback, useEffect } from 'react';
-import { bindActionCreators } from 'redux';
-import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { Typography } from 'antd';
+/* eslint-disable react-hooks/exhaustive-deps */
 
-import TasksList from './tasks-list';
-
+import React, { useEffect, useState } from 'react';
+import { TasksApi } from '../../services/rest-api';
 import store from '../../redux/store';
-import * as actions from '../../redux/actions';
 
-const Tasks = () => {
-  const { Title } = Typography;
-  const { dispatch } = store;
-  const { fetchTasks } = bindActionCreators(actions, dispatch);
-  const onFetchTasks = useCallback(fetchTasks, []);
+import Tasks from './tasks';
 
-  const history = useHistory();
-  const tasks = useSelector(({ tasksListReducer }) => tasksListReducer.tasks);
-  const isLoading = useSelector(
-    ({ tasksListReducer }) => tasksListReducer.isLoading
-  );
+const TasksContainer = () => {
+  const tasksApi = new TasksApi();
+  const [loading, setLoading] = useState(false);
+  const [isAuthor, setIsAuthor] = useState(false);
 
-  const handleProceedToTask = (taskId) => {
-    history.push(`/tasks${taskId}`);
-  };
+  const [tasksList, setTasksList] = useState([]);
+
+  const { roles } = store.getState().loginReducer;
 
   useEffect(() => {
-    onFetchTasks();
-  }, [onFetchTasks]);
+    if (roles.includes('author')) {
+      setIsAuthor(true);
+    }
 
-  return (
-    <div>
-      <Typography>
-        <Title>Список задач</Title>
-      </Typography>
-      <TasksList
-        tasks={tasks}
-        handleProceedToTask={handleProceedToTask}
-        isLoading={isLoading}
-      />
-    </div>
-  );
+    setLoading(true);
+    tasksApi.getTasksAll().then((res) => {
+      setTasksList(res);
+      setLoading(false);
+    });
+  }, []);
+
+  return <Tasks tasksList={tasksList} loading={loading} isAuthor={isAuthor} />;
+
 };
 
-export default Tasks;
+export default TasksContainer;

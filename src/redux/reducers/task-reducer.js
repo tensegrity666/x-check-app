@@ -49,12 +49,13 @@ const taskReducer = (state = initialTask, { type, payload }) => {
         id: uniqid('task-item-'),
         category: payload.category,
         description: payload.inputValue,
-        currentScore: payload.rangeValue,
+        minScore: payload.rangeValue < 0 ? payload.rangeValue : 0,
+        maxScore: payload.rangeValue > 0 ? payload.rangeValue : 0,
       };
 
       return {
         ...state,
-        totalScore: totalScore + newTaskItem.currentScore,
+        totalScore: totalScore + newTaskItem.maxScore + newTaskItem.minScore,
         items: [newTaskItem, ...items],
       };
 

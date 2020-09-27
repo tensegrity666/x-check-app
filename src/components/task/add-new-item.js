@@ -37,6 +37,7 @@ const AddNewItem = ({
     <Row className={addItemWrapper}>
       <Col span={18}>
         <TextArea
+          placeholder="Write text of task item"
           className={textArea}
           rows={7}
           onChange={onTextChange}
@@ -61,7 +62,10 @@ const AddNewItem = ({
           />
         </Row>
         <Row className={selectWrapper}>
-          <Select className={select} onChange={onCategoryChange}>
+          <Select
+            placeholder="Choose category"
+            className={select}
+            onChange={onCategoryChange}>
             <Option value={basic.title}>{basic.title}</Option>
             <Option value={advanced.title}>
               <span className={advancedColor}>{advanced.title}</span>

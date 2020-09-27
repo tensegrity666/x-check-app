@@ -20,6 +20,8 @@ const Header = () => {
       <Button
         size="large"
         icon={<Avatar className={avatar} src={photoURL} size={24} />}
+        href="/profile"
+
         type="dashed">
         My Profile
       </Button>

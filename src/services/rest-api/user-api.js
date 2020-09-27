@@ -41,7 +41,20 @@ export default class UserApi extends BaseApi {
     const searchUser = await this.getUser(screenName);
 
     if (searchUser.length !== 0) {
-      return searchUser;
+      const { id } = this.arrToObj(searchUser);
+      const editUser = {
+        uid,
+        displayName,
+        email,
+        roles,
+      };
+
+      const resEdit = await this.patchResourse(
+        `${URL_BASE_USER}/${id}`,
+        editUser
+      );
+
+      return resEdit;
     }
 
     const lastNumberId = this.createId();

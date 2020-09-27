@@ -10,7 +10,13 @@ import {
   addAuthor,
 } from './task-actions';
 
-import { fetchTasks, fetchTaskById } from './tasks-list-actions';
+import {
+  rateTask,
+  copyTaskToState,
+  commentTaskItem,
+  addSummaryComment,
+  changeStatus,
+} from './self-grade-actions';
 
 import { changeFilter, searchItem } from './filter-actions';
 
@@ -19,6 +25,8 @@ import {
   addUserRole,
   signOutAndClearLocalStorage,
 } from './login-actions';
+
+import { fetchTasks, fetchTaskById } from './tasks-list-actions';
 
 import {
   fetchReviewRequests,
@@ -53,8 +61,6 @@ export {
   editDeadline,
   loadTaskFromLocalStorage,
   addAuthor,
-  fetchTasks,
-  fetchTaskById,
   fetchReviewRequests,
   fetchReviewRequestsBySession,
   fetchReviewRequestById,
@@ -66,4 +72,11 @@ export {
   fetchReviewByRequestId,
   receiveApiErrorResponse,
   handleAppError,
+  rateTask,
+  copyTaskToState,
+  commentTaskItem,
+  addSummaryComment,
+  changeStatus,
+  fetchTasks,
+  fetchTaskById,
 };

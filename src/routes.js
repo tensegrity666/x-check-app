@@ -19,7 +19,7 @@ const useRoutes = (isAuthenticated) => {
         <Route path="/task" exact component={TaskPage} />
         <Route path="/tasks" exact component={TasksPage} />
         <Route path="/requests" exact component={Requests} />
-        <Route path="/self" exact component={SelfGradePage} />
+        <Route path="/self/:id" component={SelfGradePage} />
         <Route path="/reviews" exact component={Reviews} />
         <Route path="/reviews/edit" exact component={ReviewsForm} />
         <Route path="/details" exact component={Details} />

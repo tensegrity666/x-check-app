@@ -16,13 +16,15 @@ const LoginContainer = () => {
   const { dispatch } = store;
   const { getUserInfo, addUserRole } = bindActionCreators(actions, dispatch);
 
-  const { isRoleSelected } = useSelector(({ loginReducer }) => loginReducer);
-
   const [userRole, setUserRole] = useState(null);
   const handleRoleAdd = (value) => {
     setUserRole(value);
     addUserRole(value);
   };
+
+  const { isRoleSelected, roles } = useSelector(
+    ({ loginReducer }) => loginReducer
+  );
 
   const handleLogin = async () => {
     try {
@@ -30,11 +32,11 @@ const LoginContainer = () => {
         return;
       }
       const userInfo = await githubAuth();
-
       getUserInfo(userInfo);
 
       const newState = store.getState().loginReducer;
-      const { uid, displayName, email, roles, screenName } = newState;
+      const { uid, displayName, email, screenName } = newState;
+
 
       await api.createUser(uid, displayName, screenName, email, roles);
     } catch (error) {

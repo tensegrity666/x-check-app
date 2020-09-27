@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout } from 'antd';
 import { bindActionCreators } from 'redux';
+
+import ModalWindow from '../modal-window';
 
 import TaskHeaderContainer from './task-header-container';
 import AddNewItemContainer from './add-new-item-container';
@@ -17,6 +19,8 @@ import TaskApi from '../../services/rest-api/tasks-api';
 const Task = () => {
   const { Content } = Layout;
   const { wrapper, content } = styles;
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   const api = new TaskApi();
 
@@ -55,7 +59,7 @@ const Task = () => {
           createTask(taskId);
           data.id = taskId;
         }
-        // TODO: Add error case handling
+
         saveTaskToLocalStorage(data);
       });
     }
@@ -63,9 +67,13 @@ const Task = () => {
 
   return (
     <Layout className={wrapper}>
-      <TaskHeaderContainer />
+      <TaskHeaderContainer setModalVisible={setModalVisible} />
       <Searcher />
       <Content className={content}>
+        <ModalWindow
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
         <TaskListContainer />
       </Content>
       <AddNewItemContainer />
