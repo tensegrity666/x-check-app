@@ -13,7 +13,6 @@
 [db.json](https://json-x-check-app.herokuapp.com/db)
 ---
 
-
 #### Clone repo
 `$ git clone git@github.com:tensegrity666/x-check-app.git`<br>
 <br>
