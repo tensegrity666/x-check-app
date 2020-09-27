@@ -1,11 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'antd';
+import { REVIEW_STATE } from './constants';
 
-const ConditionalTextarea = ({ text, record, userStatus, handleChange }) => {
+const ConditionalTextarea = ({
+  text,
+  record,
+  userStatus,
+  reviewStatus,
+  handleChange,
+}) => {
   const { TextArea } = Input;
 
-  if (record.authorship === userStatus) {
+  if (
+    record.authorship === userStatus &&
+    reviewStatus !== REVIEW_STATE.PUBLISHED
+  ) {
     return <TextArea value={text} onChange={handleChange} />;
   }
   return text;

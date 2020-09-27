@@ -1,10 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ScoreInput from './score-input';
+import { REVIEW_STATE } from './constants';
 
-const ConditionalScoreInput = ({ text, record, userStatus, handleChange }) => {
+const ConditionalScoreInput = ({
+  text,
+  record,
+  userStatus,
+  reviewStatus,
+  handleChange,
+}) => {
   const { authorship, minScore, maxScore, average } = record;
-  if (authorship === userStatus) {
+  if (authorship === userStatus && reviewStatus !== REVIEW_STATE.PUBLISHED) {
     return (
       <ScoreInput
         text={text}
