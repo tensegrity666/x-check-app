@@ -10,6 +10,7 @@ const StudentsControls = ({
   toggleReviewStatus,
   editReview,
   isDisabled,
+  isTouched,
 }) => {
   const handleReviewDispute = async () => {
     await toggleReviewStatus(modify.PUBLISHED_TO_DISPUTED);
@@ -38,7 +39,7 @@ const StudentsControls = ({
         </Button>
         <Button
           onClick={() => toggleReviewStatus(modify.DISPUTED_TO_ACCEPTED)}
-          disabled={isDisabled}>
+          disabled={isDisabled || isTouched}>
           Accept
         </Button>
       </Space>
@@ -59,6 +60,7 @@ StudentsControls.propTypes = {
   toggleReviewStatus: PropTypes.func.isRequired,
   editReview: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,
+  isTouched: PropTypes.bool.isRequired,
 };
 
 export default StudentsControls;
