@@ -12,6 +12,7 @@ const AuthorsControls = ({
   createReview,
   editReview,
   toggleReviewStatus,
+  isDisabled,
 }) => {
   const review = useSelector(({ reviewReducer }) => reviewReducer.review);
 
@@ -37,16 +38,12 @@ const AuthorsControls = ({
   if (reviewStatus === REVIEW_STATE.DRAFT) {
     return (
       <Space size="middle">
-        <Button onClick={handleDraftSave}>Save Draft</Button>
-        <Button onClick={handlePublish}>Publish</Button>
-      </Space>
-    );
-  }
-
-  if (reviewStatus === REVIEW_STATE.PUBLISHED) {
-    return (
-      <Space size="middle">
-        <Button onClick={editReview}>Save</Button>
+        <Button onClick={handleDraftSave} disabled={isDisabled}>
+          Save Draft
+        </Button>
+        <Button onClick={handlePublish} disabled={isDisabled}>
+          Publish
+        </Button>
       </Space>
     );
   }
@@ -54,15 +51,23 @@ const AuthorsControls = ({
   if (reviewStatus === REVIEW_STATE.DISPUTED) {
     return (
       <Space size="middle">
-        <Button onClick={editReview}>Save</Button>
-        <Button onClick={() => toggleReviewStatus(modify.DISPUTED_TO_ACCEPTED)}>
+        <Button onClick={editReview} disabled={isDisabled}>
+          Save
+        </Button>
+        <Button
+          onClick={() => toggleReviewStatus(modify.DISPUTED_TO_ACCEPTED)}
+          disabled={isDisabled}>
           Accept
         </Button>
       </Space>
     );
   }
 
-  if (reviewStatus === REVIEW_STATE.ACCEPTED) return null;
+  if (
+    reviewStatus === REVIEW_STATE.ACCEPTED ||
+    reviewStatus === REVIEW_STATE.PUBLISHED
+  )
+    return null;
   return null;
 };
 
@@ -71,6 +76,7 @@ AuthorsControls.propTypes = {
   createReview: PropTypes.func.isRequired,
   editReview: PropTypes.func.isRequired,
   toggleReviewStatus: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 };
 
 export default AuthorsControls;

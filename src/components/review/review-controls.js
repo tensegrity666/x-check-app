@@ -13,6 +13,7 @@ const ReviewControls = ({
   createReview,
   editReview,
   toggleReviewStatus,
+  isDisabled,
 }) => {
   const { buttonsGroup } = styles;
 
@@ -24,14 +25,17 @@ const ReviewControls = ({
           onDisputeReview={onDisputeReview}
           editReview={editReview}
           toggleReviewStatus={toggleReviewStatus}
+          isDisabled={isDisabled}
         />
       )}
+
       {authorshipStatus === EDITORS.REVIEWER && (
         <AuthorsControls
           reviewStatus={reviewStatus}
           createReview={createReview}
           editReview={editReview}
           toggleReviewStatus={toggleReviewStatus}
+          isDisabled={isDisabled}
         />
       )}
     </section>
@@ -39,16 +43,19 @@ const ReviewControls = ({
 };
 
 ReviewControls.propTypes = {
-  reviewStatus: PropTypes.string.isRequired,
   onDisputeReview: PropTypes.func.isRequired,
   createReview: PropTypes.func.isRequired,
   editReview: PropTypes.func.isRequired,
   toggleReviewStatus: PropTypes.func.isRequired,
+  reviewStatus: PropTypes.string,
   authorshipStatus: PropTypes.string,
+  isDisabled: PropTypes.bool,
 };
 
 ReviewControls.defaultProps = {
+  reviewStatus: null,
   authorshipStatus: null,
+  isDisabled: false,
 };
 
 export default ReviewControls;
