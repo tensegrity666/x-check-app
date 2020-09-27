@@ -27,7 +27,12 @@ import {
   fetchReviewRequestsBySession,
 } from './review-requests-actions';
 
-import fetchReviewByRequestId from './review-actions';
+import {
+  fetchReviewByRequestId,
+  createReview,
+  editReview,
+  toggleReviewStatus,
+} from './review-actions';
 
 import fetchSessionAttendeesByReviewer from './session-actions';
 
@@ -53,6 +58,9 @@ export {
   fetchReviewRequests,
   fetchReviewRequestsBySession,
   fetchReviewRequestById,
+  createReview,
+  editReview,
+  toggleReviewStatus,
   setReviewRequest,
   fetchSessionAttendeesByReviewer,
   fetchReviewByRequestId,

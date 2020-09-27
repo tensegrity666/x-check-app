@@ -1,9 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Space, Button } from 'antd';
 
 import { REVIEW_STATE } from './constants';
 import { actionReviewList as modify } from '../../services/rest-api/constants';
+import store from '../../redux/store';
 
 const AuthorsControls = ({
   reviewStatus,
@@ -11,15 +13,31 @@ const AuthorsControls = ({
   editReview,
   toggleReviewStatus,
 }) => {
+  const review = useSelector(({ reviewReducer }) => reviewReducer.review);
+
   const handlePublish = async () => {
-    await toggleReviewStatus(modify.DRAFT_TO_PUBLISHED);
-    await editReview();
+    if (review.id) {
+      await editReview();
+      await toggleReviewStatus(modify.DRAFT_TO_PUBLISHED);
+    } else {
+      await createReview();
+      const updatedId = store.getState().reviewReducer.review.id;
+      await toggleReviewStatus(modify.DRAFT_TO_PUBLISHED, updatedId);
+    }
+  };
+
+  const handleDraftSave = () => {
+    if (review.id) {
+      editReview();
+    } else {
+      createReview();
+    }
   };
 
   if (reviewStatus === REVIEW_STATE.DRAFT) {
     return (
       <Space size="middle">
-        <Button onClick={createReview}>Save Draft</Button>
+        <Button onClick={handleDraftSave}>Save Draft</Button>
         <Button onClick={handlePublish}>Publish</Button>
       </Space>
     );

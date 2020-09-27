@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Table } from 'antd';
 import PropTypes from 'prop-types';
 
@@ -9,17 +10,22 @@ import { getInitialGrade } from './review-helpers';
 import ConditionalTextarea from './conditional-textarea';
 import ConditionalScoreInput from './conditional-score-input';
 import ReviewControls from './review-controls';
-import { ReviewApi } from '../../services/rest-api';
 
-import { handleAppError } from '../../redux/actions';
+import {
+  handleAppError,
+  createReview,
+  editReview,
+  toggleReviewStatus,
+} from '../../redux/actions';
 import store from '../../redux/store';
 
 const ReviewForm = ({ reviewRequest, review, task, userId }) => {
-  const [isLoading, setIsLoading] = useState(false);
   const [grade, setGrade] = useState([]);
   const [authorshipStatus, setAuthorship] = useState(null);
   const [reviewStatus, setReviewStatus] = useState(REVIEW_STATE.DRAFT);
-  const api = new ReviewApi();
+  const reviewIsLoading = useSelector(
+    ({ reviewReducer }) => reviewReducer.isLoading
+  );
 
   const { dispatch } = store;
   const { Column } = Table;
@@ -57,44 +63,20 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
   };
 
   const handleReviewCreation = async () => {
-    const data = {
-      requestId: reviewRequest.id,
-      author: userId,
-      grade: [...grade],
-    };
-    const body = {
-      githubId: userId,
-      data,
-    };
-    setIsLoading(true);
-    await api.createReview(body);
-    setIsLoading(false);
+    return dispatch(createReview(reviewRequest.id, userId, grade));
   };
 
   const handleReviewEdit = async () => {
-    const body = {
-      githubId: userId,
-      reviewId: review.id,
-      data: grade,
-    };
-    setIsLoading(true);
-    await api.editReview(body);
-    setIsLoading(false);
+    return dispatch(editReview(userId, review.id, grade));
   };
 
-  const handleToggleReviewStatus = async (modifierType, isSilent = false) => {
-    const body = {
-      githubId: userId,
-      reviewId: review.id,
-      requiredState: modifierType,
-    };
-    if (isSilent) {
-      await api.toggleReviewState(body);
-    } else {
-      setIsLoading(true);
-      await api.toggleReviewState(body);
-      setIsLoading(false);
-    }
+  const handleToggleReviewStatus = async (
+    modifierType,
+    updatedReviewId = null
+  ) => {
+    return dispatch(
+      toggleReviewStatus(userId, updatedReviewId || review.id, modifierType)
+    );
   };
 
   const getTableRows = () => {
@@ -145,7 +127,7 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
       />
       <Table
         dataSource={getTableRows()}
-        loading={isLoading}
+        loading={reviewIsLoading}
         pagination={false}
         bordered>
         <Column
