@@ -22,7 +22,7 @@ import store from '../../redux/store';
 const ReviewForm = ({ reviewRequest, review, task, userId }) => {
   const [grade, setGrade] = useState([]);
   const [authorshipStatus, setAuthorship] = useState(null);
-  const [reviewStatus, setReviewStatus] = useState(REVIEW_STATE.DRAFT);
+  const [reviewStatus, setReviewStatus] = useState(null);
   const reviewIsLoading = useSelector(
     ({ reviewReducer }) => reviewReducer.isLoading
   );
@@ -96,8 +96,8 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
   useEffect(() => {
     if (review.grade && review.state) {
       const { grade: reviewGrade, state } = review;
-      setReviewStatus(state);
       setGrade(reviewGrade);
+      setReviewStatus(state);
     }
 
     if (!review.grade && reviewRequest.selfGrade) {
@@ -108,7 +108,7 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
   }, [reviewRequest, review]);
 
   useEffect(() => {
-    if (review.author === userId || 'temporary-mock') {
+    if (review.author === userId) {
       setAuthorship(EDITORS.REVIEWER);
     } else if (reviewRequest.author === userId) {
       setAuthorship(EDITORS.STUDENT);
@@ -120,6 +120,7 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
       <ReviewControls
         authorshipStatus={authorshipStatus}
         reviewStatus={reviewStatus}
+        isDisabled={reviewIsLoading}
         onDisputeReview={onDisputeReview}
         createReview={handleReviewCreation}
         editReview={handleReviewEdit}
