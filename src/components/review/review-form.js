@@ -108,9 +108,9 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
   }, [reviewRequest, review]);
 
   useEffect(() => {
-    if (review.author === userId && review.false) {
+    if (review.author === userId) {
       setAuthorship(EDITORS.REVIEWER);
-    } else if (reviewRequest.author === userId || 'mock') {
+    } else if (reviewRequest.author === userId) {
       setAuthorship(EDITORS.STUDENT);
     }
   }, [userId, review, reviewRequest]);
