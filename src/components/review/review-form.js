@@ -22,7 +22,7 @@ import store from '../../redux/store';
 const ReviewForm = ({ reviewRequest, review, task, userId }) => {
   const [grade, setGrade] = useState([]);
   const [authorshipStatus, setAuthorship] = useState(null);
-  const [reviewStatus, setReviewStatus] = useState(null);
+  const [reviewStatus, setReviewStatus] = useState(REVIEW_STATE.PUBLISHED);
   const reviewIsLoading = useSelector(
     ({ reviewReducer }) => reviewReducer.isLoading
   );
@@ -58,10 +58,6 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
     });
   };
 
-  const onDisputeReview = () => {
-    setReviewStatus(REVIEW_STATE.DISPUTED);
-  };
-
   const handleReviewCreation = async () => {
     return dispatch(createReview(reviewRequest.id, userId, grade));
   };
@@ -75,7 +71,11 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
     updatedReviewId = null
   ) => {
     return dispatch(
-      toggleReviewStatus(userId, updatedReviewId || review.id, modifierType)
+      toggleReviewStatus(
+        'author' || userId,
+        updatedReviewId || review.id,
+        modifierType
+      )
     );
   };
 
@@ -108,9 +108,9 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
   }, [reviewRequest, review]);
 
   useEffect(() => {
-    if (review.author === userId) {
+    if (review.author === userId && review.false) {
       setAuthorship(EDITORS.REVIEWER);
-    } else if (reviewRequest.author === userId) {
+    } else if (reviewRequest.author === userId || 'mock') {
       setAuthorship(EDITORS.STUDENT);
     }
   }, [userId, review, reviewRequest]);
@@ -121,7 +121,6 @@ const ReviewForm = ({ reviewRequest, review, task, userId }) => {
         authorshipStatus={authorshipStatus}
         reviewStatus={reviewStatus}
         isDisabled={reviewIsLoading}
-        onDisputeReview={onDisputeReview}
         createReview={handleReviewCreation}
         editReview={handleReviewEdit}
         toggleReviewStatus={handleToggleReviewStatus}

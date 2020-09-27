@@ -7,14 +7,12 @@ import { actionReviewList as modify } from '../../services/rest-api/constants';
 
 const StudentsControls = ({
   reviewStatus,
-  onDisputeReview,
   toggleReviewStatus,
   editReview,
   isDisabled,
 }) => {
   const handleReviewDispute = async () => {
-    onDisputeReview();
-    await toggleReviewStatus(modify.PUBLISHED_TO_DISPUTED, true);
+    await toggleReviewStatus(modify.PUBLISHED_TO_DISPUTED);
   };
 
   if (reviewStatus === REVIEW_STATE.PUBLISHED) {
@@ -24,7 +22,7 @@ const StudentsControls = ({
           Dispute
         </Button>
         <Button
-          onClick={() => toggleReviewStatus(modify.PUBLISHED_TO_DISPUTED)}
+          onClick={() => toggleReviewStatus(modify.PUBLISHED_TO_ACCEPTED)}
           disabled={isDisabled}>
           Accept
         </Button>
@@ -58,7 +56,6 @@ const StudentsControls = ({
 
 StudentsControls.propTypes = {
   reviewStatus: PropTypes.string.isRequired,
-  onDisputeReview: PropTypes.func.isRequired,
   toggleReviewStatus: PropTypes.func.isRequired,
   editReview: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,

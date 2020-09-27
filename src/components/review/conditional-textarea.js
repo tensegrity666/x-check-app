@@ -14,7 +14,8 @@ const ConditionalTextarea = ({
 
   if (
     record.authorship === userStatus &&
-    reviewStatus !== REVIEW_STATE.PUBLISHED
+    reviewStatus !== REVIEW_STATE.PUBLISHED &&
+    reviewStatus !== REVIEW_STATE.ACCEPTED
   ) {
     return <TextArea value={text} onChange={handleChange} />;
   }

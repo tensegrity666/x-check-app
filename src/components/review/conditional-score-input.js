@@ -11,7 +11,11 @@ const ConditionalScoreInput = ({
   handleChange,
 }) => {
   const { authorship, minScore, maxScore, average } = record;
-  if (authorship === userStatus && reviewStatus !== REVIEW_STATE.PUBLISHED) {
+  if (
+    authorship === userStatus &&
+    reviewStatus !== REVIEW_STATE.PUBLISHED &&
+    reviewStatus !== REVIEW_STATE.ACCEPTED
+  ) {
     return (
       <ScoreInput
         text={text}
