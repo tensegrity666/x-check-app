@@ -36,7 +36,7 @@ const SelfGradeContainer = () => {
     changeStatus,
   } = bindActionCreators(actions, dispatch);
 
-  const state = useSelector(({ selfGradeReducer }) => selfGradeReducer);
+  const currentState = useSelector(({ selfGradeReducer }) => selfGradeReducer);
 
   const onTextChange = (value) => {
     setInputValue(value);
@@ -105,7 +105,7 @@ const SelfGradeContainer = () => {
   return (
     <SelfGrade
       handleSelectChange={handleSelectChange}
-      state={state}
+      currentState={currentState}
       loading={loading}
       history={history}
       commentTaskItem={commentTaskItem}

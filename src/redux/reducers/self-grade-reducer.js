@@ -7,7 +7,7 @@ const selfGrade = {
   summaryComment: '',
   deadline: '',
   taskTitle: '',
-  status: '',
+  state: '',
   items: [
     {
       id: null,
@@ -28,8 +28,8 @@ const getCurrentItem = (arr, payload) => {
   return arr.find((item) => item.id === payload.id);
 };
 
-const selfGradeReducer = (state = selfGrade, { type, payload }) => {
-  const { items, totalScore } = state;
+const selfGradeReducer = (currentState = selfGrade, { type, payload }) => {
+  const { items, totalScore } = currentState;
   const {
     RATE_TASK,
     COPY_TASK,
@@ -50,7 +50,7 @@ const selfGradeReducer = (state = selfGrade, { type, payload }) => {
       items[index] = newtItem;
 
       return {
-        ...state,
+        ...currentState,
         totalScore: totalScore + newtItem.score,
         items: [...items],
       };
@@ -66,34 +66,35 @@ const selfGradeReducer = (state = selfGrade, { type, payload }) => {
       items[index] = newComment;
 
       return {
-        ...state,
+        ...currentState,
         items: [...items],
       };
 
     case COPY_TASK:
       return {
-        ...state,
+        ...currentState,
         taskTitle: payload.taskTitle,
         deadline: payload.deadline,
         maxScore: payload.totalScore,
         summaryComment: payload.summaryComment,
         items: payload.items,
+        state: payload.state,
       };
 
     case SUMMARY_COMMENT:
       return {
-        ...state,
+        ...currentState,
         summaryComment: payload,
       };
 
     case CHANGE_STATUS:
       return {
-        ...state,
-        status: payload,
+        ...currentState,
+        state: payload,
       };
 
     default:
-      return state;
+      return currentState;
   }
 };
 

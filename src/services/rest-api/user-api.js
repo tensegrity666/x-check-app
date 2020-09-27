@@ -36,11 +36,11 @@ export default class UserApi extends BaseApi {
   }
 
   async createUser(uid, displayName, screenName, email, roles = []) {
-    const searchUser = await this.getUser(screenName);
+    // const searchUser = await this.getUser(screenName);
 
-    if (searchUser.length !== 0) {
-      return searchUser;
-    }
+    // if (searchUser.length !== 0) {
+    //   return searchUser;
+    // }
 
     const lastNumberId = this.createId();
 

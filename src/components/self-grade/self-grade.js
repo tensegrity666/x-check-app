@@ -19,7 +19,7 @@ import { CATEGORIES, RATES } from './constants';
 import styles from './index.module.css';
 
 const SelfGrade = ({
-  state,
+  currentState,
   loading,
   handleSelectChange,
   history,
@@ -38,7 +38,14 @@ const SelfGrade = ({
   const { Option } = Select;
   const { Column } = Table;
 
-  const { items, taskTitle, deadline, maxScore, totalScore } = state;
+  const {
+    items,
+    taskTitle,
+    deadline,
+    maxScore,
+    totalScore,
+    state,
+  } = currentState;
   const { fines } = CATEGORIES;
   const { nope, partially, fully } = RATES;
   const { wrapper, textArea, inputLink, pageWrapper } = styles;
@@ -64,6 +71,7 @@ const SelfGrade = ({
         onBack={() => history.goBack()}
         title={`${taskTitle}, deadline: ${deadline}`}
         subTitle={scores}
+        tags={<Tag color="blue">{state}</Tag>}
       />
       <Content className={pageWrapper}>
         <Table
@@ -162,6 +170,7 @@ const SelfGrade = ({
           />
           <Col style={{ width: '18%' }}>
             <Button
+              loading={loading}
               style={{ marginBottom: '30px' }}
               onClick={onSelfGradeSubmit}
               type="primary"
@@ -190,7 +199,7 @@ const SelfGrade = ({
 };
 
 SelfGrade.propTypes = {
-  state: PropTypes.object.isRequired,
+  currentState: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   handleSelectChange: PropTypes.func.isRequired,
   commentTaskItem: PropTypes.func.isRequired,
