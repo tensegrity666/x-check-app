@@ -2,6 +2,7 @@
 ### [json-x-check-app.herokuapp.com](https://json-x-check-app.herokuapp.com/)
 
 # [>>>Task Board<<<](https://github.com/tensegrity666/x-check-app/projects/1)
+[RACI-matrix](https://docs.google.com/spreadsheets/d/10M6Qg_cVl7r-lzLu2ZOP5jb5zLb6HpXdbOth15wKg1w/edit#gid=0)
 
 ### See information about working with REST API in our [WIKI](https://github.com/tensegrity666/x-check-app/wiki/Review-Request-API)
 ---
