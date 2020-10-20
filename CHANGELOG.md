@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.0.0 (2020-10-20)
+
+
+### Bug Fixes
+
+* href and favicon ([4b2d09b](https://github.com/tensegrity666/x-check-app/commit/4b2d09b7351b3dcaf997be9fd73de12d171f9773))
+
 ### [0.1.3](https://github.com/tensegrity666/x-check-app/compare/v0.1.2...v0.1.3) (2020-09-19)
 
 
