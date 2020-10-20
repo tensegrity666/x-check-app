@@ -33,7 +33,7 @@ const useRoutes = (isAuthenticated) => {
   return (
     <Switch>
       <Route path="/" exact component={Auth} />
-      <Redirect to="/" />
+      <Redirect to="/" exact />
     </Switch>
   );
 };
