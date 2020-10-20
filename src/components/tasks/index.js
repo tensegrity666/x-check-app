@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { TasksApi } from '../../services/rest-api';
 import store from '../../redux/store';
 
@@ -15,6 +16,8 @@ const TasksContainer = () => {
 
   const { roles } = store.getState().loginReducer;
 
+  const history = useHistory();
+
   useEffect(() => {
     if (roles.includes('author')) {
       setIsAuthor(true);
@@ -27,8 +30,14 @@ const TasksContainer = () => {
     });
   }, []);
 
-  return <Tasks tasksList={tasksList} loading={loading} isAuthor={isAuthor} />;
-
+  return (
+    <Tasks
+      history={history}
+      tasksList={tasksList}
+      loading={loading}
+      isAuthor={isAuthor}
+    />
+  );
 };
 
 export default TasksContainer;
