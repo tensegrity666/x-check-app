@@ -14,7 +14,7 @@ const RequestsContainer = ({ reviewRequests, requestsForUser, userId }) => {
   return (
     <Layout>
       <Content>
-        <PageHeader onBack={history.goBack} title="Review Requests" />
+        <PageHeader onBack={() => history.goBack()} title="Review Requests" />
         <RequestsTable
           reviewRequests={requestsForUser}
           userId={userId}

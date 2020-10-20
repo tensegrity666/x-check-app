@@ -67,7 +67,7 @@ const Review = () => {
 
   return (
     <Layout className={styles.wrapper}>
-      <PageHeader onBack={history.goBack} title="Review" />
+      <PageHeader onBack={() => history.goBack()} title="Review" />
       <Content>
         <ReviewForm
           reviewRequest={currentReviewRequest}

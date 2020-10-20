@@ -1,8 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory , Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Button, Avatar } from 'antd';
-
 
 import logo from './assets/logo-rsschool3.png';
 import styles from './index.module.css';
@@ -14,12 +13,12 @@ const Header = () => {
 
   return (
     <nav className={nav}>
-      <Link
+      <a
         href="https://app.rs.school/"
         target="_blank"
         rel="noopener noreferrer">
         <img src={logo} alt="Rolling scopes school logo" height="30" />
-      </Link>
+      </a>
       <Button
         size="large"
         icon={<Avatar className={avatar} src={photoURL} size={24} />}
