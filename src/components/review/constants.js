@@ -1,0 +1,19 @@
+export const EDITORS = {
+  DISPLAY_ONLY: 'DISPLAY_ONLY',
+  REVIEWER: 'REVIEWER',
+  STUDENT: 'STUDENT',
+};
+
+export const REVIEW_STATE = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  ACCEPTED: 'ACCEPTED',
+  DISPUTED: 'DISPUTED',
+};
+
+export const ROWS = {
+  SHORT_VIEW_NUMBER: 2,
+  FULL_VIEW_NUMBER: 3,
+};
+
+export const SCORE_SELECT_DEFAULT_STEP = 5;

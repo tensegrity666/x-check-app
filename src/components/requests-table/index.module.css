@@ -1,0 +1,17 @@
+.reviewRequestsSection {
+  width: 100%;
+  height: auto;
+  padding: 20px 20px 10px 20px;
+}
+
+.reviewRequestsSection *::-webkit-scrollbar-thumb {
+  background-color: #91d5ff;
+}
+
+.reviewRequestsSection *::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+  border-radius: 2rem;
+  outline: none;
+  box-shadow: none;
+}

@@ -1,0 +1,32 @@
+name: Build and Deploy to Netlify
+on:
+  push:
+  pull_request:
+    types: [opened, synchronize]
+env:
+  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+  NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+  NODE_VERSION: '12.x'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    - name: npm install, lint and build
+      run: npm ci && npm run deploy-lint && npm run test && npm run build
+    - name: Deploy to Netlify
+      uses: nwtgck/actions-netlify@v1.1
+      with:
+        publish-dir: './build'
+        production-branch: dev
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        deploy-message: 'Deploy from GitHub Actions'
+        enable-pull-request-comment: false
+        enable-commit-comment: true
+        overwrites-pull-request-comment: true
+      timeout-minutes: 10

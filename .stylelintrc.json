@@ -1,0 +1,13 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "rules": {
+    "declaration-no-important": true,
+    "color-hex-length": "long",
+    "selector-type-no-unknown": [
+      true,
+      {
+        "ignoreTypes": ["focus", "active"]
+      }
+    ]
+  }
+}
