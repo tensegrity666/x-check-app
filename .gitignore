@@ -38,5 +38,3 @@ yarn-error.log*
 .netlify
 storybook-static
 .storybook/
-
-.env
